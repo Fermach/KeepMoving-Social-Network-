@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">KeepMoving</string>
+    <string name="correo">f.manu_97@hotmail.com</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close">Cerrar navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="intr_correo">Introduzca su correo</string>
+    <string name="intr_contraseña">Introduzca su contraseña</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="nombre_usuario_perfil_titulo">Nombre:</string>
+    <string name="nombre_usuario_perfil">Este es el nombre</string>
+    <string name="biografia_usuario_perfil_titulo">Biografia:</string>
+    <string name="biografia_usuario_perfil">Aquí va la biografia</string>
+    <string name="aficiones_usuario_perfil_titulo">Aficiones:</string>
+    <string name="aficiones_usuario_perfil">Aqui van las aficiones</string>
+    <string name="modificar">Modificar datos</string>
+    <string name="mis_quedadas">Mis quedadas</string>
+</resources>

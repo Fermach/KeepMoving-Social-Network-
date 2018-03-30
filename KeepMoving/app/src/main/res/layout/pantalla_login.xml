@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="75sp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30sp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_marginLeft="13sp"
+            android:layout_marginRight="17sp"
+            android:textColorHint="@android:color/black"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/editText_correoUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/intr_correo"
+                android:inputType="text"
+                android:textColorHint="@android:color/black"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginLeft="13sp"
+            android:layout_marginRight="17sp"
+            android:textColorHint="@android:color/black"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/editText_passwordUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/intr_contraseña"
+                android:inputType="text"
+                android:textColorHint="@android:color/black"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/registrarse" />
+
+        <Button
+            android:id="@+id/btn_iniciar_sesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/iniciar_sesion" />
+    </LinearLayout>
+
+</LinearLayout>

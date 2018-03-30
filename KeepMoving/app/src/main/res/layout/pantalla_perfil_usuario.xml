@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.fermach.keepmoving.MainActivity.MainActivity"
+    android:weightSum="1"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140sp"
+       >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_contacto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:layout_marginTop="12sp"
+            android:visibility="visible"
+            app:fabSize="normal" />
+
+
+    </RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:layout_marginTop="15sp"
+                android:text="@string/nombre_usuario_perfil_titulo"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_marginTop="15sp"
+                android:layout_weight="1"
+                android:text="@string/nombre_usuario_perfil"
+                android:textSize="19sp"
+                android:id="@+id/nombre_usuario_perfil" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:layout_marginTop="15sp"
+                android:text="@string/biografia_usuario_perfil_titulo"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:text="@string/biografia_usuario_perfil"
+                android:textSize="19sp"
+                android:id="@+id/biografia_usuario_perfil" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:layout_marginTop="15sp"
+                android:text="@string/aficiones_usuario_perfil_titulo"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/aficiones_usuario_perfil"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:text="@string/aficiones_usuario_perfil"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25sp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_modificar_perfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="16sp"
+                android:elevation="10sp"
+                android:text="@string/modificar" />
+
+            <Button
+                android:id="@+id/btn_mis_quedadas_perfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="10sp"
+                android:text="@string/mis_quedadas" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

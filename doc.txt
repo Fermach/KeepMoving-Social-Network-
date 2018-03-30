@@ -1,0 +1,31 @@
+Nombre: Keep Moving
+
+BBDD: Firebase 
+
+Interfaz: Material, Cardviews
+
+Patron: repositorio, Modelo Vista Presentador
+
+Adicionesles: Maps, Chat, Auth (usuarios)
+
+Colecciones: Usuarios
+               |
+               |_ Quedadas
+               |_ Chats
+                    |_ Mensajes
+
+
+Descripcion:
+Aplicación que nos permita publicar quedadas deportivas en un lugar y 
+con unas plazas y en la cual los usuarios se puedan apuntar, ver detalle 
+o hablar con el publicante.
+
+
+Modelos:
+ /*Principal*/
+  -Usuario: nombre, foto, descripcion,deportes que practica, valoracion?, contacto? 
+  -Quedada: fecha publicacion, fecha , hora, lugar, ubicación, deporte, plazas, autor(usuario) 
+ 
+   /*Chat ?? --> aún no se como hacerlo */ 
+    -Chat:  autor(nombre), autor(id)?, receptor (nombre), receptor (id), fecha ,mensajes[]
+    -mensaje : mensaje , fecha

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "310141084948",
+    "firebase_url": "https://keep-moving-5e68e.firebaseio.com",
+    "project_id": "keep-moving-5e68e",
+    "storage_bucket": "keep-moving-5e68e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310141084948:android:41069cd84a637796",
+        "android_client_info": {
+          "package_name": "com.example.fermach.keepmoving"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "310141084948-dctqrktb7pevmofgt7k269l0mnjo95ot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fermach.keepmoving",
+            "certificate_hash": "09847efc26526fbfe5822e626c696f25c4561d0c"
+          }
+        },
+        {
+          "client_id": "310141084948-shj53s73lh5jeneat347m1kgohr7lacn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFtqWVKckzRE8fVDN3CMAYA0Q5Yi7leUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "310141084948-shj53s73lh5jeneat347m1kgohr7lacn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
