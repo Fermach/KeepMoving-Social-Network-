@@ -18,6 +18,7 @@ public class LogginPantallaPresenter implements  LogginPantallaContract.Presente
 
     public LogginPantallaPresenter(LogginPantallaContract.View view) {
         this.logginView = view;
+        repository = UsuariosRepository.getInstance();
        // this.repository = UsuariosRepository.getInstance();
     }
 
