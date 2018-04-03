@@ -34,7 +34,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.pantalla_login, container, false);
+        myView = inflater.inflate(R.layout.pantalla_perfil_usuario, container, false);
 
         inicializarVista();
         activarControladores();

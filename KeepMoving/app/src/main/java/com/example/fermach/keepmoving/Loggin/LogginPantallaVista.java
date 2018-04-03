@@ -43,7 +43,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         activarControladores();
 
         presenter= new LogginPantallaPresenter(this);
-        presenter.comprobarRegistroDeUsuario();
+
         return  myView;
     }
 
@@ -67,7 +67,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
             @Override
             public void onClick(View v) {
                 correo= et_correo.getText().toString();
-                contraseña= et_correo.getText().toString();
+                contraseña= et_contraseña.getText().toString();
 
                 if(!correo.isEmpty() && !contraseña.isEmpty()) {
 
@@ -97,12 +97,12 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
     @Override
     public void onStart() {
         super.onStart();
-        presenter.iniciarListenerFire();
+       // presenter.comprobarRegistroDeUsuario();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        presenter.detenerListenerFire();
+       // presenter.detenerListenerFire();
     }
 }

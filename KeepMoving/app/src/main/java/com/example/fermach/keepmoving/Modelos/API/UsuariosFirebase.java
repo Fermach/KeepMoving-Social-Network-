@@ -17,24 +17,37 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UsuariosFirebase implements UsuariosDataSource {
 
+    private FirebaseUser user;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+   // private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public UsuariosFirebase() {
         mAuth=FirebaseAuth.getInstance();
-
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        user=mAuth.getCurrentUser();
     }
 
     @Override
     public void loguearUsuario(Usuario usuario, final LoguearUsuarioCallback callback) {
         //IMPLEMENTAR AUTENTIFICACIÓN AQUI
-        mAuth.signInWithEmailAndPassword(usuario.getCorreo(),usuario.getContraseña())
+
+        String email= usuario.getCorreo();
+        String password=usuario.getContraseña();
+
+        Log.i("LOGGIN","EMAIL: "+email +", CONTRASEÑA: "+password);
+
+
+        mAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            Log.i("LOGGIN","SUCCESFUL");
+                            //FirebaseUser user = mAuth.getCurrentUser();
                             callback.onUsuarioLogueado();
                         }else{
+                            Log.i("LOGGIN","ERROR");
+
                             callback.onUsuarioLogueadoError();
                         }
                     }
@@ -43,20 +56,22 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void comprobarUsuarioRegistrado(final ComprobarUsuarioRegistradoCallback callback) {
-        mAuthStateListener= new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser userCurrent = mAuth.getCurrentUser();
-                if(userCurrent==null){
+       FirebaseUser userCurrent = mAuth.getCurrentUser();
+
+           if(userCurrent==null){
                   //NO ESTA LOGUEADO
+                    Log.i("LOGGIN","NO LOGUEADO");
                     callback.onUsuarioRegistradoError();
+
                 }else{
                   //ESTÁ LOGUEADO
+                    Log.i("LOGGIN","LOGUEADO");
                     callback.onUsuarioRegistrado();
                 }
-            }
-        };
+
     }
+
+
 
     @Override
     public void cerrarSesion(CerrarSesionCallback callback) {
@@ -65,17 +80,17 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void iniciarListener(IniciarListenerCallback callback) {
-           mAuth.addAuthStateListener(mAuthStateListener);
+          // mAuth.addAuthStateListener(mAuthStateListener);
            callback.onListenerIniciado();
     }
 
     @Override
     public void detenerListener(DetenerListenerCallback callback) {
 
-        if(mAuthStateListener!=null){
+       /* if(mAuthStateListener!=null){
            mAuth.removeAuthStateListener(mAuthStateListener);
            callback.onListenerDetenido();
-        }
+        }*/
 
     }
 
