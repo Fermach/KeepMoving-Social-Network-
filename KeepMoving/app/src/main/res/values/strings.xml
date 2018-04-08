@@ -16,4 +16,11 @@
     <string name="aficiones_usuario_perfil">Aqui van las aficiones</string>
     <string name="modificar">Modificar datos</string>
     <string name="mis_quedadas">Mis quedadas</string>
+    <string name="intr_contraseña2">Repita su contraseña</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="intr_nombre">Introduzca su nombre</string>
+    <string name="intr_bio">Introduzca su biografia</string>
+    <string name="int_aficiones">Introduzca sus aficiones</string>
+    <string name="atras">Atras</string>
 </resources>

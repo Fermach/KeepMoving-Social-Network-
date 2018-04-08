@@ -7,6 +7,7 @@ package com.example.fermach.keepmoving.Modelos.Usuario;
 public interface UsuariosDataSource {
 
     void loguearUsuario(Usuario usuario, LoguearUsuarioCallback callback);
+    void registrarUsuario(Usuario usuario, RegistrarUsuarioCallback callback);
     void comprobarUsuarioRegistrado(ComprobarUsuarioRegistradoCallback callback);
     void cerrarSesion(CerrarSesionCallback callback);
     void iniciarListener(IniciarListenerCallback callback);
@@ -15,6 +16,10 @@ public interface UsuariosDataSource {
     interface LoguearUsuarioCallback{
         void onUsuarioLogueado();
         void onUsuarioLogueadoError();
+    }
+    interface RegistrarUsuarioCallback{
+        void onUsuarioRegistrado();
+        void onUsuarioRegistradoError();
     }
 
     interface ComprobarUsuarioRegistradoCallback{

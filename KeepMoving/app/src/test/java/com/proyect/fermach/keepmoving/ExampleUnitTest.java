@@ -1,4 +1,4 @@
-package com.example.fermach.keepmoving;
+package com.proyect.fermach.keepmoving;
 
 import org.junit.Test;
 

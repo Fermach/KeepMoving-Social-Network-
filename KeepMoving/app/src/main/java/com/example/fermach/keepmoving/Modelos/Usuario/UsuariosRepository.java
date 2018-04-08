@@ -43,6 +43,24 @@ public class UsuariosRepository implements UsuariosDataSource{
     }
 
     @Override
+    public void registrarUsuario(Usuario usuario, final RegistrarUsuarioCallback callback) {
+        UsuariosFirebase usuariosFirebase=new UsuariosFirebase();
+        usuariosFirebase.registrarUsuario(usuario, new RegistrarUsuarioCallback() {
+            @Override
+            public void onUsuarioRegistrado() {
+                Log.i("REGISTRO", "SUCCESFUL");
+                callback.onUsuarioRegistrado();
+            }
+
+            @Override
+            public void onUsuarioRegistradoError() {
+                Log.i("REGISTRO", "ERROR");
+                callback.onUsuarioRegistradoError();
+            }
+        });
+    }
+
+    @Override
     public void comprobarUsuarioRegistrado(final ComprobarUsuarioRegistradoCallback callback) {
         UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
         usuariosFirebase.comprobarUsuarioRegistrado(new ComprobarUsuarioRegistradoCallback() {

@@ -1,4 +1,4 @@
-package com.example.fermach.keepmoving;
+package com.proyect.fermach.keepmoving;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.fermach.keepmoving", appContext.getPackageName());
+        assertEquals("com.proyect.fermach.keepmoving", appContext.getPackageName());
     }
 }

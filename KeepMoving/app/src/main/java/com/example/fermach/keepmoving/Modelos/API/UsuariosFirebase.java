@@ -24,7 +24,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
     public UsuariosFirebase() {
         mAuth=FirebaseAuth.getInstance();
         //FirebaseUser currentUser = mAuth.getCurrentUser();
-        user=mAuth.getCurrentUser();
+        //user=mAuth.getCurrentUser();
     }
 
     @Override
@@ -43,12 +43,36 @@ public class UsuariosFirebase implements UsuariosDataSource {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Log.i("LOGGIN","SUCCESFUL");
-                            //FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             callback.onUsuarioLogueado();
                         }else{
                             Log.i("LOGGIN","ERROR");
 
                             callback.onUsuarioLogueadoError();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void registrarUsuario(Usuario usuario, final RegistrarUsuarioCallback callback) {
+        //____________________
+        String email= usuario.getCorreo();
+        String password=usuario.getContraseña();
+
+        Log.i("REGISTRO","EMAIL: "+email +", CONTRASEÑA: "+password);
+        mAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if(task.isSuccessful()){
+                            Log.i("REGISTRO_FIRE","SUCCESFUL");
+                            callback.onUsuarioRegistrado();
+                        }else{
+
+                            Log.i("REGISTRO_FIRE","ERROR");
+                            callback.onUsuarioRegistradoError();
                         }
                     }
                 });
@@ -80,8 +104,9 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void iniciarListener(IniciarListenerCallback callback) {
-          // mAuth.addAuthStateListener(mAuthStateListener);
-           callback.onListenerIniciado();
+           //mAuth.addAuthStateListener(mAuthStateListener);
+        user = mAuth.getCurrentUser();
+        callback.onListenerIniciado();
     }
 
     @Override

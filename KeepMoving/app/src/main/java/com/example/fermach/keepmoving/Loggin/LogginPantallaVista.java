@@ -1,5 +1,6 @@
 package com.example.fermach.keepmoving.Loggin;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Registro.RegistroPantallaVista;
 
 /**
  * Created by Fermach on 27/03/2018.
@@ -25,6 +28,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
     private EditText et_correo;
     private EditText et_contraseña;
     private View myView;
+    private ProgressDialog progressDialog;
     private LogginPantallaContract.Presenter presenter;
     private String correo;
     private String contraseña;
@@ -43,6 +47,8 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         activarControladores();
 
         presenter= new LogginPantallaPresenter(this);
+        progressDialog=new ProgressDialog(myView.getContext());
+
 
         return  myView;
     }
@@ -59,6 +65,8 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragment = new RegistroPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 
             }
         });
@@ -66,10 +74,13 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         btn_iniciar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correo= et_correo.getText().toString();
-                contraseña= et_contraseña.getText().toString();
+                correo= et_correo.getText().toString().trim();
+                contraseña= et_contraseña.getText().toString().trim();
 
                 if(!correo.isEmpty() && !contraseña.isEmpty()) {
+
+                    progressDialog.setMessage("Logueando usuario");
+                    progressDialog.show();
 
                     usuario = new Usuario(correo, contraseña);
                     presenter.loggearUsuario(usuario);
@@ -83,12 +94,14 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
 
     @Override
     public void onSesionIniciadaError() {
+        progressDialog.dismiss();
         Snackbar.make(myView,"No se pudo iniciar sesión", Snackbar.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onSesionIniciada() {
+        progressDialog.dismiss();
         fragment = new PerfilPantallaVista();
         getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 
@@ -97,7 +110,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
     @Override
     public void onStart() {
         super.onStart();
-       // presenter.comprobarRegistroDeUsuario();
+        presenter.iniciarListenerFire();
     }
 
     @Override
