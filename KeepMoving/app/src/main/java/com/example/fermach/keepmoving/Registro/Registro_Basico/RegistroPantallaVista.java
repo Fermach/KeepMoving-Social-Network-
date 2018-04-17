@@ -1,21 +1,21 @@
-package com.example.fermach.keepmoving.Registro;
+package com.example.fermach.keepmoving.Registro.Registro_Basico;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
-import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
 
 /**
  * Created by Fermach on 27/03/2018.
@@ -44,13 +44,13 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.pantalla_registro1, container, false);
+        myView = inflater.inflate(R.layout.pantalla_registro_basico, container, false);
 
         inicializarVista();
         activarControladores();
 
         presenter= new RegistroPantallaPresenter(this);
-        progressDialog=new ProgressDialog(myView.getContext());
+        progressDialog= new ProgressDialog(myView.getContext());
 
         return  myView;
     }
@@ -97,9 +97,7 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                fragment = new LogginPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                presenter.cancelarRegistro();
 
 
             }
@@ -108,13 +106,20 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
 
     @Override
     public void onRegistroError() {
-        Snackbar.make(myView,"No se pudo iniciar sesión", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(myView,"En este momento, no se pudo registrar el usuario", Snackbar.LENGTH_LONG).show();
+        Log.i("INFO","ERROR EN REGISTRO");
         progressDialog.dismiss();
     }
 
     @Override
     public void onRegistro() {
-        fragment = new RegistroPantallaVista2();
+       presenter.loguearUsuario(usuario);
+
+    }
+
+    @Override
+    public void onLogueo() {
+        fragment = new RegistroAmpliadoPantallaVista();
         progressDialog.dismiss();
 
         Bundle args = new Bundle();
@@ -124,13 +129,32 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                 .beginTransaction()
                 .replace(R.id.content_main, fragment, USUARIO)
                 .addToBackStack(USUARIO).commit();
+    }
 
+    @Override
+    public void onRegistroCancelado() {
+        fragment = new LogginPantallaVista();
+        getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+
+    }
+
+    @Override
+    public void onRegistroCanceladoError() {
+        Snackbar.make(myView,"Se ha producido un error al cancelar elregistro, vuelva a intentarlo mas tarde", Snackbar.LENGTH_LONG).show();
+       // getActivity().finish();
+    }
+
+
+    @Override
+    public void onLogueoError() {
+        Snackbar.make(myView,"En este momento, no se pudo registrar el usuario", Snackbar.LENGTH_LONG).show();
+        Log.i("INFO","ERROR EN LOGUEO");
+        progressDialog.dismiss();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override

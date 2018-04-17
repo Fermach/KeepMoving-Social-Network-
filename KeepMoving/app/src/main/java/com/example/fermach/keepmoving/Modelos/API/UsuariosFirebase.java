@@ -1,6 +1,7 @@
 package com.example.fermach.keepmoving.Modelos.API;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.UiThread;
 import android.util.Log;
 
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
@@ -19,10 +20,18 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     private FirebaseUser user;
     private FirebaseAuth mAuth;
+    private String UID_actual;
    // private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public UsuariosFirebase() {
+
         mAuth=FirebaseAuth.getInstance();
+        user=mAuth.getCurrentUser();
+
+        if(user!=null){
+            UID_actual=user.getUid();
+        }
+
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //user=mAuth.getCurrentUser();
     }
@@ -55,6 +64,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
     @Override
+    public void desloguearUsuario(DesloguearUsuarioCallback callback) {
+        Log.i("SIGNOUT","------------");
+        mAuth.signOut();
+    }
+
+    @Override
     public void registrarUsuario(Usuario usuario, final RegistrarUsuarioCallback callback) {
         //____________________
         String email= usuario.getCorreo();
@@ -79,6 +94,17 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
     @Override
+    public void registrarUsuarioAmpliadoConFoto(Usuario usuario, RegistrarUsuarioConFotoCallback callback) {
+
+    }
+
+
+    @Override
+    public void registrarUsuarioAmpliado(Usuario usuario, RegistrarUsuarioAmpliadoCallback callback) {
+
+    }
+
+    @Override
     public void comprobarUsuarioRegistrado(final ComprobarUsuarioRegistradoCallback callback) {
        FirebaseUser userCurrent = mAuth.getCurrentUser();
 
@@ -95,16 +121,28 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     }
 
-
-
     @Override
-    public void cerrarSesion(CerrarSesionCallback callback) {
-           mAuth.signOut();
+    public void cancelarRegistroUsuario(final CancelarRegistroUsuarioCallback callback) {
+        if(user!=null) {
+            user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i("REGISTRO CANCELADO", "EXITO");
+                        callback.onRegistroCancelado();
+                    } else {
+                        Log.i("REGISTRO CANCELADO", "ERROR");
+                        callback.onRegistroCanceladoError();
+                    }
+                }
+            });
+        }
     }
+
 
     @Override
     public void iniciarListener(IniciarListenerCallback callback) {
-           //mAuth.addAuthStateListener(mAuthStateListener);
+        //mAuth.addAuthStateListener(mAuthStateListener);
         user = mAuth.getCurrentUser();
         callback.onListenerIniciado();
     }

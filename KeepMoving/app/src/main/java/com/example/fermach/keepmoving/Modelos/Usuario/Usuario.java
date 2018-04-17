@@ -12,21 +12,26 @@ public class Usuario implements Serializable {
         private String correo;
         private String contraseña;
         private String nombre;
+        private String apellidos;
         private String biografia;
         private String aficiones;
         private Uri foto;
 
-    public Usuario(String nombre, String biografia, String aficiones) {
+    public Usuario(String nombre, String apellidos, String correo, String biografia, String aficiones) {
         this.nombre = nombre;
-        this.biografia = biografia;
-        this.aficiones = aficiones;
+        this.apellidos=apellidos;
+        this.correo = correo;
+        this.biografia= biografia;
+        this.aficiones=aficiones;
     }
 
-    public Usuario(String nombre, String biografia, String aficiones, Uri foto) {
+    public Usuario(String nombre, String apellidos, String correo, String biografia, String aficiones,Uri foto) {
         this.nombre = nombre;
-        this.biografia = biografia;
-        this.aficiones = aficiones;
-        this.foto = foto;
+        this.apellidos=apellidos;
+        this.correo = correo;
+        this.biografia= biografia;
+        this.aficiones=aficiones;
+        this.foto=foto;
     }
 
     public Usuario(String correo, String contraseña) {
@@ -88,7 +93,10 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "Usuario{" +
-                "nombre='" + nombre + '\'' +
+                "correo='" + correo + '\'' +
+                ", contraseña='" + contraseña + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
                 ", biografia='" + biografia + '\'' +
                 ", aficiones='" + aficiones + '\'' +
                 ", foto=" + foto +

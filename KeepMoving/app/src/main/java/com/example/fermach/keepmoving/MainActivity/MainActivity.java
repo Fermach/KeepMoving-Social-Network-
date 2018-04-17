@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
 
 public class MainActivity extends AppCompatActivity {
     public final static String MAIN_FRAGMENT="MAIN_FRAGMENT";

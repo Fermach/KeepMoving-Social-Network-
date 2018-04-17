@@ -11,11 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
-import com.example.fermach.keepmoving.Registro.RegistroPantallaVista;
+import com.example.fermach.keepmoving.Registro.Registro_Basico.RegistroPantallaVista;
 
 /**
  * Created by Fermach on 27/03/2018.
