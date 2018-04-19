@@ -42,8 +42,8 @@ public class RegistroAmpliadoPantallaPresenter implements  RegistroAmpliadoPanta
     }
 
     @Override
-    public void registrarUsuarioConFoto(Usuario usuario) {
-        repository.registrarUsuarioAmpliadoConFoto(usuario, new UsuariosDataSource.RegistrarUsuarioConFotoCallback() {
+    public void registrarUsuarioConFoto(Usuario usuario,byte[] foto) {
+        repository.registrarUsuarioAmpliadoConFoto(usuario,foto, new UsuariosDataSource.RegistrarUsuarioConFotoCallback() {
             @Override
             public void onUsuarioRegistrado() {
                 registroView.onRegistro();

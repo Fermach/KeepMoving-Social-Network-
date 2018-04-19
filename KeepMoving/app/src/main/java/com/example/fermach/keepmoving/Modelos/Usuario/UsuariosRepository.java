@@ -26,7 +26,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void loguearUsuario(Usuario usuario, final LoguearUsuarioCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.loguearUsuario(usuario, new LoguearUsuarioCallback() {
             @Override
             public void onUsuarioLogueado() {
@@ -44,7 +44,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void desloguearUsuario(final DesloguearUsuarioCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.desloguearUsuario(new DesloguearUsuarioCallback() {
             @Override
             public void onUsuarioDeslogueado() {
@@ -61,7 +61,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void registrarUsuario(Usuario usuario, final RegistrarUsuarioCallback callback) {
-        UsuariosFirebase usuariosFirebase=new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase=UsuariosFirebase.getInstance();
         usuariosFirebase.registrarUsuario(usuario, new RegistrarUsuarioCallback() {
             @Override
             public void onUsuarioRegistrado() {
@@ -78,31 +78,44 @@ public class UsuariosRepository implements UsuariosDataSource{
     }
 
     @Override
-    public void registrarUsuarioAmpliadoConFoto(Usuario usuario, final RegistrarUsuarioConFotoCallback callback) {
-        UsuariosFirebase usuariosFirebase=new UsuariosFirebase();
-        usuariosFirebase.registrarUsuarioAmpliadoConFoto(usuario, new RegistrarUsuarioConFotoCallback() {
+    public void registrarUsuarioAmpliadoConFoto(Usuario usuario,byte[] foto, final RegistrarUsuarioConFotoCallback callback) {
+        UsuariosFirebase usuariosFirebase=UsuariosFirebase.getInstance();
+        usuariosFirebase.registrarUsuarioAmpliadoConFoto(usuario,foto, new RegistrarUsuarioConFotoCallback() {
             @Override
             public void onUsuarioRegistrado() {
-                Log.i("REGISTRO", "SUCCESFUL");
+                Log.i("REGISTRO AMPLIADO", "SUCCESFUL");
                 callback.onUsuarioRegistrado();
             }
 
             @Override
             public void onUsuarioRegistradoError() {
-                Log.i("REGISTRO", "ERROR");
+                Log.i("REGISTRO AMPLIADO", "ERROR");
                 callback.onUsuarioRegistradoError();
             }
         });
     }
 
     @Override
-    public void registrarUsuarioAmpliado(Usuario usuario, RegistrarUsuarioAmpliadoCallback callback) {
+    public void registrarUsuarioAmpliado(Usuario usuario, final RegistrarUsuarioAmpliadoCallback callback) {
+        UsuariosFirebase usuariosFirebase=UsuariosFirebase.getInstance();
+        usuariosFirebase.registrarUsuarioAmpliado(usuario, new RegistrarUsuarioAmpliadoCallback() {
+            @Override
+            public void onUsuarioRegistrado() {
+                Log.i("REGISTRO AMPLIADO", "SUCCESFUL");
+                callback.onUsuarioRegistrado();
+            }
 
+            @Override
+            public void onUsuarioRegistradoError() {
+                Log.i("REGISTRO AMPLIADO", "ERROR");
+                callback.onUsuarioRegistradoError();
+            }
+        });
     }
 
     @Override
     public void comprobarUsuarioRegistrado(final ComprobarUsuarioRegistradoCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase=UsuariosFirebase.getInstance();
         usuariosFirebase.comprobarUsuarioRegistrado(new ComprobarUsuarioRegistradoCallback() {
             @Override
             public void onUsuarioRegistrado() {
@@ -120,7 +133,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void cancelarRegistroUsuario(final CancelarRegistroUsuarioCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.cancelarRegistroUsuario(new CancelarRegistroUsuarioCallback() {
             @Override
             public void onRegistroCancelado() {
@@ -137,7 +150,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void iniciarListener(final IniciarListenerCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.iniciarListener(new IniciarListenerCallback() {
             @Override
             public void onListenerIniciado() {
@@ -147,7 +160,8 @@ public class UsuariosRepository implements UsuariosDataSource{
 
             @Override
             public void onListenerIniciadoError() {
-
+                Log.i("LISTENER: ", "NO INICIADO");
+                callback.onListenerIniciadoError();
             }
         });
 
@@ -155,7 +169,7 @@ public class UsuariosRepository implements UsuariosDataSource{
 
     @Override
     public void detenerListener(final DetenerListenerCallback callback) {
-        UsuariosFirebase usuariosFirebase= new UsuariosFirebase();
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.detenerListener(new DetenerListenerCallback() {
             @Override
             public void onListenerDetenido() {

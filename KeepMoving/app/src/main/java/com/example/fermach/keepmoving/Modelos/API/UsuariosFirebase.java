@@ -3,14 +3,19 @@ package com.example.fermach.keepmoving.Modelos.API;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.util.Log;
-
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
+import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 /**
  * Created by Fermach on 29/03/2018.
@@ -21,17 +26,27 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     private String UID_actual;
+    private FirebaseDatabase database;
+
+    private DatabaseReference myDatabaseRef;
+    private StorageReference myfileStoragePath;
+    private StorageReference myStorageRef;
+    private static UsuariosFirebase INSTANCIA_FIRE =null;
    // private FirebaseAuth.AuthStateListener mAuthStateListener;
 
-    public UsuariosFirebase() {
+    public static UsuariosFirebase getInstance() {
+        if (INSTANCIA_FIRE == null) {
+            INSTANCIA_FIRE = new UsuariosFirebase();
+        }
+        return INSTANCIA_FIRE;
+    }
 
+
+    private UsuariosFirebase() {
+        myStorageRef= FirebaseStorage.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
-
-        if(user!=null){
-            UID_actual=user.getUid();
-        }
-
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //user=mAuth.getCurrentUser();
     }
@@ -67,6 +82,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
     public void desloguearUsuario(DesloguearUsuarioCallback callback) {
         Log.i("SIGNOUT","------------");
         mAuth.signOut();
+        callback.onUsuarioDeslogueado();
     }
 
     @Override
@@ -94,14 +110,61 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
     @Override
-    public void registrarUsuarioAmpliadoConFoto(Usuario usuario, RegistrarUsuarioConFotoCallback callback) {
+    public void registrarUsuarioAmpliadoConFoto(final Usuario usuario, final byte[] foto, final RegistrarUsuarioConFotoCallback callback) {
+        myDatabaseRef= database.getReference("Usuarios").child(user.getUid());
+        myfileStoragePath=myStorageRef.child("fotosPerfil/").child(user.getUid());
 
+        Log.i("USUARIO_PUSH",usuario.toString());
+        myDatabaseRef.push().setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    myfileStoragePath.putBytes(foto).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if(task.isSuccessful()){
+                                callback.onUsuarioRegistrado();
+                                Log.i("REGISTRO_FIRE_DB","SUCCESFUL");
+                            }else{
+                                //borrar usuario de la BBDDs
+                                /*
+                                if(exito){
+
+                                    Log.i("REGISTRO_FIRE_DB","ERROR");
+                                   callback.onUsuarioRegistrado();
+                                   }
+                                 */
+                                Log.i("REGISTRO_FIRE_DB","ERROR");
+                                callback.onUsuarioRegistradoError();
+                            }
+                        }
+                    });
+
+                }else{
+                    Log.i("REGISTRO_FIRE_DB","ERROR");
+                    callback.onUsuarioRegistradoError();
+                }
+            }
+        });
     }
 
 
     @Override
-    public void registrarUsuarioAmpliado(Usuario usuario, RegistrarUsuarioAmpliadoCallback callback) {
-
+    public void registrarUsuarioAmpliado(Usuario usuario, final RegistrarUsuarioAmpliadoCallback callback) {
+          myDatabaseRef= database.getReference("Usuarios").child(user.getUid());
+          Log.i("USUARIO_PUSH",usuario.toString());
+          myDatabaseRef.push().setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+              @Override
+              public void onComplete(@NonNull Task<Void> task) {
+                  if (task.isSuccessful()){
+                      callback.onUsuarioRegistrado();
+                      Log.i("REGISTRO_FIRE_DB","SUCCESFUL");
+                  }else{
+                      Log.i("REGISTRO_FIRE_DB","ERROR");
+                      callback.onUsuarioRegistradoError();
+                  }
+              }
+          });
     }
 
     @Override

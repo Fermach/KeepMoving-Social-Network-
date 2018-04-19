@@ -9,7 +9,7 @@ public interface UsuariosDataSource {
     void loguearUsuario(Usuario usuario, LoguearUsuarioCallback callback);
     void desloguearUsuario(DesloguearUsuarioCallback callback);
     void registrarUsuario(Usuario usuario, RegistrarUsuarioCallback callback);
-    void registrarUsuarioAmpliadoConFoto(Usuario usuario, RegistrarUsuarioConFotoCallback callback);
+    void registrarUsuarioAmpliadoConFoto(Usuario usuario,byte[] foto, RegistrarUsuarioConFotoCallback callback);
     void registrarUsuarioAmpliado(Usuario usuario, RegistrarUsuarioAmpliadoCallback callback);
     void comprobarUsuarioRegistrado(ComprobarUsuarioRegistradoCallback callback);
     void cancelarRegistroUsuario(CancelarRegistroUsuarioCallback callback);

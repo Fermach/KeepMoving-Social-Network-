@@ -109,7 +109,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
     @Override
     public void onStart() {
         super.onStart();
-        presenter.iniciarListenerFire();
+      //  presenter.iniciarListenerFire();
     }
 
     @Override

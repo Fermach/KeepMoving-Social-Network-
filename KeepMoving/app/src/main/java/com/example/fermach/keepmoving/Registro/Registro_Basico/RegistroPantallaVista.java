@@ -78,6 +78,7 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                     if(contraseña2.equals(contraseña)) {
 
                         progressDialog.setMessage("Se están validando los datos");
+                        progressDialog.setCancelable(false);
                         progressDialog.show();
 
                         usuario = new Usuario(correo, contraseña);

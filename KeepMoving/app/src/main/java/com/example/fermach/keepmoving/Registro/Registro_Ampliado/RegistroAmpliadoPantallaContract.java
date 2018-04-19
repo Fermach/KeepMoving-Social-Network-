@@ -16,7 +16,7 @@ public interface RegistroAmpliadoPantallaContract {
     }
     interface Presenter {
         void registrarUsuario(Usuario usuario);
-        void registrarUsuarioConFoto(Usuario usuario);
+        void registrarUsuarioConFoto(Usuario usuario, byte[] foto);
         void desloguearUsuario();
     }
 

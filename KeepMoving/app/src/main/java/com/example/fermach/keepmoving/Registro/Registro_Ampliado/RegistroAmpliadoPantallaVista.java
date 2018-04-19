@@ -1,7 +1,9 @@
 package com.example.fermach.keepmoving.Registro.Registro_Ampliado;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,10 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
+import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Registro.Registro_Basico.RegistroPantallaVista;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,6 +58,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     private String uid_actual;
     private Usuario usuario=null;
     private Fragment fragment;
+    private  byte[] foto_bytes;
 
 
     public RegistroAmpliadoPantallaVista() {
@@ -110,11 +117,12 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
 
                         progressDialog.setMessage("Se están validando los datos");
+                        progressDialog.setCancelable(false);
                         progressDialog.show();
 
                         if(foto !=null) {
-                            usuario = new Usuario(nombre, apellidos,correo,biografia,aficiones,foto);
-                            presenter.registrarUsuarioConFoto(usuario);
+                            usuario = new Usuario(nombre, apellidos,correo,biografia,aficiones);
+                            presenter.registrarUsuarioConFoto(usuario,foto_bytes);
 
                         }else{
                             usuario = new Usuario(nombre, apellidos,correo,biografia,aficiones );
@@ -170,7 +178,18 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==-1){
             foto=data.getData();
-            foto_registro.setImageURI(foto);
+
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(App.getAppContext().getContentResolver(),foto);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                foto_bytes = baos.toByteArray();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            foto_registro.setImageBitmap(bitmap);
+
 
         }
     }
@@ -179,6 +198,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     @Override
     public void onRegistroError() {
+        progressDialog.dismiss();
         Snackbar.make(myView,"En este momento, no se pudo completar el registro", Snackbar.LENGTH_LONG).show();
 
     }
@@ -191,6 +211,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     @Override
     public void onDeslogueo() {
+        progressDialog.dismiss();
         fragment = new LogginPantallaVista();
         getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 

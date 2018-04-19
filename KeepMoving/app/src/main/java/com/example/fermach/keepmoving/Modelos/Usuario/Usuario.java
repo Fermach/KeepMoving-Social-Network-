@@ -15,7 +15,7 @@ public class Usuario implements Serializable {
         private String apellidos;
         private String biografia;
         private String aficiones;
-        private Uri foto;
+        private byte[] foto;
 
     public Usuario(String nombre, String apellidos, String correo, String biografia, String aficiones) {
         this.nombre = nombre;
@@ -25,21 +25,20 @@ public class Usuario implements Serializable {
         this.aficiones=aficiones;
     }
 
-    public Usuario(String nombre, String apellidos, String correo, String biografia, String aficiones,Uri foto) {
-        this.nombre = nombre;
-        this.apellidos=apellidos;
-        this.correo = correo;
-        this.biografia= biografia;
-        this.aficiones=aficiones;
-        this.foto=foto;
-    }
-
     public Usuario(String correo, String contraseña) {
         this.correo = correo;
         this.contraseña = contraseña;
     }
 
     public Usuario() {
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getCorreo() {
@@ -82,11 +81,11 @@ public class Usuario implements Serializable {
         this.aficiones = aficiones;
     }
 
-    public Uri getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Uri foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 
