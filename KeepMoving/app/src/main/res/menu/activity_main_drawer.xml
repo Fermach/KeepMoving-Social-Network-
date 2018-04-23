@@ -19,8 +19,12 @@
         android:id="@+id/menu_info"
         android:checkableBehavior="none">
        <item
-         android:id="@+id/nav_info"
-         android:icon="@android:drawable/btn_minus"
-         android:title="Más información" />
+            android:id="@+id/nav_info"
+            android:icon="@android:drawable/btn_minus"
+            android:title="Más información" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/signout"
+            android:title="Cerrar Sesión" />
     </group>
 </menu>

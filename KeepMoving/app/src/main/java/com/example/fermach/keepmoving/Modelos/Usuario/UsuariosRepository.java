@@ -151,37 +151,32 @@ public class UsuariosRepository implements UsuariosDataSource{
     @Override
     public void iniciarListener(final IniciarListenerCallback callback) {
         UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        Log.i("LISTENER","REPOSITORY");
         usuariosFirebase.iniciarListener(new IniciarListenerCallback() {
             @Override
-            public void onListenerIniciado() {
+            public void onUsuarioRegistrado() {
                 Log.i("LISTENER: ", "INICIADO");
-                callback.onListenerIniciado();
+                callback.onUsuarioRegistrado();
             }
 
             @Override
-            public void onListenerIniciadoError() {
+            public void onUsuarioNoRegistrado() {
                 Log.i("LISTENER: ", "NO INICIADO");
-                callback.onListenerIniciadoError();
+                callback.onUsuarioNoRegistrado();
             }
         });
 
     }
 
     @Override
-    public void detenerListener(final DetenerListenerCallback callback) {
-        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
-        usuariosFirebase.detenerListener(new DetenerListenerCallback() {
-            @Override
-            public void onListenerDetenido() {
-                Log.i("LISTENER: ", "DETENIDO");
-                callback.onListenerDetenido();
-            }
-
-            @Override
-            public void onListenerDetenidoError() {
-
-            }
-        });
+    public void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback) {
 
     }
+
+    @Override
+    public void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback) {
+
+    }
+
+
 }

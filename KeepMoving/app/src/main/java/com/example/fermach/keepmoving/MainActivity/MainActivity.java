@@ -1,7 +1,10 @@
 package com.example.fermach.keepmoving.MainActivity;
 
+import android.app.ProgressDialog;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,20 +14,27 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
+import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View{
     public final static String MAIN_FRAGMENT="MAIN_FRAGMENT";
     private Fragment fragment;
+    private View view;
+    private MainContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter= new MainPresenter(this);
+        view = this.findViewById(R.id.content_main);
         //se instancia el toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,12 +49,44 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         //se inicia el fragmeno con la lista de rutinas
-
+        presenter.iniciarListenerFire();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
 
         //se activa el controlador de nuestro Navigation Drawer
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                boolean itemSeleccionado= false;
+
+                if (id == R.id.nav_nueva_rutina) {
+                    //fragment= new CrearRutinaVista();
+                    itemSeleccionado=true;
+                }
+                else if (id == R.id.nav_lista_rutinas) {
+                    //fragment= new ListaRutinasVista();
+                    itemSeleccionado = true;
+                }else if (id == R.id.nav_signout) {
+                    Log.i("PULSADO","PULSADO");
+                    itemSeleccionado=true;
+                    presenter.cerrarSesion();
+
+                }
+                else if (id == R.id.nav_info) {
+                    //fragment= new Pantalla_info();
+                    itemSeleccionado=true;
+                }
+
+                if(itemSeleccionado==true){
+                    //   getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+                }
+
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
         Log.i("Activity Main", "MAIN");
 
 
@@ -83,31 +125,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    public boolean onNavigationItemSelected(MenuItem item) {
-        //detecta el item de nuestro NavigationBar clickeado y nos permite navegar por los fragmentos
-        int id = item.getItemId();
-        boolean itemSeleccionado= false;
 
-        if (id == R.id.nav_nueva_rutina) {
-            //fragment= new CrearRutinaVista();
-            itemSeleccionado=true;
-        }
-        else if (id == R.id.nav_lista_rutinas) {
-            //fragment= new ListaRutinasVista();
-            itemSeleccionado=true;
-        }else if (id == R.id.nav_info) {
-            //fragment= new Pantalla_info();
-            itemSeleccionado=true;
-        }
-
-        if(itemSeleccionado==true){
-         //   getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    @Override
+    public void onSesionCerrada() {
+        /*
+        fragment= new LogginPantallaVista();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+    */
     }
 
+    @Override
+    public void onSesionCerradaError() {
+        Snackbar.make(view,"No se pudo cerrar sesión en esta momento, vuelva a intentarlo más tarde", Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onUsuarioNoRegistrado() {
+        fragment= new LogginPantallaVista();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+
+    }
+
+    @Override
+    public void onUsuarioRegistrado() {
+        fragment= new PerfilPantallaVista();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+
+    }
 }

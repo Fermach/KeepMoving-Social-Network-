@@ -10,16 +10,15 @@ import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
  * Created by Fermach on 27/03/2018.
  */
 
-public class LogginPantallaPresenter implements  LogginPantallaContract.Presenter{
+public class LogginPantallaPresenter implements  LogginPantallaContract.Presenter {
     private UsuariosRepository repository;
     private LogginPantallaContract.View logginView;
-
 
 
     public LogginPantallaPresenter(LogginPantallaContract.View view) {
         this.logginView = view;
         repository = UsuariosRepository.getInstance();
-       // this.repository = UsuariosRepository.getInstance();
+        // this.repository = UsuariosRepository.getInstance();
     }
 
 
@@ -53,34 +52,4 @@ public class LogginPantallaPresenter implements  LogginPantallaContract.Presente
         });
     }
 
-    @Override
-    public void iniciarListenerFire() {
-        repository.iniciarListener(new UsuariosDataSource.IniciarListenerCallback() {
-            @Override
-            public void onListenerIniciado() {
-                Log.i("P LISTENER: ","INICIADO");
-            }
-
-            @Override
-            public void onListenerIniciadoError() {
-                Log.i("P LISTENER: ","NO INICIADO");
-            }
-        });
-    }
-
-    @Override
-    public void detenerListenerFire() {
-         repository.detenerListener(new UsuariosDataSource.DetenerListenerCallback() {
-             @Override
-             public void onListenerDetenido() {
-                 Log.i("P LISTENER: ","DETENIDO");
-             }
-
-             @Override
-             public void onListenerDetenidoError() {
-                 Log.i("P LISTENER: ","NO DETENIDO");
-
-             }
-         });
-    }
 }

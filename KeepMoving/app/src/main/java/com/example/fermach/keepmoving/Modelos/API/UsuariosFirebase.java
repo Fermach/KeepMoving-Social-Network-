@@ -27,12 +27,11 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private FirebaseAuth mAuth;
     private String UID_actual;
     private FirebaseDatabase database;
-
     private DatabaseReference myDatabaseRef;
     private StorageReference myfileStoragePath;
     private StorageReference myStorageRef;
     private static UsuariosFirebase INSTANCIA_FIRE =null;
-   // private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public static UsuariosFirebase getInstance() {
         if (INSTANCIA_FIRE == null) {
@@ -199,24 +198,41 @@ public class UsuariosFirebase implements UsuariosDataSource {
                     }
                 }
             });
+        }else{
+            callback.onRegistroCancelado();
         }
+
+
     }
 
 
     @Override
-    public void iniciarListener(IniciarListenerCallback callback) {
-        //mAuth.addAuthStateListener(mAuthStateListener);
-        user = mAuth.getCurrentUser();
-        callback.onListenerIniciado();
+    public void iniciarListener(final IniciarListenerCallback callback) {
+        Log.i("LISTENER","USUARIOS FIRE 1" );
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth fireAuth) {
+                user= fireAuth.getCurrentUser();
+                Log.i("LISTENER","USUARIOS FIRE 2" );
+                if(user!=null){
+                    Log.i("LISTENER","USUARIO REGISTRADO" );
+                    callback.onUsuarioRegistrado();
+                }else{
+                    Log.i("LISTENER","USUARIO NO REGISTRADO" );
+                    callback.onUsuarioNoRegistrado();
+                }
+            }
+        });
+
     }
 
     @Override
-    public void detenerListener(DetenerListenerCallback callback) {
+    public void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback) {
 
-       /* if(mAuthStateListener!=null){
-           mAuth.removeAuthStateListener(mAuthStateListener);
-           callback.onListenerDetenido();
-        }*/
+    }
+
+    @Override
+    public void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback) {
 
     }
 

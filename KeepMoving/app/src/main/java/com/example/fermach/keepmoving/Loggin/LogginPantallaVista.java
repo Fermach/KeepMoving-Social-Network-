@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,23 +96,24 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
 
     @Override
     public void onSesionIniciadaError() {
-        progressDialog.dismiss();
-        Snackbar.make(myView,"No se pudo iniciar sesión", Snackbar.LENGTH_SHORT).show();
+       progressDialog.dismiss();
+        Snackbar.make(myView,"No se pudo iniciar sesión en este momento, vuelva a intentarlo más tarde.", Snackbar.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onSesionIniciada() {
         progressDialog.dismiss();
-        fragment = new PerfilPantallaVista();
-        getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+
 
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
-      //  presenter.iniciarListenerFire();
+        Log.i("Start","onStart");
+        //presenter.iniciarListenerFire();
     }
 
     @Override
@@ -117,4 +121,6 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         super.onStop();
        // presenter.detenerListenerFire();
     }
+
+
 }

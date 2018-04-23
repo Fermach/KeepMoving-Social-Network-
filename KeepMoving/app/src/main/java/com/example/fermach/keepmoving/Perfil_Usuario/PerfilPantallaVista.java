@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.fermach.keepmoving.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Fermach on 27/03/2018.
  */
@@ -24,6 +26,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
     private TextView tv_nombre;
     private TextView tv_aficiones;
     private TextView tv_bio;
+    private CircleImageView circleImageView_foto;
     private View myView;
     private PerfilPantallaContract.Presenter presenter;
 
@@ -47,6 +50,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         btn_mis_quedadas= myView.findViewById(R.id.btn_mis_quedadas_perfil);
         btn_editar_datos=myView.findViewById(R.id.btn_modificar_perfil);
         tv_nombre=myView.findViewById(R.id.nombre_usuario_perfil);
+        circleImageView_foto=myView.findViewById(R.id.fab_usuarioImagen_perfil);
         tv_bio=myView.findViewById(R.id.biografia_usuario_perfil);
         tv_aficiones=myView.findViewById(R.id.aficiones_usuario_perfil);
     }
@@ -68,4 +72,24 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         });
     }
 
+
+    @Override
+    public void onUsuarioActualObtenido() {
+
+    }
+
+    @Override
+    public void onUsuarioActualObtenidoError() {
+
+    }
+
+    @Override
+    public void onFotoPerfilObtenida() {
+
+    }
+
+    @Override
+    public void onFotoPerfilObtenidaError() {
+
+    }
 }

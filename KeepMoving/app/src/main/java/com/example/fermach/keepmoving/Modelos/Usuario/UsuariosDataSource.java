@@ -14,9 +14,19 @@ public interface UsuariosDataSource {
     void comprobarUsuarioRegistrado(ComprobarUsuarioRegistradoCallback callback);
     void cancelarRegistroUsuario(CancelarRegistroUsuarioCallback callback);
     void iniciarListener(IniciarListenerCallback callback);
-    void detenerListener(DetenerListenerCallback callback);
+    void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback);
+    void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback);
 
 
+
+    interface ObtenerFotoPerfilCallback{
+        void onFotoPerfilObtenida();
+        void onFotoPerfilObtenidaError();
+    }
+    interface ObtenerUsuarioActualCallback{
+        void onUsuarioObtenido();
+        void onUsuarioObtenidoError();
+    }
     interface LoguearUsuarioCallback{
         void onUsuarioLogueado();
         void onUsuarioLogueadoError();
@@ -49,8 +59,8 @@ public interface UsuariosDataSource {
     }
 
     interface IniciarListenerCallback{
-        void onListenerIniciado();
-        void onListenerIniciadoError();
+        void onUsuarioRegistrado();
+        void onUsuarioNoRegistrado();
     }
 
     interface DetenerListenerCallback{

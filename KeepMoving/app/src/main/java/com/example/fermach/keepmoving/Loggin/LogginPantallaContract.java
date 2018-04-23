@@ -10,12 +10,12 @@ public interface LogginPantallaContract {
     interface View {
         void onSesionIniciadaError();
         void onSesionIniciada();
+
     }
     interface Presenter {
         void loggearUsuario(Usuario usuario);
         void comprobarRegistroDeUsuario();
-        void iniciarListenerFire();
-        void detenerListenerFire();
+
     }
 
 }

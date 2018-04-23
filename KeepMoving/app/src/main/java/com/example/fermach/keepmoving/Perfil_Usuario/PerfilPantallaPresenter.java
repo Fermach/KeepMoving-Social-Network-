@@ -15,4 +15,13 @@ public class PerfilPantallaPresenter implements  PerfilPantallaContract.Presente
        // this.repository = UsuariosRepository.getInstance();
     }
 
+    @Override
+    public void ObtenerUsuarioActual() {
+
+    }
+
+    @Override
+    public void ObtenerFotoUsuarioActual() {
+
+    }
 }
