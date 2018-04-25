@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -56,7 +57,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     private String aficiones;
     private Uri foto;
     private String uid_actual;
-    private Usuario usuario=null;
+    private Usuario usuario;
     private Fragment fragment;
     private  byte[] foto_bytes;
 
@@ -69,24 +70,9 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.pantalla_registro_ampliado, container, false);
 
-
-        Bundle args = getArguments();
-
-        usuario=(Usuario) args
-                .getSerializable("USUARIO");
-
-        if(usuario==null){
-            Log.i("BUNDLE","Error al recibir el usuario");
-
-        }else{
-            Log.i("BUNDLE",usuario.toString());
-        }
-
-        inicializarVista();
-        activarControladores();
-        iniciarAdeptadores();
         progressDialog= new ProgressDialog(myView.getContext());
         presenter= new RegistroAmpliadoPantallaPresenter(this);
+        presenter.obtenerCorreoUsuarioActual();
 
         return  myView;
     }
@@ -106,11 +92,11 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         btn_registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correo=usuario.getCorreo();
-                nombre= et_nombre.getText().toString().trim();
-                apellidos=et_apellidos.getText().toString().trim();
-                aficiones= multi_aficiones.getText().toString().trim();
-                biografia= et_biografia.getText().toString().trim();
+                //correo=usuario.getCorreo();
+                nombre=""+ et_nombre.getText().toString().trim();
+                apellidos=""+et_apellidos.getText().toString().trim();
+                aficiones=""+ multi_aficiones.getText().toString().trim();
+                biografia=""+ et_biografia.getText().toString().trim();
 
 
                 if(!nombre.isEmpty() && !apellidos.isEmpty() )  {
@@ -121,11 +107,11 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                         progressDialog.show();
 
                         if(foto !=null) {
-                            usuario = new Usuario(nombre, apellidos,correo,biografia,aficiones);
+                            usuario = new Usuario(nombre, apellidos,""+correo,biografia,aficiones);
                             presenter.registrarUsuarioConFoto(usuario,foto_bytes);
 
                         }else{
-                            usuario = new Usuario(nombre, apellidos,correo,biografia,aficiones );
+                            usuario = new Usuario(nombre, apellidos,""+correo,biografia,aficiones );
                             presenter.registrarUsuario(usuario);
                         }
 
@@ -139,8 +125,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new RegistroPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                presenter.setTOKKEN("REGISTRO");
 
             }
         });
@@ -205,21 +190,71 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     @Override
     public void onRegistro() {
-        presenter.desloguearUsuario();
+        presenter.setTOKKEN_2("MENU");
+
 
     }
 
     @Override
     public void onDeslogueo() {
         progressDialog.dismiss();
-        fragment = new LogginPantallaVista();
-        getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+
+    }
+
+    @Override
+    public void onTOKENselecionado() {
+        presenter.cancelarRegistro();
+    }
+
+    @Override
+    public void onTOKEN2selecionado() {
+        Snackbar.make(myView,"Usuario registrado correctamente.\n Vuelva a introducir sus datos para iniciar sesión.", 5000).show();
+
+        presenter.desloguearUsuario();
+           new Handler().postDelayed(new Runnable(){
+            public void run(){
+
+            };
+        }, 2000);
+
+    }
+
+    @Override
+    public void onRegistroCancelado() {
+       Log.i("VISTA", "REGISTRO CANCELADO");
+    }
+
+    @Override
+    public void onRegistroCanceladoError() {
+        Snackbar.make(myView,"Se ha producido un error al cancelar el registro, vuelva a intentarlo mas tarde", Snackbar.LENGTH_LONG).show();
 
     }
 
     @Override
     public void onDeslogueoError() {
+        Snackbar.make(myView,"Se produjo un fallo en el registro ", 4000).show();
 
+    }
+
+    @Override
+    public void onCorreoUsuarioActualObtenido(String correoUsuario) {
+        this.correo=correoUsuario;
+        Log.i("CORREO ACTUAL", ""+correo);
+        inicializarVista();
+        activarControladores();
+        iniciarAdeptadores();
+    }
+
+    @Override
+    public void onCorreoUsuarioActualObtenidoError() {
+        Snackbar.make(myView,"En este momento, no se pudo acceder a la base de datos", 4000).show();
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                fragment = new RegistroPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+
+            };
+        }, 2000);
     }
 
     @Override
@@ -231,5 +266,11 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        presenter.desloguearUsuario();
     }
 }

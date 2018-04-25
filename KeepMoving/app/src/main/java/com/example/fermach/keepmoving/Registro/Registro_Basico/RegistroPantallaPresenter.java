@@ -23,21 +23,6 @@ public class RegistroPantallaPresenter implements  RegistroPantallaContract.Pres
 
 
     @Override
-    public void cancelarRegistro() {
-       repository.cancelarRegistroUsuario(new UsuariosDataSource.CancelarRegistroUsuarioCallback() {
-           @Override
-           public void onRegistroCancelado() {
-               registroView.onRegistroCancelado();
-           }
-
-           @Override
-           public void onRegistroCanceladoError() {
-                registroView.onRegistroCanceladoError();
-           }
-       });
-    }
-
-    @Override
     public void registrarUsuario(Usuario usuario) {
        repository.registrarUsuario(usuario, new UsuariosDataSource.RegistrarUsuarioCallback() {
           @Override
@@ -78,6 +63,16 @@ public class RegistroPantallaPresenter implements  RegistroPantallaContract.Pres
             @Override
             public void onUsuarioLogueadoError() {
                 registroView.onLogueoError();
+            }
+        });
+    }
+
+    @Override
+    public void setTOKEN(String TOKKEN) {
+        repository.setTOKEN(TOKKEN, new UsuariosDataSource.SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                registroView.onTOKENselecionado();
             }
         });
     }

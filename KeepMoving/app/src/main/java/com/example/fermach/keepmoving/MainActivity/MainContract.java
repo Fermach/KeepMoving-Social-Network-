@@ -10,11 +10,13 @@ public interface MainContract {
     interface View {
         void onSesionCerrada();
         void onSesionCerradaError();
-        void onUsuarioNoRegistrado();
-        void onUsuarioRegistrado();
+        void onUsuarioNoRegistrado(String TOKEN);
+        void onUsuarioRegistrado(String TOKEN);
+        void onTOKENseleccionado();
     }
     interface Presenter {
         void cerrarSesion();
+        void setTOKEN(String TOKkEN);
         void iniciarListenerFire();
 
     }

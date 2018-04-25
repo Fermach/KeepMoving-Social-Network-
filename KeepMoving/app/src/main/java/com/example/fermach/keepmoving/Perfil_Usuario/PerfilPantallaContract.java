@@ -12,9 +12,11 @@ public interface PerfilPantallaContract {
       void onUsuarioActualObtenidoError();
       void onFotoPerfilObtenida(byte[] foto);
       void onFotoPerfilObtenidaError();
+      void onSesionCerrada();
     }
     interface Presenter {
       void ObtenerUsuarioActual();
+      void CerrarSesion();
       void ObtenerFotoUsuarioActual();
     }
 

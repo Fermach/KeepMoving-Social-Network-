@@ -7,15 +7,23 @@ import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Fermach on 29/03/2018.
@@ -26,11 +34,14 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     private String UID_actual;
+    private Usuario usuarioActual;
+    private String TOKEN;
     private FirebaseDatabase database;
-    private DatabaseReference myDatabaseRef;
+    private DatabaseReference UsuariosRef;
     private StorageReference myfileStoragePath;
     private StorageReference myStorageRef;
     private static UsuariosFirebase INSTANCIA_FIRE =null;
+    private final long ONE_MEGABYTE = 1024 * 1024;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     public static UsuariosFirebase getInstance() {
@@ -44,7 +55,9 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private UsuariosFirebase() {
         myStorageRef= FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
-        mAuth=FirebaseAuth.getInstance();
+        UsuariosRef= database.getReference("Usuarios");
+        mAuth= FirebaseAuth.getInstance();
+        TOKEN= "LOGGIN";
         user=mAuth.getCurrentUser();
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //user=mAuth.getCurrentUser();
@@ -110,11 +123,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void registrarUsuarioAmpliadoConFoto(final Usuario usuario, final byte[] foto, final RegistrarUsuarioConFotoCallback callback) {
-        myDatabaseRef= database.getReference("Usuarios").child(user.getUid());
-        myfileStoragePath=myStorageRef.child("fotosPerfil/").child(user.getUid());
+
+
+        myfileStoragePath=myStorageRef.child("FotosPerfil/").child(user.getUid());
 
         Log.i("USUARIO_PUSH",usuario.toString());
-        myDatabaseRef.push().setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+        UsuariosRef.child(user.getUid()).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
@@ -149,10 +163,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
 
     @Override
-    public void registrarUsuarioAmpliado(Usuario usuario, final RegistrarUsuarioAmpliadoCallback callback) {
-          myDatabaseRef= database.getReference("Usuarios").child(user.getUid());
+    public void registrarUsuarioAmpliado(Usuario usuario,  final RegistrarUsuarioAmpliadoCallback callback) {
+
           Log.i("USUARIO_PUSH",usuario.toString());
-          myDatabaseRef.push().setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+          UsuariosRef.child(user.getUid()).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
               @Override
               public void onComplete(@NonNull Task<Void> task) {
                   if (task.isSuccessful()){
@@ -185,7 +199,6 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void cancelarRegistroUsuario(final CancelarRegistroUsuarioCallback callback) {
-        if(user!=null) {
             user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -198,17 +211,15 @@ public class UsuariosFirebase implements UsuariosDataSource {
                     }
                 }
             });
-        }else{
-            callback.onRegistroCancelado();
-        }
 
 
     }
 
 
     @Override
-    public void iniciarListener(final IniciarListenerCallback callback) {
+    public void iniciarListener( final IniciarListenerCallback callback) {
         Log.i("LISTENER","USUARIOS FIRE 1" );
+
         mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth fireAuth) {
@@ -216,10 +227,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
                 Log.i("LISTENER","USUARIOS FIRE 2" );
                 if(user!=null){
                     Log.i("LISTENER","USUARIO REGISTRADO" );
-                    callback.onUsuarioRegistrado();
+                    callback.onUsuarioRegistrado(TOKEN);
                 }else{
                     Log.i("LISTENER","USUARIO NO REGISTRADO" );
-                    callback.onUsuarioNoRegistrado();
+                    callback.onUsuarioNoRegistrado(TOKEN);
                 }
             }
         });
@@ -227,13 +238,64 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
     @Override
-    public void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback) {
+    public void obtenerFotoPerfil(final ObtenerFotoPerfilCallback callback) {
+        myfileStoragePath=myStorageRef.child("FotosPerfil/").child(user.getUid());
+
+        myfileStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Log.i("OBTENER FOTO FIRE","SUCCESFUL" );
+                callback.onFotoPerfilObtenida(bytes);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("OBTENER FOTO FIRE","ERROR" );
+                callback.onFotoPerfilObtenidaError();
+            }
+        });
+    }
+
+    @Override
+    public void obtenerUsuarioActual(final ObtenerUsuarioActualCallback callback) {
+
+        UsuariosRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String nombre= dataSnapshot.child("nombre").getValue(String.class);
+                String apellidos= dataSnapshot.child("apellidos").getValue(String.class);
+                String correo= dataSnapshot.child("correo").getValue(String.class);
+                String biografia= dataSnapshot.child("biografia").getValue(String.class);
+                String aficiones= dataSnapshot.child("aficiones").getValue(String.class);
+                usuarioActual= new Usuario(nombre,apellidos,correo,biografia,aficiones);
+
+                Log.i("OBTENER USUARIO FIRE","SUCCESFUL -- "+usuarioActual );
+                callback.onUsuarioObtenido(usuarioActual);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onUsuarioObtenidoError();
+                Log.i("OBTENER USUARIO FIRE","ERROR -- "+usuarioActual );
+            }
+        });
 
     }
 
     @Override
-    public void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback) {
+    public void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback) {
+        if(user!=null){
+            Log.i("EMAIL FIRE",""+user.getEmail());
+            callback.onCorreoUsuarioObtenido(""+user.getEmail());
+        }else{
+            callback.onCorreoUsuarioObtenidoError();
+        }
+    }
 
+    @Override
+    public void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback) {
+        this.TOKEN = TOKEN;
+        callback.onTOKENseleccionado();
     }
 
 

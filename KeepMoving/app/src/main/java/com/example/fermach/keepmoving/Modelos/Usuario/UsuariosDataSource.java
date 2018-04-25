@@ -13,19 +13,28 @@ public interface UsuariosDataSource {
     void registrarUsuarioAmpliado(Usuario usuario, RegistrarUsuarioAmpliadoCallback callback);
     void comprobarUsuarioRegistrado(ComprobarUsuarioRegistradoCallback callback);
     void cancelarRegistroUsuario(CancelarRegistroUsuarioCallback callback);
-    void iniciarListener(IniciarListenerCallback callback);
+    void iniciarListener( IniciarListenerCallback callback);
     void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback);
     void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback);
+    void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback);
+    void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback);
 
 
+    interface SeleccionarTOKENCallback{
+        void onTOKENseleccionado();
 
+    }
     interface ObtenerFotoPerfilCallback{
-        void onFotoPerfilObtenida();
+        void onFotoPerfilObtenida(byte[] foto);
         void onFotoPerfilObtenidaError();
     }
     interface ObtenerUsuarioActualCallback{
-        void onUsuarioObtenido();
+        void onUsuarioObtenido(Usuario usuario);
         void onUsuarioObtenidoError();
+    }
+    interface ObtenerCorreoUsuarioActualCallback{
+        void onCorreoUsuarioObtenido(String correoUsuario);
+        void onCorreoUsuarioObtenidoError();
     }
     interface LoguearUsuarioCallback{
         void onUsuarioLogueado();
@@ -59,8 +68,8 @@ public interface UsuariosDataSource {
     }
 
     interface IniciarListenerCallback{
-        void onUsuarioRegistrado();
-        void onUsuarioNoRegistrado();
+        void onUsuarioRegistrado(String TOKEN);
+        void onUsuarioNoRegistrado(String TOKEN);
     }
 
     interface DetenerListenerCallback{

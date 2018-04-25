@@ -82,7 +82,7 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                         progressDialog.show();
 
                         usuario = new Usuario(correo, contraseña);
-                        presenter.registrarUsuario(usuario);
+                        presenter.setTOKEN("REGISTRO");
 
                     }else{
                         Snackbar.make(myView,"Deben coincidir las contraseñas", Snackbar.LENGTH_SHORT).show();
@@ -98,8 +98,8 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.cancelarRegistro();
-
+                fragment = new LogginPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 
             }
         });
@@ -120,31 +120,15 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
 
     @Override
     public void onLogueo() {
-        fragment = new RegistroAmpliadoPantallaVista();
+
         progressDialog.dismiss();
 
-        Bundle args = new Bundle();
-        args.putSerializable(USUARIO, usuario);
-        fragment.setArguments(args);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_main, fragment, USUARIO)
-                .addToBackStack(USUARIO).commit();
     }
 
     @Override
-    public void onRegistroCancelado() {
-        fragment = new LogginPantallaVista();
-        getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
-
+    public void onTOKENselecionado() {
+        presenter.registrarUsuario(usuario);
     }
-
-    @Override
-    public void onRegistroCanceladoError() {
-        Snackbar.make(myView,"Se ha producido un error al cancelar elregistro, vuelva a intentarlo mas tarde", Snackbar.LENGTH_LONG).show();
-       // getActivity().finish();
-    }
-
 
     @Override
     public void onLogueoError() {
@@ -161,5 +145,11 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+      // presenter.cancelarRegistro();
     }
 }

@@ -10,11 +10,13 @@ public interface LogginPantallaContract {
     interface View {
         void onSesionIniciadaError();
         void onSesionIniciada();
+        void onTOKENselecionado();
 
     }
     interface Presenter {
         void loggearUsuario(Usuario usuario);
         void comprobarRegistroDeUsuario();
+        void setTOKEN(String TOKKEN);
 
     }
 

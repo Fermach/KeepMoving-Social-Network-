@@ -34,16 +34,26 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void setTOKEN(String TOKKEN) {
+        usuariosRepository.setTOKEN(TOKKEN, new UsuariosDataSource.SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                view.onTOKENseleccionado();
+            }
+        });
+    }
+
+    @Override
     public void iniciarListenerFire() {
         usuariosRepository.iniciarListener(new UsuariosDataSource.IniciarListenerCallback() {
             @Override
-            public void onUsuarioRegistrado() {
-                view.onUsuarioRegistrado();
+            public void onUsuarioRegistrado(String TOKEN) {
+                view.onUsuarioRegistrado(TOKEN);
             }
 
             @Override
-            public void onUsuarioNoRegistrado() {
-                view.onUsuarioNoRegistrado();
+            public void onUsuarioNoRegistrado(String TOKEN) {
+                view.onUsuarioNoRegistrado(TOKEN);
             }
         });
     }

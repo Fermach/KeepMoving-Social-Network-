@@ -82,10 +82,11 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
                 if(!correo.isEmpty() && !contraseña.isEmpty()) {
 
                     progressDialog.setMessage("Logueando usuario");
+                    progressDialog.setCancelable(false);
                     progressDialog.show();
 
                     usuario = new Usuario(correo, contraseña);
-                    presenter.loggearUsuario(usuario);
+                    presenter.setTOKEN("LOGGIN");
                 }else{
                     Snackbar.make(myView,"Debe rellenar todos los campos", Snackbar.LENGTH_SHORT).show();
 
@@ -106,6 +107,11 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         progressDialog.dismiss();
 
 
+    }
+
+    @Override
+    public void onTOKENselecionado() {
+        presenter.loggearUsuario(usuario);
     }
 
 

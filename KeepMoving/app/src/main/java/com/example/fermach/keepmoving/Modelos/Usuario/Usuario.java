@@ -98,7 +98,6 @@ public class Usuario implements Serializable {
                 ", apellidos='" + apellidos + '\'' +
                 ", biografia='" + biografia + '\'' +
                 ", aficiones='" + aficiones + '\'' +
-                ", foto=" + foto +
                 '}';
     }
 }

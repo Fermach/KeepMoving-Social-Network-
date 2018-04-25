@@ -11,16 +11,15 @@ public interface RegistroPantallaContract {
         void onRegistroError();
         void onRegistro();
         void onLogueo();
-        void onRegistroCancelado();
-        void onRegistroCanceladoError();
+        void onTOKENselecionado();
         void onLogueoError();
 
     }
     interface Presenter {
-        void cancelarRegistro();
         void registrarUsuario(Usuario usuario);
         void registrarUsuarioAmpliado(Usuario usuario);
         void loguearUsuario(Usuario usuario);
+        void setTOKEN(String TOKKEN);
 
     }
 

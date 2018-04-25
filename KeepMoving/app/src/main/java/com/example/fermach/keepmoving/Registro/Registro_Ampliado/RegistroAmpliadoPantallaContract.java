@@ -11,13 +11,23 @@ public interface RegistroAmpliadoPantallaContract {
         void onRegistroError();
         void onRegistro();
         void onDeslogueo();
+        void onTOKENselecionado();
+        void onTOKEN2selecionado();
+        void onRegistroCancelado();
+        void onRegistroCanceladoError();
         void onDeslogueoError();
+        void onCorreoUsuarioActualObtenido(String correoUsuario);
+        void onCorreoUsuarioActualObtenidoError();
 
     }
     interface Presenter {
+        void cancelarRegistro();
         void registrarUsuario(Usuario usuario);
         void registrarUsuarioConFoto(Usuario usuario, byte[] foto);
         void desloguearUsuario();
+        void obtenerCorreoUsuarioActual();
+        void setTOKKEN(String TOKEN);
+        void setTOKKEN_2(String menu);
     }
 
 }

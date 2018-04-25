@@ -24,7 +24,20 @@ public class RegistroAmpliadoPantallaPresenter implements  RegistroAmpliadoPanta
     }
 
 
+    @Override
+    public void cancelarRegistro() {
+        repository.cancelarRegistroUsuario(new UsuariosDataSource.CancelarRegistroUsuarioCallback() {
+            @Override
+            public void onRegistroCancelado() {
+                registroView.onRegistroCancelado();
+            }
 
+            @Override
+            public void onRegistroCanceladoError() {
+                registroView.onRegistroCanceladoError();
+            }
+        });
+    }
 
     @Override
     public void registrarUsuario(Usuario usuario) {
@@ -68,6 +81,43 @@ public class RegistroAmpliadoPantallaPresenter implements  RegistroAmpliadoPanta
             @Override
             public void onUsuarioDeslogueadoError() {
 
+            }
+        });
+    }
+
+    @Override
+    public void obtenerCorreoUsuarioActual() {
+        Log.i("PRESENTEEEEERR", "PRESENTER");
+        repository.obtenerCorreoUsuarioActual(new UsuariosDataSource.ObtenerCorreoUsuarioActualCallback() {
+            @Override
+            public void onCorreoUsuarioObtenido(String correoUsuario) {
+                Log.i("CORREO presen",""+correoUsuario);
+                registroView.onCorreoUsuarioActualObtenido(correoUsuario);
+            }
+
+            @Override
+            public void onCorreoUsuarioObtenidoError() {
+                registroView.onCorreoUsuarioActualObtenidoError();
+            }
+        });
+    }
+
+    @Override
+    public void setTOKKEN( String TOKEN) {
+        repository.setTOKEN(TOKEN, new UsuariosDataSource.SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                registroView.onTOKENselecionado();
+            }
+        });
+    }
+
+    @Override
+    public void setTOKKEN_2( String TOKEN) {
+        repository.setTOKEN(TOKEN, new UsuariosDataSource.SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                registroView.onTOKEN2selecionado();
             }
         });
     }

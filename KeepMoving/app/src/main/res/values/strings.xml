@@ -24,4 +24,6 @@
     <string name="int_aficiones">Introduzca sus aficiones</string>
     <string name="atras">Atras</string>
     <string name="intr_apellidos">Introduzca los apellidos*</string>
+    <string name="correo_usuario_perfil_titulo">Correo:</string>
+    <string name="correo_usuario_perfil">Este es el correo</string>
 </resources>

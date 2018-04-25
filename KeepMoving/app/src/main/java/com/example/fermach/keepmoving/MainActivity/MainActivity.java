@@ -21,10 +21,12 @@ import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
+import com.example.fermach.keepmoving.Registro.Registro_Basico.RegistroPantallaVista;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View{
-    public final static String MAIN_FRAGMENT="MAIN_FRAGMENT";
+    private final static String MAIN_FRAGMENT="MAIN_FRAGMENT";
     private Fragment fragment;
+    private String TOKEN;
     private View view;
     private MainContract.Presenter presenter;
 
@@ -35,11 +37,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter= new MainPresenter(this);
         view = this.findViewById(R.id.content_main);
+
         //se instancia el toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fragment= new LogginPantallaVista();
+        //presenter.cerrarSesion();
 
         //Se instancia el Navigation Drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -49,11 +53,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         toggle.syncState();
 
         //se inicia el fragmeno con la lista de rutinas
-        presenter.iniciarListenerFire();
+
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
 
         //se activa el controlador de nuestro Navigation Drawer
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        presenter.iniciarListenerFire();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -70,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }else if (id == R.id.nav_signout) {
                     Log.i("PULSADO","PULSADO");
                     itemSeleccionado=true;
-                    presenter.cerrarSesion();
+                    presenter.setTOKEN("MENU");
+
 
                 }
                 else if (id == R.id.nav_info) {
@@ -87,14 +94,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 return true;
             }
         });
+
+
         Log.i("Activity Main", "MAIN");
 
 
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     /**
@@ -103,13 +107,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+
+
+
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             Log.i("Activity Main", "1");
 
             drawer.closeDrawer(GravityCompat.START);
         } else {
             Log.i("Activity Main", "2");
+            if(TOKEN=="REGISTRO"){
 
+                presenter.cerrarSesion();
+            }
             //si no queda ningún fragment sale de la aplcación
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 Log.i("Activity Main", "3");
@@ -128,10 +139,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onSesionCerrada() {
-        /*
+/*
         fragment= new LogginPantallaVista();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
-    */
+*/
     }
 
     @Override
@@ -141,16 +152,46 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void onUsuarioNoRegistrado() {
-        fragment= new LogginPantallaVista();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+    public void onUsuarioNoRegistrado(String TOKEN) {
+        this.TOKEN=TOKEN;
+        if(TOKEN=="REGISTRO") {
+            Log.i("TOKEEN MAIN", TOKEN);
 
+            fragment = new RegistroPantallaVista();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        }else{
+            Log.i("TOKEEN MAIN", TOKEN);
+
+            fragment = new LogginPantallaVista();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        }
+    }
+
+
+    @Override
+    public void onUsuarioRegistrado(String TOKEN) {
+        this.TOKEN=TOKEN;
+        if(TOKEN=="LOGGIN") {
+            Log.i("TOKEEN MAIN", TOKEN);
+
+            fragment = new PerfilPantallaVista();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+        }else{
+            Log.i("TOKEEN MAIN", TOKEN);
+
+            fragment = new RegistroAmpliadoPantallaVista();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+
+        }
     }
 
     @Override
-    public void onUsuarioRegistrado() {
-        fragment= new PerfilPantallaVista();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+    public void onTOKENseleccionado() {
+        presenter.cerrarSesion();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
 
     }
 }

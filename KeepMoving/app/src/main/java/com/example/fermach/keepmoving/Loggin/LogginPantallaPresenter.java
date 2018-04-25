@@ -52,4 +52,14 @@ public class LogginPantallaPresenter implements  LogginPantallaContract.Presente
         });
     }
 
+    @Override
+    public void setTOKEN(String TOKEN) {
+        repository.setTOKEN(TOKEN, new UsuariosDataSource.SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                logginView.onTOKENselecionado();
+            }
+        });
+    }
+
 }

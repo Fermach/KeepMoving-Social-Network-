@@ -153,29 +153,82 @@ public class UsuariosRepository implements UsuariosDataSource{
         UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         Log.i("LISTENER","REPOSITORY");
         usuariosFirebase.iniciarListener(new IniciarListenerCallback() {
+
+
             @Override
-            public void onUsuarioRegistrado() {
+            public void onUsuarioRegistrado(String TOKEN) {
                 Log.i("LISTENER: ", "INICIADO");
-                callback.onUsuarioRegistrado();
+                callback.onUsuarioRegistrado(TOKEN);
+
             }
 
             @Override
-            public void onUsuarioNoRegistrado() {
+            public void onUsuarioNoRegistrado(String TOKEN) {
                 Log.i("LISTENER: ", "NO INICIADO");
-                callback.onUsuarioNoRegistrado();
+                callback.onUsuarioNoRegistrado(TOKEN);
             }
         });
 
     }
 
     @Override
-    public void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback) {
+    public void obtenerFotoPerfil(final ObtenerFotoPerfilCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerFotoPerfil(new ObtenerFotoPerfilCallback() {
+            @Override
+            public void onFotoPerfilObtenida(byte[] foto) {
+                callback.onFotoPerfilObtenida(foto);
+            }
 
+            @Override
+            public void onFotoPerfilObtenidaError() {
+                callback.onFotoPerfilObtenidaError();
+            }
+        });
     }
 
     @Override
-    public void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback) {
+    public void obtenerUsuarioActual(final ObtenerUsuarioActualCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerUsuarioActual(new ObtenerUsuarioActualCallback() {
+            @Override
+            public void onUsuarioObtenido(Usuario usuario) {
+                callback.onUsuarioObtenido(usuario);
+            }
 
+            @Override
+            public void onUsuarioObtenidoError() {
+                callback.onUsuarioObtenidoError();
+            }
+        });
+    }
+
+    @Override
+    public void obtenerCorreoUsuarioActual(final ObtenerCorreoUsuarioActualCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerCorreoUsuarioActual(new ObtenerCorreoUsuarioActualCallback() {
+            @Override
+            public void onCorreoUsuarioObtenido(String correoUsuario) {
+                Log.i("CORREO REPO",""+correoUsuario);
+                callback.onCorreoUsuarioObtenido(correoUsuario);
+            }
+
+            @Override
+            public void onCorreoUsuarioObtenidoError() {
+                callback.onCorreoUsuarioObtenidoError();
+            }
+        });
+    }
+
+    @Override
+    public void setTOKEN(String TOKEN, final SeleccionarTOKENCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.setTOKEN(TOKEN, new SeleccionarTOKENCallback() {
+            @Override
+            public void onTOKENseleccionado() {
+                callback.onTOKENseleccionado();
+            }
+        });
     }
 
 
