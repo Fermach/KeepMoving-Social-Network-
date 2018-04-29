@@ -26,4 +26,12 @@
     <string name="intr_apellidos">Introduzca los apellidos*</string>
     <string name="correo_usuario_perfil_titulo">Correo:</string>
     <string name="correo_usuario_perfil">Este es el correo</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="fecha">Fecha</string>
+    <string name="hora">Hora</string>
+    <string name="deporte_quedada">¿Que deporte desea practicar?</string>
+    <string name="intr_descripcion">¿Más información?</string>
+    <string name="plazas">Plazas disponibles</string>
+    <string name="publicar">Publicar</string>
+    <string name="google_maps_key">AIzaSyBfJcGvIKgfgAYEq7DK1jmTaCiEgHTdavk</string>
 </resources>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.fermach.keepmoving.MainActivity.MainActivity"
+    android:weightSum="1"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170sp"
+        >
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="170sp"
+            android:layout_margin="5sp"
+            tools:context="com.example.fermach.keepmoving.MapsActivity" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="30sp"
+        android:layout_marginTop="25sp"
+        android:orientation="horizontal"
+        >
+
+        <EditText
+            android:id="@+id/editText_fecha_crear_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:layout_weight="1"
+            android:hint="@string/fecha"
+            android:editable="false"
+            android:enabled="false"
+            android:inputType="text"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editText_hora_crear_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:editable="false"
+            android:enabled="false"
+            android:layout_weight="1"
+            android:hint="@string/hora"
+            android:inputType="text"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30sp"
+        android:layout_marginTop="12sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8sp"
+            android:text="@string/deporte_quedada"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/spinner_deporte_crear_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="17sp"
+            android:textColorHint="@android:color/black"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/descripcion_crear_quedada"
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                android:layout_marginLeft="5sp"
+                android:hint="@string/intr_descripcion"
+                android:inputType="text"
+                android:textColorHint="@android:color/black"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="7sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="674dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_weight="2"
+                android:text="@string/plazas"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
+                android:id="@+id/plazas_crear_quedada"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_weight="1"
+                app:snp_buttonIconLeft="@drawable/menu_left"
+                app:snp_buttonIconRight="@drawable/menu_right"
+                app:snp_maxValue="20"
+                app:snp_minValue="0"
+                app:snp_orientation="horizontal"
+                app:snp_stepSize="1"
+                app:snp_updateInterval="1"
+                app:snp_value="1" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35sp"
+        android:layout_marginTop="12sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancelar_crear_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="19sp"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/cancelar" />
+        <Button
+            android:id="@+id/btn_aceptar_crear_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19sp"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/publicar" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
