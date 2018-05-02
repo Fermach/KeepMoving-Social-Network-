@@ -34,4 +34,7 @@
     <string name="plazas">Plazas disponibles</string>
     <string name="publicar">Publicar</string>
     <string name="google_maps_key">AIzaSyBfJcGvIKgfgAYEq7DK1jmTaCiEgHTdavk</string>
+    <string name="fecha_quedada">¿Fecha de la quedada?</string>
+    <string name="hora_quedada">¿Hora de la quedada?</string>
+    <string name="intr_localizacion">¿Donde tendra lugar la quedada?</string>
 </resources>

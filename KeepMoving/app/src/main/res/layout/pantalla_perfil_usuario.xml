@@ -144,16 +144,16 @@
             android:layout_marginTop="23sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30sp"
+            android:layout_marginHorizontal="25sp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_modificar_perfil"
-                android:layout_width="match_parent"
+                android:layout_width="339dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
                 android:layout_weight="1"
                 android:elevation="10sp"
-                android:layout_marginRight="10sp"
                 android:text="@string/modificar" />
 
             <Button
