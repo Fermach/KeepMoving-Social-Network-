@@ -25,15 +25,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
+import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaContract;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaPresenter;
@@ -41,15 +46,18 @@ import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
 
 
+import com.example.fermach.keepmoving.Registro.Registro_Basico.RegistroPantallaVista;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -68,31 +76,47 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Fermach on 27/03/2018.
  */
 
-public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.View{
+public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.View {
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int LOCATION_PERMISIONS_REQUEST_CODE = 1234;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final LatLngBounds LAT_LNG_BOUNDS= new LatLngBounds(new LatLng(-40,-168),
+            new LatLng(71,136));
     private boolean permisosConcedidos;
+    private Quedada quedada;
     private Button btn_publicar;
     private Button btn_cancelar;
     private ImageView img_gps;
     private TextView tv_fecha;
     private TextView tv_hora;
-    private TextView tv_lugar;
+    private EditText tv_lugar;
     private TextView tv_mas_info;
-    private Spinner spinner_deporte;
+    private GoogleApiClient googleApiClient;
+    private AdapterView spinner_deporte;
     private ScrollableNumberPicker picker_plazas;
     private Fragment fragment;
-    private ProgressDialog progressDialog;
     private GoogleMap mMap;
     private View myView;
     private CrearQuedadaContract.Presenter presenter;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private LatLng latLng;
     private Date cDate;
+    private Address localizacion;
+    private List<Address> lista;
+    private Geocoder geocoder;
+    private MarkerOptions markerOptions;
+    private ProgressDialog progressDialog;
     private String fecha;
     private String hora;
+    private String longitud;
+    private String latitud;
+    private String lugar;
+    private String id;
+    private String deporte;
+    private String mas_info;
+    private String plazas;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     //private double lat = 0, lng = 0;
@@ -107,8 +131,8 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         myView = inflater.inflate(R.layout.pantalla_crear_quedada, container, false);
 
         cDate = new Date();
+        progressDialog= new ProgressDialog(myView.getContext());
         presenter = new CrearQuedadaPresenter(this);
-        progressDialog = new ProgressDialog(myView.getContext());
         permisosConcedidos=false;
 
         inicializarVista();
@@ -193,6 +217,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     public void activarControladores() {
 
+
         tv_lugar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -201,32 +226,14 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                         || event.getAction()==KeyEvent.ACTION_DOWN
                         || event.getAction()==KeyEvent.KEYCODE_ENTER ){
 
-                    String lugar= tv_lugar.getText().toString().trim();
-
-                    Geocoder geocoder= new Geocoder(getActivity());
-                    List<Address> lista = new ArrayList<>();
-
-                    try {
-                        lista =geocoder.getFromLocationName(lugar,1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(lista.size()>0){
-                        Address address= lista.get(0);
-
-                        LatLng latLng= new LatLng(address.getLatitude(),address.getLongitude());
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
-                        MarkerOptions markerOptions= new MarkerOptions().position(latLng).title(address.getAddressLine(0));
-
-                        mMap.addMarker(markerOptions);
-
-                    }
+                   buscarLugar();
                 }
 
                 return false;
             }
         });
+
+
 
         tv_fecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,14 +270,48 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         btn_publicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+              lugar=""+tv_lugar.getText().toString().trim();
+              hora=""+tv_hora.getText().toString().trim();
+              fecha=""+tv_fecha.getText().toString().trim();
+              mas_info=""+tv_mas_info.getText().toString().trim();
+              plazas=""+picker_plazas.getValue();
+              deporte=""+spinner_deporte.getSelectedItem().toString().trim();
 
+
+              if(!lugar.isEmpty() && !hora.isEmpty() &&
+                        !fecha.isEmpty() && !deporte.isEmpty()&& !plazas.isEmpty())  {
+                  //subir quedada
+
+                  buscarLugar();
+
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  progressDialog.setMessage("Se está creando la quedada");
+                  progressDialog.setCancelable(false);
+                  progressDialog.show();
+
+                  longitud=""+localizacion.getLongitude();
+                  latitud= ""+localizacion.getLatitude();
+                  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
+
+                  quedada=new Quedada(id.trim(),"",lugar,fecha,hora,deporte,mas_info,plazas,
+                          longitud,latitud);
+
+                  presenter.CrearQuedada(quedada);
+              }else{
+                  Snackbar.make(myView,"Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+
+              }
             }
         });
 
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new PerfilPantallaVista();
+                fragment = new ListadoQuedadasUsuarioVista();
                 getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
             }
@@ -281,16 +322,51 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     public void onStart() {
         super.onStart();
 
-
     }
 
     @Override
     public void onQuedadaCreada() {
+        Snackbar.make(myView,"Quedada creada correctamente", 4000).show();
 
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                progressDialog.dismiss();
+                fragment = new PerfilPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+
+            };
+        }, 2000);
     }
 
     @Override
     public void onQuedadaCreadaError() {
+        Snackbar.make(myView,"Error al crear la quedada", Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    public void buscarLugar(){
+        String lugar= tv_lugar.getText().toString().trim();
+
+        this.geocoder= new Geocoder(getActivity());
+        this.lista = new ArrayList<>();
+
+        try {
+            lista =geocoder.getFromLocationName(lugar,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(lista.size()>0){
+            this.localizacion= lista.get(0);
+
+            Log.i("UBICACION A BUSCAR", localizacion.toString());
+            this.latLng= new LatLng(localizacion.getLatitude(),localizacion.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
+            this.markerOptions= new MarkerOptions().position(latLng).title(localizacion.getAddressLine(0));
+
+            mMap.addMarker(markerOptions);
+
+        }
 
     }
 
@@ -304,7 +380,6 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
                         mMap = googleMap;
-
 
                         if (permisosConcedidos) {
                             Log.i("MAPS", "PERMISOS UBICACION CONCEDIDOS");
@@ -356,7 +431,6 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
               Log.e("MAPS_ERROR","getDeviceLocation: "+e.getMessage());
           }
     }
-
 
 
 }

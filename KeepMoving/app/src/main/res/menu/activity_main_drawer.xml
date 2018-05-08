@@ -4,24 +4,24 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_nueva_rutina"
-            android:icon="@android:drawable/ic_input_add"
-            android:title="Agregar Rutina" />
+            android:id="@+id/nav_lista_quedadas"
+            android:icon="@drawable/ic_list"
+            android:title="Quedadas Disponibles" />
         <item
-            android:id="@+id/nav_lista_rutinas"
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/account"
+            android:title="Mi Perfil" />
+        <item
+            android:id="@+id/nav_crear_quedada"
             android:icon="@android:drawable/ic_input_add"
-            android:title="Lista de Rutinas" />
-
+            android:title="Crear Quedada" />
 
     </group>
 
     <group
         android:id="@+id/menu_info"
         android:checkableBehavior="none">
-       <item
-            android:id="@+id/nav_info"
-            android:icon="@android:drawable/btn_minus"
-            android:title="Más información" />
+
         <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/signout"

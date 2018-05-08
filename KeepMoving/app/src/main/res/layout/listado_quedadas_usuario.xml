@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vista_lista_quedadas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/num_quedadas_lista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:paddingLeft="3sp"
+        android:paddingBottom="5sp"
+        android:paddingTop="2sp"
+        android:background="@android:color/black"
+        android:text="@string/num_quedadas"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/list_quedadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/num_quedadas_lista"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="2sp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_quedadas_us_lista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_action_name"
+        app:elevation="4dp" />
+</RelativeLayout>

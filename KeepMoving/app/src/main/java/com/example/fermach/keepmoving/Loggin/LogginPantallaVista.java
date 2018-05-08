@@ -48,6 +48,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         inicializarVista();
         activarControladores();
 
+
         presenter= new LogginPantallaPresenter(this);
         progressDialog=new ProgressDialog(myView.getContext());
 

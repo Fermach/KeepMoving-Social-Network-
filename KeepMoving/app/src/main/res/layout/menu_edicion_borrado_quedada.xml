@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginRight="95sp"
+    android:layout_marginBottom="15sp"
+    android:orientation="vertical"
+    android:elevation="12sp"
+    android:layout_marginTop="200sp"
+    android:layout_marginLeft="95sp"
+    android:layout_gravity="bottom|center_horizontal"
+    android:id="@+id/detalleEjercicio"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/blueSky"
+    android:layout_height="wrap_content"
+    >
+
+
+    <Button
+        android:id="@+id/btn_borrar_quedada_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="14sp"
+        android:paddingLeft="7sp"
+        android:background="@android:color/white"
+        android:gravity="left"
+        android:text="@string/borrar_quedada"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+
+    <Button
+        android:id="@+id/btn_editar_quedada_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="18sp"
+        android:paddingLeft="7sp"
+        android:paddingTop="14sp"
+        android:background="@android:color/white"
+        android:gravity="left"
+        android:text="@string/editar_quedada"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+
+
+</LinearLayout>

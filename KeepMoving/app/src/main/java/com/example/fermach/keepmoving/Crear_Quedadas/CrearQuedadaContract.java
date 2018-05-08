@@ -1,5 +1,6 @@
 package com.example.fermach.keepmoving.Crear_Quedadas;
 
+import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 
 /**
@@ -13,7 +14,7 @@ public interface CrearQuedadaContract {
 
     }
     interface Presenter {
-      void CrearQuedada();
+      void CrearQuedada(Quedada quedada);
     }
 
 }

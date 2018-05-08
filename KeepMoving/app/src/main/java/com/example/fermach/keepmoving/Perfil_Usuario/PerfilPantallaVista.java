@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
+import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.R;
@@ -85,7 +86,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         btn_mis_quedadas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new CrearQuedadaVista();
+                fragment = new ListadoQuedadasUsuarioVista();
                 getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 
             }
