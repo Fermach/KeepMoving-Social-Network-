@@ -7,6 +7,7 @@ package com.example.fermach.keepmoving.Modelos.Usuario;
 public interface UsuariosDataSource {
 
     void loguearUsuario(Usuario usuario, LoguearUsuarioCallback callback);
+    void editarUsuario(Usuario usuario,byte[] foto, EditarUsuarioCallback callback);
     void desloguearUsuario(DesloguearUsuarioCallback callback);
     void registrarUsuario(Usuario usuario, RegistrarUsuarioCallback callback);
     void registrarUsuarioAmpliadoConFoto(Usuario usuario,byte[] foto, RegistrarUsuarioConFotoCallback callback);
@@ -23,6 +24,11 @@ public interface UsuariosDataSource {
     interface SeleccionarTOKENCallback{
         void onTOKENseleccionado();
 
+    }
+
+    interface EditarUsuarioCallback{
+        void onUsuarioEditado();
+        void onUsuarioEditadoError();
     }
     interface ObtenerFotoPerfilCallback{
         void onFotoPerfilObtenida(byte[] foto);

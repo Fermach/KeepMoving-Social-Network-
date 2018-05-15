@@ -1,11 +1,9 @@
-package com.example.fermach.keepmoving.Modelos.API;
+package com.example.fermach.keepmoving.Modelos.API_FIREBASE;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.UiThread;
 import android.util.Log;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
-import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,9 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Fermach on 29/03/2018.
@@ -58,6 +53,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
         UsuariosRef= database.getReference("Usuarios");
         mAuth= FirebaseAuth.getInstance();
         TOKEN= "LOGGIN";
+
         user=mAuth.getCurrentUser();
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //user=mAuth.getCurrentUser();
@@ -296,6 +292,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
     public void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback) {
         this.TOKEN = TOKEN;
         callback.onTOKENseleccionado();
+    }
+
+
+    @Override
+    public void editarUsuario(Usuario usuario,byte[] foto, EditarUsuarioCallback callback) {
+
     }
 
 

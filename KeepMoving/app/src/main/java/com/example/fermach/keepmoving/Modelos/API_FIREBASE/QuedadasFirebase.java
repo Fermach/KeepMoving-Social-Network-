@@ -1,4 +1,4 @@
-package com.example.fermach.keepmoving.Modelos.API;
+package com.example.fermach.keepmoving.Modelos.API_FIREBASE;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class QuedadasFirebase implements QuedadaDataSource {
     private DatabaseReference QuedadasRef;
     private Usuario usuarioActual;
     private Quedada quedada;
-    private List<Quedada> quedadaList;
+    private static List<Quedada> listaQuedadasUsuario;
+    private static List<Quedada> listaQuedadasGeneral;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
@@ -41,11 +43,14 @@ public class QuedadasFirebase implements QuedadaDataSource {
         if (INSTANCIA_FIRE == null) {
             INSTANCIA_FIRE = new QuedadasFirebase();
         }
+
+        listaQuedadasUsuario= new ArrayList<>();
+        listaQuedadasGeneral= new ArrayList<>();
         return INSTANCIA_FIRE;
     }
 
     private QuedadasFirebase() {
-        quedadaList= new ArrayList<>();
+
         database = FirebaseDatabase.getInstance();
         UsuariosRef= database.getReference("Usuarios");
         QuedadasRef= database.getReference("Quedadas");
@@ -109,86 +114,20 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
-    @Override
-    public void eliminarQuedada(final String uid, final EliminarQuedadaCallback callback) {
-        UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("child/id")
-                .equalTo(uid).removeEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.i("ELIMINAR_QUEDADA","1" );
-                QuedadasRef.orderByChild("child/id")
-                        .equalTo(uid).removeEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        Log.i("ELIMINAR_QUEDADA","2" );
-                        Log.i("ELIMINAR_QUEDADA","TRUE" );
-                        callback.onQuedadaEliminada();
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.i("ELIMINAR_QUEDADA","ERROR" );
-                        callback.onQuedadaEliminadaError();
-                    }
-                });
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.i("ELIMINAR_QUEDADA","ERROR" );
-                 callback.onQuedadaEliminadaError();
-            }
-        });
-
-    }
-
-    @Override
-    public void editarQuedada(String uid, Quedada quedada, EditarQuedadaCallback callback) {
-
-    }
 
     @Override
     public void obtenerQuedadas(final ObtenerQuedadasCallback callback) {
+
        QuedadasRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 quedada= dataSnapshot.getValue(Quedada.class);
                 Log.i("Quedada_OBTENIDA",quedada.toString());
-                quedadaList.add(quedada);
+                listaQuedadasGeneral.add(quedada);
 
-                callback.onQuedadasObtenidas(quedadaList);
-                quedadaList= new ArrayList<>();
+                callback.onQuedadasObtenidas(listaQuedadasGeneral);
+                //listaQuedadasGeneral= new ArrayList<>();
             }
 
             @Override
@@ -221,10 +160,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
                 quedada= dataSnapshot.getValue(Quedada.class);
                 Log.i("Quedada_OBTENIDA",quedada.toString());
-                quedadaList.add(quedada);
+                listaQuedadasUsuario.add(quedada);
 
-                callback.onQuedadasObtenidas(quedadaList);
-                quedadaList= new ArrayList<>();
+                callback.onQuedadasObtenidas(listaQuedadasUsuario);
+               // listaQuedadasUsuario= new ArrayList<>();
             }
 
             @Override
@@ -247,5 +186,51 @@ public class QuedadasFirebase implements QuedadaDataSource {
                 callback.onQuedadasObtenidasError();
             }
         });
+    }
+
+    
+
+    @Override
+    public void editarQuedada( Quedada quedada,  EditarQuedadaCallback callback) {
+
+    }
+
+
+    //NO FUNCIONA
+    @Override
+    public void eliminarQuedada(final String uid, final EliminarQuedadaCallback callback) {
+
+        UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("id")
+                .equalTo(uid).getRef().removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if(databaseError==null){
+
+                    Log.i("Quedada_1_Eliminada", "TRUE");
+                    QuedadasRef.orderByChild("child/id")
+                            .equalTo(uid).getRef().removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            if(databaseError==null) {
+                                Log.i("Quedada_2_Eliminada", "TRUE");
+                                callback.onQuedadaEliminada();
+                            }
+                            else{
+                                Log.i("Quedada_2_Eliminada", "FALSE");
+                                callback.onQuedadaEliminadaError();
+                            }
+                        }
+                    });
+
+                }else{
+                    Log.i("Quedada_1_Eliminada", "FALSE");
+                    callback.onQuedadaEliminadaError();
+                }
+            }
+
+
+        });
+
+
     }
 }

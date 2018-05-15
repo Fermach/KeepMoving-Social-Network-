@@ -41,6 +41,7 @@ import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaPresenter;
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
 import com.example.fermach.keepmoving.Crear_Quedadas.DatePickerFragment;
 import com.example.fermach.keepmoving.Crear_Quedadas.TimePickerFragment;
+import com.example.fermach.keepmoving.Detalle_Quedada.DetalleQuedadaUsuario.DetalleQuedadaUsuarioVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
@@ -72,6 +73,7 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     private Quedada quedada;
     private Fragment fragment;
+    private List<Quedada> lista_quedadas;
     private View myView;
     private ListView listView;
     private TextView num_quedadas;
@@ -92,16 +94,16 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.listado_quedadas_usuario, container, false);
 
-        inicializarVista();
-        activarControladores();
-        quedadaActualizada=false;
-        eliminar_quedada=false;
+        lista_quedadas= new ArrayList<>();
+        Bundle args = getArguments();
+
+        presenter = new ListadoQuedadasUsuarioPresenter(this);
+
 
         progressDialog= new ProgressDialog(myView.getContext());
-        presenter = new ListadoQuedadasUsuarioPresenter(this);
-        presenter.obtenerQuedadas();
 
-        Bundle args = getArguments();
+        quedadaActualizada=false;
+        eliminar_quedada=false;
 
         //se comprueba si se estan recibiendo argumentos de otro fragmento
         //para saber si el menu de borrado nos esta pasando una llave para que borremos una
@@ -117,6 +119,10 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
             Log.i("Argumentos", "NULOS" );
 
         }
+        presenter.obtenerQuedadas();
+
+        inicializarVista();
+        activarControladores();
 
         return myView;
     }
@@ -125,11 +131,46 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     public void inicializarVista() {
         listView=myView.findViewById(R.id.list_quedadas);
-        fab_quedadas=myView.findViewById(R.id.fab_quedadas_us_lista);
         num_quedadas=myView.findViewById(R.id.num_quedadas_lista);
+        fab_quedadas=myView.findViewById(R.id.fab_quedadas_us_lista);
+
     }
 
-    public void activarControladores() {
+    public void activarControladores(){
+
+        //Cuando clickemos en la lista de quedadas nos lleva al fragmento con el
+        //detalle de la quedada pasándole el id de la quedada
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                quedada= lista_quedadas.get(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable(QUEDADA, quedada);
+                Fragment toFragment = new DetalleQuedadaUsuarioVista();
+                toFragment.setArguments(args);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment, QUEDADA)
+                        .addToBackStack(QUEDADA).commit();
+            }
+        });
+
+        //Cuando hagamos long click en la lista de quedadas nos lleva al fragmento con
+        //el menu de borrar o editar pasandole la quedada como instancia
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                quedada= lista_quedadas.get(position);
+                FragmentManager fragmentManager=getFragmentManager();
+
+                DialogFragment dialogFragment= ListadoQuedadasUsuarioMenuLClick.newInstance(quedada);
+                dialogFragment.show(fragmentManager, "menu_quedadas");
+
+                return true;
+            }
+        });
 
         fab_quedadas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +180,8 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
             }
         });
+
+
     }
 
     @Override
@@ -150,6 +193,8 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     @Override
     public void onQuedadasObtenidas(List<Quedada> quedadas) {
+
+        this.lista_quedadas= quedadas;
         listadoQuedadasUsuarioAdapter= new ListadoQuedadasUsuarioAdapter(myView.getContext(), quedadas);
         listView.setAdapter(listadoQuedadasUsuarioAdapter);
     }
@@ -162,7 +207,9 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     @Override
     public void onQuedadaEliminada() {
-         presenter.obtenerQuedadas();
+
+        Snackbar.make(myView,"La quedada se eliminó correctamente!", Snackbar.LENGTH_SHORT).show();
+        presenter.obtenerQuedadas();
     }
 
     @Override
@@ -173,44 +220,6 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     @Override
     public void mostrarQuedadasNumero(List<Quedada> quedadas) {
-        num_quedadas.setText("Numero de quedadas: "+ quedadas.size());
-    }
-
-    @Override
-    public void activarListaClickable(final List<Quedada> quedadas) {
-
-        //Cuando clickemos en la lista de quedadas nos lleva al fragmento con el
-        //detalle de la quedada pasándole el id de la quedada
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                quedada= quedadas.get(position);
-                Bundle args = new Bundle();
-                args.putSerializable(QUEDADA, quedada.getId());
-                /*
-                Fragment toFragment = new DetalleQuedadaUsuarioVista();
-                toFragment.setArguments(args);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
-                        */
-            }
-        });
-
-        //Cuando hagamos long click en la lista de quedadas nos lleva al fragmento con
-        //el menu de borrar o editar pasandole la quedada como instancia
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                quedada= quedadas.get(position);
-                FragmentManager fragmentManager=getFragmentManager();
-
-                DialogFragment dialogFragment= ListadoQuedadasUsuarioMenuLClick.newInstance(quedada);
-                dialogFragment.show(fragmentManager, "menu_quedadas");
-
-                return true;
-            }
-        });
+        num_quedadas.setText("Numero de quedadas: " + quedadas.size());
     }
 }

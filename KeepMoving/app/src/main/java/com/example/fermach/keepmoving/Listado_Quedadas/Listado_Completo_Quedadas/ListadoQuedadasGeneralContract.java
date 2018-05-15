@@ -13,7 +13,7 @@ public interface ListadoQuedadasGeneralContract {
       void onQuedadasObtenidas(List<Quedada> quedadas);
       void onQuedadasObtenidasError();
       void mostrarQuedadasNumero(List<Quedada> quedadas);
-      void activarListaClickable(List<Quedada> quedadas);
+
 
     }
     interface Presenter {

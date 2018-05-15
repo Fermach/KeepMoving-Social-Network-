@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
+import com.example.fermach.keepmoving.Detalle_Quedada.DetalleQuedadaGeneral.DetalleQuedadaVista;
+import com.example.fermach.keepmoving.Detalle_Quedada.DetalleQuedadaUsuario.DetalleQuedadaUsuarioVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioAdapter;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioContract;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioMenuLClick;
@@ -24,6 +26,7 @@ import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usua
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +37,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
     private Quedada quedada;
     private Fragment fragment;
+    private List<Quedada> lista_quedadas;
     private View myView;
     private ListView listView;
     private TextView num_quedadas;
@@ -50,17 +54,20 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.listado_quedadas_general, container, false);
 
+        lista_quedadas= new ArrayList<>();
 
-        inicializarVista();
-        activarControladores();
+
 
         progressDialog= new ProgressDialog(myView.getContext());
         progressDialog.setMessage("Obteniendo datos");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+      // progressDialog.show();
 
         presenter = new ListadoQuedadasGeneralPresenter(this);
         presenter.obtenerQuedadas();
+
+        inicializarVista();
+        activarControladores();
 
         return myView;
     }
@@ -72,9 +79,29 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
         num_quedadas=myView.findViewById(R.id.num_quedadas_lista_general);
     }
 
-    public void activarControladores() {
+    public void activarControladores(){
+        //Cuando clickemos en la lista de quedadas nos lleva al fragmento con el
+        //detalle de la quedada pasándole el id de la quedada
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                quedada= lista_quedadas.get(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable(QUEDADA, quedada);
+                Fragment toFragment = new DetalleQuedadaVista();
+                toFragment.setArguments(args);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment, QUEDADA)
+                        .addToBackStack(QUEDADA).commit();
+
+            }
+        });
+
 
     }
+
 
     @Override
     public void onStart() {
@@ -85,45 +112,26 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
     @Override
     public void onQuedadasObtenidas(List<Quedada> quedadas) {
+       // progressDialog.dismiss();
+        this.lista_quedadas= quedadas;
 
         listadoQuedadasGeneralAdapter= new ListadoQuedadasGeneralAdapter(myView.getContext(), quedadas);
         listView.setAdapter(listadoQuedadasGeneralAdapter);
-        progressDialog.dismiss();
+
     }
 
     @Override
     public void onQuedadasObtenidasError() {
+       // progressDialog.dismiss();
+
         Snackbar.make(myView,"No ha sido posible obtener la lista de quedadas", Snackbar.LENGTH_SHORT).show();
-        progressDialog.dismiss();
     }
 
     @Override
     public void mostrarQuedadasNumero(List<Quedada> quedadas) {
+       // progressDialog.dismiss();
         num_quedadas.setText("Numero de quedadas: "+ quedadas.size());
     }
 
-    @Override
-    public void activarListaClickable(final List<Quedada> quedadas) {
 
-        //Cuando clickemos en la lista de quedadas nos lleva al fragmento con el
-        //detalle de la quedada pasándole el id de la quedada
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                quedada= quedadas.get(position);
-                /*
-                Bundle args = new Bundle();
-                args.putSerializable(QUEDADA, quedada.getId());
-                Fragment toFragment = new DetalleQuedadaUsuarioVista();
-                toFragment.setArguments(args);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
-                        */
-            }
-        });
-
-
-    }
 }

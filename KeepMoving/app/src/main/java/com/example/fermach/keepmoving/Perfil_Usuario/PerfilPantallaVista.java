@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
+import com.example.fermach.keepmoving.Editar_Usuario.EditarUsuarioVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
@@ -45,7 +46,8 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
     private byte[] fotoObtenida = null;
     private Bitmap fotoPerfil;
     private PerfilPantallaContract.Presenter presenter;
-
+    private final String USUARIO="USUARIO";
+    private final String FOTO="FOTO";
 
     public PerfilPantallaVista() {
     }
@@ -68,7 +70,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         presenter.ObtenerUsuarioActual();
         presenter.ObtenerFotoUsuarioActual();
 
-        return  myView;
+        return myView;
     }
 
     public void inicializarVista() {
@@ -95,6 +97,17 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         btn_editar_datos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               //mostramos la pantalla de edicion panadole el usuario y la foto
+                Bundle args = new Bundle();
+                args.putSerializable(USUARIO, usuarioPerfil);
+                args.putSerializable(FOTO, fotoObtenida);
+                Fragment toFragment = new EditarUsuarioVista();
+                toFragment.setArguments(args);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment)
+                        .addToBackStack(USUARIO).addToBackStack(FOTO).commit();
+
 
             }
         });

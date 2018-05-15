@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.fermach.keepmoving.MainActivity.MainActivity"
+    android:weightSum="1"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/buscar_editar_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:hint="@string/intr_localizacion"
+            android:inputType="text"
+            android:textColorHint="@android:color/black"
+            android:textSize="15sp"
+            android:imeOptions="actionSearch"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rel_layout_editar"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            >
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map_editar_quedada"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="149dp"
+            android:layout_margin="5sp"
+            tools:context="com.example.fermach.keepmoving.MapsActivity" />
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8sp"
+                android:layout_marginRight="8sp"
+                android:elevation="10sp"
+                android:scaleType="centerCrop"
+                android:id="@+id/img_ubicacion_editar_quedada"
+                android:src="@drawable/ic_gps"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12sp"
+        android:layout_marginTop="15sp"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="174dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:layout_weight="1"
+                android:text="@string/fecha_quedada"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editText_fecha_editar_quedada"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:hint="@string/fecha"
+                android:inputType="date"
+                android:maxLength="9"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="8sp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8sp"
+                android:layout_weight="1"
+                android:text="@string/hora_quedada"
+                android:textSize="15sp" />
+            <EditText
+                android:id="@+id/editText_hora_editar_quedada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_marginLeft="8sp"
+                android:maxLength="5"
+                android:layout_weight="1"
+                android:hint="@string/hora"
+                android:inputType="time"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10sp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="22sp"
+        android:layout_marginTop="18sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8sp"
+            android:text="@string/deporte_quedada"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/spinner_deporte_editar_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:textColorHint="@android:color/black"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/descripcion_editar_quedada"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginLeft="2sp"
+                android:hint="@string/intr_descripcion"
+                android:inputType="text"
+                android:textColorHint="@android:color/black"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_marginTop="14sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="674dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8sp"
+                android:layout_weight="2"
+                android:text="@string/plazas"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
+                android:id="@+id/plazas_editar_quedada"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_weight="1"
+                app:snp_buttonIconLeft="@drawable/menu_left"
+                app:snp_buttonIconRight="@drawable/menu_right"
+                app:snp_maxValue="20"
+                app:snp_minValue="0"
+                app:snp_orientation="horizontal"
+                app:snp_stepSize="1"
+                app:snp_updateInterval="1"
+                app:snp_value="1" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginHorizontal="35sp"
+        android:layout_marginTop="8sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancelar_editar_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="19sp"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/cancelar" />
+
+        <Button
+            android:id="@+id/btn_guardar_editar_quedada"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="19sp"
+            android:layout_weight="1"
+            android:elevation="10sp"
+            android:text="@string/guardar" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

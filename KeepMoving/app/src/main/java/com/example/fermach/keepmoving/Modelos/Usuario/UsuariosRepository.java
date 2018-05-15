@@ -2,9 +2,7 @@ package com.example.fermach.keepmoving.Modelos.Usuario;
 
 import android.util.Log;
 
-import com.example.fermach.keepmoving.Modelos.API.UsuariosFirebase;
-
-import java.util.List;
+import com.example.fermach.keepmoving.Modelos.API_FIREBASE.UsuariosFirebase;
 
 /**
  * Created by Fermach on 29/03/2018.
@@ -38,6 +36,22 @@ public class UsuariosRepository implements UsuariosDataSource{
             public void onUsuarioLogueadoError() {
                 callback.onUsuarioLogueadoError();
 
+            }
+        });
+    }
+
+    @Override
+    public void editarUsuario(Usuario usuario,byte[] foto, final EditarUsuarioCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.editarUsuario(usuario,foto, new EditarUsuarioCallback() {
+            @Override
+            public void onUsuarioEditado() {
+                callback.onUsuarioEditado();
+            }
+
+            @Override
+            public void onUsuarioEditadoError() {
+               callback.onUsuarioEditadoError();
             }
         });
     }

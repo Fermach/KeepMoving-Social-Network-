@@ -51,4 +51,6 @@
     <string name="borrar_quedada">Eliminar Quedada</string>
     <string name="editar_quedada">Editar quedada</string>
     <string name="apuntarse">Apúntame!</string>
+    <string name="autor_quedada">Autor:</string>
+    <string name="guardar">guardar</string>
 </resources>

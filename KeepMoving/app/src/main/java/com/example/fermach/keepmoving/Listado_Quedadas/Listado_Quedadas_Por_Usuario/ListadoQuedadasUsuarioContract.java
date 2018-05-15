@@ -15,7 +15,7 @@ public interface ListadoQuedadasUsuarioContract {
       void onQuedadaEliminada();
       void onQuedadaEliminadaError();
       void mostrarQuedadasNumero(List<Quedada> quedadas);
-      void activarListaClickable(List<Quedada> quedadas);
+
 
     }
     interface Presenter {

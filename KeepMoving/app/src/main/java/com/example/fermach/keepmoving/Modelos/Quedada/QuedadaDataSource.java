@@ -11,7 +11,7 @@ public interface QuedadaDataSource {
 
     void crearQuedada(Quedada quedada, CrearQuedadaCallback callback);
     void eliminarQuedada(String uid, EliminarQuedadaCallback callback);
-    void editarQuedada(String uid, Quedada quedada, EditarQuedadaCallback callback);
+    void editarQuedada( Quedada quedada, EditarQuedadaCallback callback);
     void obtenerQuedadas( ObtenerQuedadasCallback callback);
     void obtenerQuedadasUsuario(ObtenerQuedadasCallback callback);
 

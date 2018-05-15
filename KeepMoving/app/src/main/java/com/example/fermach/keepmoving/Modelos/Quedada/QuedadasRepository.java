@@ -1,11 +1,7 @@
 package com.example.fermach.keepmoving.Modelos.Quedada;
 
-import android.util.Log;
+import com.example.fermach.keepmoving.Modelos.API_FIREBASE.QuedadasFirebase;
 
-import com.example.fermach.keepmoving.Modelos.API.QuedadasFirebase;
-import com.example.fermach.keepmoving.Modelos.API.UsuariosFirebase;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,9 +55,9 @@ public class QuedadasRepository implements QuedadaDataSource {
     }
 
     @Override
-    public void editarQuedada(String uid, Quedada quedada, final EditarQuedadaCallback callback) {
+    public void editarQuedada(Quedada quedada, final EditarQuedadaCallback callback) {
         QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
-        quedadasFirebase.editarQuedada(uid, quedada, new EditarQuedadaCallback() {
+        quedadasFirebase.editarQuedada( quedada, new EditarQuedadaCallback() {
             @Override
             public void onQuedadaEditada() {
                 callback.onQuedadaEditada();
@@ -89,6 +85,8 @@ public class QuedadasRepository implements QuedadaDataSource {
             }
         });
     }
+
+
 
     @Override
     public void obtenerQuedadasUsuario( final ObtenerQuedadasCallback callback) {

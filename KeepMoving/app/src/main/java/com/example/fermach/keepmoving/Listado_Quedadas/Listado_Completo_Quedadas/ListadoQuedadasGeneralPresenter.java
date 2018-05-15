@@ -32,7 +32,6 @@ public class ListadoQuedadasGeneralPresenter implements ListadoQuedadasGeneralCo
             @Override
             public void onQuedadasObtenidas(List<Quedada> quedadas) {
                 view.onQuedadasObtenidas(quedadas);
-                view.activarListaClickable(quedadas);
                 view.mostrarQuedadasNumero(quedadas);
             }
 

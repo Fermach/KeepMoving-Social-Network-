@@ -153,25 +153,65 @@
         android:layout_marginTop="18sp"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8sp"
-            android:text="@string/deporte_quedada_detalle_us"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/text_deporte_detalle_quedada_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
-            android:layout_marginLeft="8sp"
-            android:layout_weight="1"
-            android:hint="@string/actividad"
-            android:textSize="15sp"/>
+            android:orientation="horizontal">
 
 
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8sp"
+                    android:text="@string/deporte_quedada_detalle_us"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_deporte_detalle_quedada_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginLeft="8sp"
+                    android:layout_weight="1"
+                    android:hint="@string/actividad"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="595dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8sp"
+                    android:layout_weight="1"
+                    android:text="@string/plazas_quedada"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_plazas_detalle_quedada_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginLeft="8sp"
+                    android:hint="0"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+        </LinearLayout>
         <TextView
             android:layout_marginTop="18sp"
             android:layout_width="match_parent"
@@ -192,28 +232,28 @@
             android:textSize="15sp"/>
 
         <LinearLayout
+            android:layout_weight="1"
+            android:layout_marginTop="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18sp"
             android:orientation="horizontal">
 
-
             <TextView
-                android:layout_width="618dp"
+                android:layout_width="187dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8sp"
-                android:layout_weight="2"
-                android:text="@string/plazas_quedada"
+                android:layout_weight="1"
+                android:text="@string/autor_quedada"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/text_plazas_detalle_quedada_us"
+                android:id="@+id/text_autor_detalle_quedada_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="0"
-                android:textSize="15sp"/>
+                android:hint="@string/autor_quedada"
+                android:textSize="15sp" />
 
 
         </LinearLayout>
