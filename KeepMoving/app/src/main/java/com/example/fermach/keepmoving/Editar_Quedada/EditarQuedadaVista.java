@@ -134,7 +134,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
 
             //recoger usuario
-            quedada = (Quedada) args.getSerializable("QUEDADA");
+            quedada = (Quedada) args.getSerializable("QUEDADA_ID");
             Log.i("Argumentos", "RECOGIDOS =" + quedada.toString());
 
         }else{
@@ -371,7 +371,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     public void iniciarMaps(){
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                        .findFragmentById(R.id.map);
+                        .findFragmentById(R.id.map_editar_quedada);
 
          mapFragment.getMapAsync(new OnMapReadyCallback() {
                     @Override

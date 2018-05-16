@@ -11,10 +11,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -296,7 +298,45 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
 
     @Override
-    public void editarUsuario(Usuario usuario,byte[] foto, EditarUsuarioCallback callback) {
+    public void editarUsuario(final Usuario usuario, final byte[] foto, final EditarUsuarioCallback callback) {
+        Query query =  UsuariosRef.child(user.getUid());
+
+       query.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               dataSnapshot.getRef().child("aficiones").setValue(usuario.getAficiones());
+               dataSnapshot.getRef().child("apellidos").setValue(usuario.getApellidos());
+               dataSnapshot.getRef().child("nombre").setValue(usuario.getNombre());
+               dataSnapshot.getRef().child("biografia").setValue(usuario.getBiografia());
+
+               myfileStoragePath=myStorageRef.child("FotosPerfil/").child(user.getUid());
+               myfileStoragePath.putBytes(foto).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                       if(task.isSuccessful()){
+                           callback.onUsuarioEditado();
+                           Log.i("EDITAR_FIRE_DB","SUCCESFUL");
+                       }else{
+                           //borrar usuario de la BBDDs
+                                /*
+                                if(exito){
+
+                                    Log.i("REGISTRO_FIRE_DB","ERROR");
+                                   callback.onUsuarioRegistrado();
+                                   }
+                                 */
+                           Log.i("EDITAR_FIRE_DB","ERROR");
+                           callback.onUsuarioEditadoError();
+                       }
+                   }
+               });
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
 
     }
 

@@ -75,7 +75,7 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
     private Location mLastLocation;
     private LatLng latLng;
     private Address localizacion;
-    private final String QUEDADA ="QUEDADA";
+    private final String QUEDADA_ID ="QUEDADA_ID";
     private List<Address> lista;
     private Geocoder geocoder;
     private MarkerOptions markerOptions;
@@ -142,13 +142,13 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
                 //mostrar pantalla de editar quedada pasandole los datos
 
                 Bundle args = new Bundle();
-                args.putSerializable(QUEDADA, quedada);
+                args.putSerializable(QUEDADA_ID, quedada);
                 Fragment toFragment = new EditarQuedadaVista();
                 toFragment.setArguments(args);
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
+                        .replace(R.id.content_main, toFragment, QUEDADA_ID)
+                        .addToBackStack(QUEDADA_ID).commit();
             }
         });
 
@@ -185,6 +185,7 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
                         mMap = googleMap;
+                        mMap.getUiSettings().setAllGesturesEnabled(true);
 
                             buscarLugar();
 

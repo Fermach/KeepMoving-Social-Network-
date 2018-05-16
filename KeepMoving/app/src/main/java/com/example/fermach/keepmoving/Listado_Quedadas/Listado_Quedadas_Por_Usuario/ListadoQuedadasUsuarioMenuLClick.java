@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.fermach.keepmoving.Editar_Quedada.EditarQuedadaVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.R;
 
@@ -107,7 +108,7 @@ public class ListadoQuedadasUsuarioMenuLClick extends DialogFragment {
                 getDialog().dismiss();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(QUEDADA_ID, mQuedada);
-                Fragment toFragment = new ListadoQuedadasUsuarioVista();
+                Fragment toFragment = new EditarQuedadaVista();
                 toFragment.setArguments(bundle);
                 getFragmentManager()
                         .beginTransaction()

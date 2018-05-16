@@ -110,11 +110,12 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
         //quedada de la lista
         if(args!=null) {
 
-            eliminar_quedada = (Boolean) args.getSerializable("ELIMINAR_QUEDADA");
-            id_quedada_eliminar=(String) args.getSerializable("QUEDADA_A_ELIMINAR_ID");
-            Log.i("Argumentos", "RECOGIDOS =" + eliminar_quedada);
+            if(((Boolean) args.getSerializable("ELIMINAR_QUEDADA"))!=null) {
+                id_quedada_eliminar = (String) args.getSerializable("QUEDADA_A_ELIMINAR_ID");
+                Log.i("Argumentos", "RECOGIDOS =" + eliminar_quedada);
 
-            presenter.borrarQuedada(id_quedada_eliminar);
+                presenter.borrarQuedada(id_quedada_eliminar);
+            }
         }else{
             Log.i("Argumentos", "NULOS" );
 
@@ -207,9 +208,9 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     @Override
     public void onQuedadaEliminada() {
-
-        Snackbar.make(myView,"La quedada se eliminó correctamente!", Snackbar.LENGTH_SHORT).show();
         presenter.obtenerQuedadas();
+        Snackbar.make(myView,"La quedada se eliminó correctamente!", Snackbar.LENGTH_SHORT).show();
+
     }
 
     @Override

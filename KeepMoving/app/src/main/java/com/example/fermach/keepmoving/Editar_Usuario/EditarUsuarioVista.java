@@ -73,7 +73,7 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.pantalla_editar_usuario, container, false);
 
-
+        progressDialog= new ProgressDialog(myView.getContext());
 
         Bundle args = getArguments();
 
@@ -120,7 +120,7 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
                 (getContext(),R.layout.support_simple_spinner_dropdown_item,valores_aficiones));
 
         //setear datos
-        et_apellidos.setText(usuario_ref.getNombre());
+        et_apellidos.setText(usuario_ref.getApellidos());
         et_biografia.setText(usuario_ref.getBiografia());
         et_nombre.setText(usuario_ref.getNombre());
         multi_aficiones.setText(usuario_ref.getAficiones());

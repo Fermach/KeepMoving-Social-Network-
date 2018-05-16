@@ -173,12 +173,12 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
     public void buscarLugar(){
 
-
-
             Log.i("UBICACION A BUSCAR", quedada.getLugar());
             this.latLng= new LatLng(Double.parseDouble(quedada.getLatitud()),Double.parseDouble(quedada.getLongitud()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
-            this.markerOptions= new MarkerOptions().position(latLng).title(quedada.getLugar());
+            this.markerOptions= new MarkerOptions()
+                    .position(latLng)
+                    .title(quedada.getLugar());
 
             mMap.addMarker(markerOptions);
 
@@ -196,6 +196,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
                         mMap = googleMap;
+                        mMap.getUiSettings().setAllGesturesEnabled(true);
+
 
                             buscarLugar();
 

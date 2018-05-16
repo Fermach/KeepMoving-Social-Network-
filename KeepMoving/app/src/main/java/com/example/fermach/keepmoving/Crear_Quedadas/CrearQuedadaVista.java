@@ -284,6 +284,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
                   buscarLugar();
 
+                  btn_publicar.setEnabled(false);
                   try {
                       Thread.sleep(1000);
                   } catch (InterruptedException e) {
@@ -328,6 +329,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     public void onQuedadaCreada() {
         Snackbar.make(myView,"Quedada creada correctamente", 4000).show();
 
+        btn_publicar.setEnabled(true);
         new Handler().postDelayed(new Runnable(){
             public void run(){
                 progressDialog.dismiss();
@@ -340,6 +342,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     @Override
     public void onQuedadaCreadaError() {
+        btn_publicar.setEnabled(true);
         Snackbar.make(myView,"Error al crear la quedada", Snackbar.LENGTH_SHORT).show();
 
     }
