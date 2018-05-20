@@ -55,6 +55,23 @@ public class QuedadasRepository implements QuedadaDataSource {
     }
 
     @Override
+    public void enviarSolicitud(PeticionQuedada peticionQuedada, final EnviarSolicitudCallback callback) {
+        QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
+        quedadasFirebase.enviarSolicitud(peticionQuedada, new EnviarSolicitudCallback() {
+            @Override
+            public void onSolicitudEnviada() {
+                callback.onSolicitudEnviada();
+            }
+
+            @Override
+            public void onSolicitudEnviadaError() {
+
+                callback.onSolicitudEnviadaError();
+            }
+        });
+    }
+
+    @Override
     public void editarQuedada(Quedada quedada, final EditarQuedadaCallback callback) {
         QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
         quedadasFirebase.editarQuedada( quedada, new EditarQuedadaCallback() {
@@ -86,6 +103,22 @@ public class QuedadasRepository implements QuedadaDataSource {
         });
     }
 
+    @Override
+    public void obtenerSolicitudesQuedadas(final ObtenerSolicitudesQuedadasCallback callback) {
+        QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
+        quedadasFirebase.obtenerSolicitudesQuedadas(new ObtenerSolicitudesQuedadasCallback() {
+            @Override
+            public void onSolicitudesQuedadasObtenidas(List<PeticionQuedada> solicitudesQuedadas) {
+                callback.onSolicitudesQuedadasObtenidas(solicitudesQuedadas);
+            }
+
+            @Override
+            public void onSolicitudesQuedadasObtenidasError() {
+
+                callback.onSolicitudesQuedadasObtenidasError();
+            }
+        });
+    }
 
 
     @Override

@@ -8,12 +8,12 @@ import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 
 public interface DetalleQuedadaContract {
     interface View {
-   //   void onQuedadaObtenida(Quedada quedada);
-   //void onQuedadaObtenidaError();
+       void onUsuarioActualObtenido(String uid);
+
 
     }
     interface Presenter {
-   //   void obtenerQuedada(String id);
+       void obtenerUsuarioActual();
     }
 
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vista_lista_peticiones_enviadas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/num_peticiones_enviadas_lista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:paddingLeft="6sp"
+        android:paddingBottom="5sp"
+        android:paddingTop="2sp"
+        android:background="@android:color/black"
+        android:text="@string/mis_peticiones"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/list_peticiones_enviadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/num_peticiones_enviadas_lista"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="2sp" />
+
+
+</RelativeLayout>

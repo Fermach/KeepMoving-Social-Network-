@@ -17,6 +17,7 @@ public interface UsuariosDataSource {
     void iniciarListener( IniciarListenerCallback callback);
     void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback);
     void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback);
+    void obtenerUidUsuarioActual(ObtenerUidUsuarioActualCallback callback);
     void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback);
     void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback);
 
@@ -36,6 +37,10 @@ public interface UsuariosDataSource {
     }
     interface ObtenerUsuarioActualCallback{
         void onUsuarioObtenido(Usuario usuario);
+        void onUsuarioObtenidoError();
+    }
+    interface ObtenerUidUsuarioActualCallback{
+        void onUsuarioObtenido(String uid);
         void onUsuarioObtenidoError();
     }
     interface ObtenerCorreoUsuarioActualCallback{

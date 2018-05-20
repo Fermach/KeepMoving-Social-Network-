@@ -1,31 +1,34 @@
 package com.example.fermach.keepmoving.Modelos.Quedada;
 
-import java.io.Serializable;
-
 /**
- * Created by Fermach on 28/03/2018.
+ * Created by Fermach on 19/05/2018.
  */
 
-public class Quedada implements Serializable {
-        private String id;
-        private String autor;
-        private String autor_uid;
-        private String lugar;
-        private String fecha;
-        private String hora;
-        private String deporte;
-        private String info;
-        private String plazas;
-        private String longitud;
-        private String latitud;
+public class PeticionQuedada {
 
-    public Quedada() {
+    private String id;
+    private String autor;
+    private String autor_uid;
+    private String lugar;
+    private String fecha;
+    private String hora;
+    private String deporte;
+    private String info;
+    private String plazas;
+    private String longitud;
+    private String latitud;
+    private String autor_peticion;
+    private String num_plazas_solicitadas;
+    private String estado;
+
+    public PeticionQuedada() {
     }
 
-    public Quedada(String id,String autor, String lugar, String fecha, String hora, String deporte,
-                   String info, String plazas, String longitud, String latitud) {
+    public PeticionQuedada(String id, String autor, String autor_uid, String lugar, String fecha, String hora, String deporte, String info, String plazas,
+                           String longitud, String latitud, String num_plazas_solicitadas, String estado) {
         this.id = id;
         this.autor = autor;
+        this.autor_uid = autor_uid;
         this.lugar = lugar;
         this.fecha = fecha;
         this.hora = hora;
@@ -34,18 +37,20 @@ public class Quedada implements Serializable {
         this.plazas = plazas;
         this.longitud = longitud;
         this.latitud = latitud;
+        this.num_plazas_solicitadas = num_plazas_solicitadas;
+        this.estado = estado;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getAutor_uid() {
-        return autor_uid;
+    public String getAutor_peticion() {
+        return autor_peticion;
     }
 
-    public void setAutor_uid(String autor_uid) {
-        this.autor_uid = autor_uid;
+    public void setAutor_peticion(String autor_peticion) {
+        this.autor_peticion = autor_peticion;
     }
 
     public void setId(String id) {
@@ -58,6 +63,14 @@ public class Quedada implements Serializable {
 
     public void setAutor(String autor) {
         this.autor = autor;
+    }
+
+    public String getAutor_uid() {
+        return autor_uid;
+    }
+
+    public void setAutor_uid(String autor_uid) {
+        this.autor_uid = autor_uid;
     }
 
     public String getLugar() {
@@ -124,11 +137,28 @@ public class Quedada implements Serializable {
         this.latitud = latitud;
     }
 
+    public String getNum_plazas_solicitadas() {
+        return num_plazas_solicitadas;
+    }
+
+    public void setNum_plazas_solicitadas(String num_plazas_solicitadas) {
+        this.num_plazas_solicitadas = num_plazas_solicitadas;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "Quedada{" +
-                "ID=" +id+  '\'' +
+        return "PeticionQuedada{" +
+                "id='" + id + '\'' +
                 ", autor='" + autor + '\'' +
+                ", autor_peticion ='" + autor_peticion + '\'' +
                 ", autor_uid='" + autor_uid + '\'' +
                 ", lugar='" + lugar + '\'' +
                 ", fecha='" + fecha + '\'' +
@@ -138,6 +168,8 @@ public class Quedada implements Serializable {
                 ", plazas='" + plazas + '\'' +
                 ", longitud='" + longitud + '\'' +
                 ", latitud='" + latitud + '\'' +
+                ", num_plazas_solicitadas='" + num_plazas_solicitadas + '\'' +
+                ", estado='" + estado + '\'' +
                 '}';
     }
 }

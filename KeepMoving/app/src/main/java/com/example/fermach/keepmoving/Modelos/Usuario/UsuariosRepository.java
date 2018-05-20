@@ -218,6 +218,23 @@ public class UsuariosRepository implements UsuariosDataSource{
     }
 
     @Override
+    public void obtenerUidUsuarioActual(final ObtenerUidUsuarioActualCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerUidUsuarioActual(new ObtenerUidUsuarioActualCallback() {
+            @Override
+            public void onUsuarioObtenido(String uid) {
+                callback.onUsuarioObtenido(uid);
+            }
+
+            @Override
+            public void onUsuarioObtenidoError() {
+
+                callback.onUsuarioObtenidoError();
+            }
+        });
+    }
+
+    @Override
     public void obtenerCorreoUsuarioActual(final ObtenerCorreoUsuarioActualCallback callback) {
         UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.obtenerCorreoUsuarioActual(new ObtenerCorreoUsuarioActualCallback() {

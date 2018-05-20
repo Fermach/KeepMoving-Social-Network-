@@ -105,6 +105,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     private Date cDate;
     private Address localizacion;
     private List<Address> lista;
+    private boolean ubicacionEncontrada;
     private Geocoder geocoder;
     private MarkerOptions markerOptions;
     private ProgressDialog progressDialog;
@@ -134,6 +135,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         progressDialog= new ProgressDialog(myView.getContext());
         presenter = new CrearQuedadaPresenter(this);
         permisosConcedidos=false;
+        ubicacionEncontrada=false;
 
         inicializarVista();
         activarControladores();
@@ -279,7 +281,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
 
               if(!lugar.isEmpty() && !hora.isEmpty() &&
-                        !fecha.isEmpty() && !deporte.isEmpty()&& !plazas.isEmpty())  {
+                        !fecha.isEmpty() && !deporte.isEmpty()&& !plazas.isEmpty()) {
                   //subir quedada
 
                   buscarLugar();
@@ -290,22 +292,28 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
-                  progressDialog.setMessage("Se está creando la quedada");
-                  progressDialog.setCancelable(false);
-                  progressDialog.show();
 
-                  longitud=""+localizacion.getLongitude();
-                  latitud= ""+localizacion.getLatitude();
-                  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
+                  if(ubicacionEncontrada==true) {
 
-                  quedada=new Quedada(id.trim(),"",lugar,fecha,hora,deporte,mas_info,plazas,
-                          longitud,latitud);
+                      progressDialog.setMessage("Se está creando la quedada");
+                      progressDialog.setCancelable(false);
+                      progressDialog.show();
 
-                  presenter.CrearQuedada(quedada);
-              }else{
-                  Snackbar.make(myView,"Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+                      longitud = "" + localizacion.getLongitude();
+                      latitud = "" + localizacion.getLatitude();
+                      id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
 
+                      quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
+                              longitud, latitud);
+
+                      presenter.CrearQuedada(quedada);
+                  }else{
+                      btn_publicar.setEnabled(true);
+                      Snackbar.make(myView,"No se pudo encontrar la ubicación seleccionada!", 4000).show();
+
+                  }
               }
+
             }
         });
 
@@ -349,7 +357,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     public void buscarLugar(){
         String lugar= tv_lugar.getText().toString().trim();
-
+        ubicacionEncontrada=false;
         this.geocoder= new Geocoder(getActivity());
         this.lista = new ArrayList<>();
 
@@ -362,12 +370,15 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         if(lista.size()>0){
             this.localizacion= lista.get(0);
 
+          //  Snackbar.make(myView,"Error al crear la quedada", Snackbar.LENGTH_SHORT).show();
+            ubicacionEncontrada=true;
             Log.i("UBICACION A BUSCAR", localizacion.toString());
-            this.latLng= new LatLng(localizacion.getLatitude(),localizacion.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
-            this.markerOptions= new MarkerOptions().position(latLng).title(localizacion.getAddressLine(0));
+                this.latLng = new LatLng(localizacion.getLatitude(), localizacion.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
+                this.markerOptions = new MarkerOptions().position(latLng).title(localizacion.getAddressLine(0));
 
-            mMap.addMarker(markerOptions);
+                mMap.addMarker(markerOptions);
+
 
         }
 

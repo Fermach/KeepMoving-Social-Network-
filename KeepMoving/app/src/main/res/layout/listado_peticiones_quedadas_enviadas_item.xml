@@ -3,20 +3,21 @@
  <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:id="@+id/cardview_general"
+    android:id="@+id/cardview_peticion_quedada"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="6sp"
     android:layout_marginHorizontal="10sp"
     android:backgroundTint="@color/gris"
     app:cardElevation="6sp"
     android:layout_width="match_parent"
-    android:layout_height="180sp"
+    android:layout_height="wrap_content"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8sp"
+        android:layout_marginLeft="4sp"
+        android:layout_marginRight="4sp"
         android:orientation="vertical">
      <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
             <TextView
                 android:layout_marginLeft="14sp"
                 android:layout_weight="2"
-                android:id="@+id/deporte_texto_quedada_general_item"
+                android:id="@+id/deporte_texto_peticion_quedada_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6sp"
@@ -65,7 +66,7 @@
             <TextView
                 android:layout_marginLeft="14sp"
                 android:layout_weight="2"
-                android:id="@+id/plazas_texto_quedada_general_item"
+                android:id="@+id/plazas_texto_peticion_quedada_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6sp"
@@ -105,7 +106,7 @@
                  android:textSize="16sp" />
 
              <TextView
-                 android:id="@+id/lugar_texto_quedada_general_item"
+                 android:id="@+id/lugar_texto_peticion_quedada_item"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_marginLeft="14sp"
@@ -121,8 +122,8 @@
              android:orientation="horizontal">
 
              <LinearLayout
-                 android:layout_width="5dp"
-                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
                  android:layout_weight="1"
                  android:orientation="vertical">
 
@@ -135,7 +136,7 @@
                      android:textSize="16sp" />
 
                  <TextView
-                     android:id="@+id/fecha_texto_quedada_general_item"
+                     android:id="@+id/fecha_texto_peticion_quedada_item"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:textColor="@color/brown1"
@@ -157,7 +158,7 @@
                      android:textSize="16sp" />
 
                  <TextView
-                     android:id="@+id/hra_texto_quedada_general_item"
+                     android:id="@+id/hra_texto_peticion_quedada_item"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:textColor="@color/brown1"
@@ -166,10 +167,41 @@
          </LinearLayout>
      </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginTop="5sp"
+            android:background="@android:color/black" />
 
+        <LinearLayout
+            android:layout_marginTop="8sp"
+            android:layout_width="match_parent"
+            android:id="@+id/layoutEstado"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8sp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6sp"
+                android:layout_weight="1"
+                android:text="@string/estado"
+                android:textColor="@color/brown1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/estado_texto_peticion_quedada_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_marginBottom="8sp"
+                android:layout_marginTop="6sp"
+                android:layout_weight="2"
+                android:textColor="@color/brown1"
+                android:textSize="16sp" />
+        </LinearLayout>
      </LinearLayout>
 
 
 </android.support.v7.widget.CardView>
-

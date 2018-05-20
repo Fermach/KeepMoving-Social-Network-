@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
@@ -36,6 +37,8 @@ public class QuedadasFirebase implements QuedadaDataSource {
     private DatabaseReference QuedadasRef;
     private Usuario usuarioActual;
     private Quedada quedada;
+    private PeticionQuedada peticionQuedada;
+    private static List<PeticionQuedada> listaPeticionesQuedadasUsuario;
     private static List<Quedada> listaQuedadasUsuario;
     private static List<Quedada> listaQuedadasGeneral;
     private FirebaseAuth mAuth;
@@ -49,6 +52,8 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
         listaQuedadasUsuario = new ArrayList<>();
         listaQuedadasGeneral = new ArrayList<>();
+        listaPeticionesQuedadasUsuario= new ArrayList<>();
+
         return INSTANCIA_FIRE;
     }
 
@@ -79,12 +84,14 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
                 Log.i("OBTENER USUARIO FIRE", "SUCCESFUL -- " + usuarioActual);
                 quedada.setAutor("" + usuarioActual.getNombre() + ", " + usuarioActual.getApellidos());
+                quedada.setAutor_uid(""+ user.getUid());
 
                 //se sube la quedada la quedada
                 UsuariosRef.child(user.getUid()).child("Quedadas").push().setValue(quedada).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+
                             Log.i("CREAR_QUEDADA_FIRE1", "EXITO");
                             QuedadasRef.push().setValue(quedada).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -153,6 +160,43 @@ public class QuedadasFirebase implements QuedadaDataSource {
                 callback.onQuedadasObtenidasError();
             }
         });
+    }
+
+    @Override
+    public void obtenerSolicitudesQuedadas(final ObtenerSolicitudesQuedadasCallback callback) {
+        UsuariosRef.child(user.getUid()).child("Peticiones enviadas").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                peticionQuedada = dataSnapshot.getValue(PeticionQuedada.class);
+                    Log.i("PETICIONES_OBTENIDA", peticionQuedada.toString());
+                listaPeticionesQuedadasUsuario.add(peticionQuedada);
+
+                callback.onSolicitudesQuedadasObtenidas(listaPeticionesQuedadasUsuario);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                callback.onSolicitudesQuedadasObtenidasError();
+            }
+        }) ;
     }
 
     @Override
@@ -358,5 +402,36 @@ public class QuedadasFirebase implements QuedadaDataSource {
         });
 
 
+    }
+
+    @Override
+    public void enviarSolicitud(final PeticionQuedada peticionQuedada, final EnviarSolicitudCallback callback) {
+        peticionQuedada.setAutor_peticion(user.getUid());
+
+        UsuariosRef.child(user.getUid()).child("Peticiones enviadas").push().setValue(peticionQuedada).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()) {
+                    UsuariosRef.child(peticionQuedada.getAutor_uid()).child("Peticiones recibidas").push().setValue(peticionQuedada).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()) {
+                                Log.i("ENVIAR_SOLICITUD_FIRE", "SUCCESFUL");
+                                callback.onSolicitudEnviada();
+                            }else{
+                                Log.i("ENVIAR_SOLICITUD_FIRE", "ERROR_2");
+                                callback.onSolicitudEnviadaError();
+                            }
+                        }
+                    });
+
+                } else {
+                    Log.i("ENVIAR_SOLICITUD_FIRE", "ERROR_1");
+                    callback.onSolicitudEnviadaError();
+                }
+            }
+        });
     }
 }

@@ -19,6 +19,7 @@ import android.view.View;
 import com.example.fermach.keepmoving.App;
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
+import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
 import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
@@ -75,13 +76,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 else if (id == R.id.nav_lista_quedadas) {
                     fragment= new ListadoQuedadasGeneralVista();
                     itemSeleccionado = true;
-                }else if (id == R.id.nav_signout) {
+                }
+                else if (id == R.id.nav_mis_solicitudes_enviadas) {
+                    fragment= new ListadoSolicitudesEnviadasVista();
+                    itemSeleccionado = true;
+                }
+                else if (id == R.id.nav_signout) {
                     //Log.i("PULSADO","PULSADO");
                     itemSeleccionado=true;
                     presenter.setTOKEN("MENU");
                 }
                 else if (id == R.id.nav_perfil) {
-                    fragment= new PerfilPantallaVista();;
+                    fragment= new PerfilPantallaVista();
                     itemSeleccionado=true;
                 }
 

@@ -36,9 +36,11 @@ import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaContract;
 import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaPresenter;
 import com.example.fermach.keepmoving.Crear_Quedadas.DatePickerFragment;
 import com.example.fermach.keepmoving.Crear_Quedadas.TimePickerFragment;
+import com.example.fermach.keepmoving.Editar_Quedada.EditarQuedadaVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
+import com.example.fermach.keepmoving.Peticion_Quedada.PeticionQuedadaVista;
 import com.example.fermach.keepmoving.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -73,6 +75,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             new LatLng(71,136));
     private boolean permisosConcedidos;
     private Quedada quedada;
+    private final String QUEDADA="QUEDADA";
+    private final String QUEDADA_ID="QUEDADA_ID";
     private Button btn_apuntarse;
     private Button btn_atras;
     private ImageView img_gps;
@@ -119,12 +123,12 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         Log.i("QUEDADA_GEN_DETALLE",    quedada.toString());
 
         inicializarVista();
-        activarControladores();
 
         progressDialog.setMessage("Obteniendo Ubicación");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        presenter.obtenerUsuarioActual();
         iniciarMaps();
 
         return myView;
@@ -151,12 +155,46 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
     }
 
-    public void activarControladores() {
+    public void activarControladoresGenerales() {
 
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(QUEDADA, quedada);
+                Fragment toFragment = new PeticionQuedadaVista();
+                toFragment.setArguments(bundle);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment, QUEDADA)
+                        .addToBackStack(QUEDADA).commit();
+            }
+        });
+
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new ListadoQuedadasGeneralVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+
+            }
+        });
+    }
+
+    public void activarControladoresMiQuedada() {
+
+        btn_apuntarse.setText("Editar");
+        btn_apuntarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(QUEDADA_ID, quedada);
+                Fragment toFragment = new EditarQuedadaVista();
+                toFragment.setArguments(bundle);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment, QUEDADA)
+                        .addToBackStack(QUEDADA).commit();
             }
         });
 
@@ -209,5 +247,21 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     }
 
 
+    @Override
+    public void onUsuarioActualObtenido(String uid) {
 
+        Log.i("USUARIO_ACTUAL_OBTENIDO","Usuario QUEDADA: "+quedada.getAutor_uid()+
+                        "Usuario ACTUAL: "+uid);
+
+        if(uid.equals(quedada.getAutor_uid())){
+
+            Log.i("USUARIO_ACTUAL_OBTENIDO"," 1");
+            activarControladoresMiQuedada();
+        }else{
+
+            Log.i("USUARIO_ACTUAL_OBTENIDO"," 2");
+            activarControladoresGenerales();
+
+        }
+    }
 }

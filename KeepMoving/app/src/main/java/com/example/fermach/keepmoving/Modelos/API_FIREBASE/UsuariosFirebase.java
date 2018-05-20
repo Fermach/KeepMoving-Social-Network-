@@ -281,6 +281,11 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
     @Override
+    public void obtenerUidUsuarioActual(ObtenerUidUsuarioActualCallback callback) {
+        callback.onUsuarioObtenido(user.getUid());
+    }
+
+    @Override
     public void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback) {
         if(user!=null){
             Log.i("EMAIL FIRE",""+user.getEmail());

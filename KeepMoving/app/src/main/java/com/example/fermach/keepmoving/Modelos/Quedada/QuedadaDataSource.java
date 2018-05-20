@@ -11,8 +11,10 @@ public interface QuedadaDataSource {
 
     void crearQuedada(Quedada quedada, CrearQuedadaCallback callback);
     void eliminarQuedada(String uid, EliminarQuedadaCallback callback);
+    void enviarSolicitud(PeticionQuedada peticionQuedada, EnviarSolicitudCallback callback);
     void editarQuedada( Quedada quedada, EditarQuedadaCallback callback);
     void obtenerQuedadas( ObtenerQuedadasCallback callback);
+    void obtenerSolicitudesQuedadas( ObtenerSolicitudesQuedadasCallback callback);
     void obtenerQuedadasUsuario(ObtenerQuedadasCallback callback);
 
 
@@ -24,6 +26,10 @@ public interface QuedadaDataSource {
         void onQuedadaEliminada();
         void onQuedadaEliminadaError();
     }
+    interface EnviarSolicitudCallback{
+        void onSolicitudEnviada();
+        void onSolicitudEnviadaError();
+    }
     interface EditarQuedadaCallback{
         void onQuedadaEditada();
         void onQuedadaEditadaError();
@@ -31,6 +37,11 @@ public interface QuedadaDataSource {
     interface ObtenerQuedadasCallback{
         void onQuedadasObtenidas(List<Quedada> quedadas);
         void onQuedadasObtenidasError();
+    }
+
+    interface ObtenerSolicitudesQuedadasCallback{
+        void onSolicitudesQuedadasObtenidas(List<PeticionQuedada> peticionesQuedadas);
+        void onSolicitudesQuedadasObtenidasError();
     }
 
 }

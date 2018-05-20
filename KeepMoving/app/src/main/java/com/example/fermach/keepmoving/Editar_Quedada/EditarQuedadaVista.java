@@ -86,6 +86,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     private ScrollableNumberPicker picker_plazas;
     private Fragment fragment;
     private GoogleMap mMap;
+    private boolean ubicacionEncontrada;
     private View myView;
     private EditarQuedadaContract.Presenter presenter;
     private GoogleApiClient mGoogleApiClient;
@@ -123,6 +124,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         progressDialog= new ProgressDialog(myView.getContext());
         presenter = new EditarQuedadaPresenter(this);
         permisosConcedidos=false;
+        ubicacionEncontrada=false;
 
 
         Bundle args = getArguments();
@@ -131,7 +133,6 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         //para saber si el menu de borrado nos esta pasando una llave para que borremos una
         //quedada de la lista
         if(args!=null) {
-
 
             //recoger usuario
             quedada = (Quedada) args.getSerializable("QUEDADA_ID");
@@ -298,24 +299,35 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                   //subir quedada
 
                   buscarLugar();
-
+                  btn_guardar.setEnabled(false);
                   try {
                       Thread.sleep(1000);
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
-                  progressDialog.setMessage("Se están actualizando los datos de la quedada");
-                  progressDialog.setCancelable(false);
-                  progressDialog.show();
 
-                  longitud=""+localizacion.getLongitude();
-                  latitud= ""+localizacion.getLatitude();
-                //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
 
-                  quedada=new Quedada(quedada.getId(),quedada.getAutor(),lugar,fecha,hora,deporte,mas_info,plazas,
-                          longitud,latitud);
+                  if(ubicacionEncontrada==true) {
 
-                  presenter.editarQuedada(quedada);
+
+                      progressDialog.setMessage("Se están actualizando los datos de la quedada");
+                      progressDialog.setCancelable(false);
+                      progressDialog.show();
+
+                      longitud = "" + localizacion.getLongitude();
+                      latitud = "" + localizacion.getLatitude();
+                      //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
+
+                      quedada = new Quedada(quedada.getId(), quedada.getAutor(), lugar, fecha, hora, deporte, mas_info, plazas,
+                              longitud, latitud);
+
+                      presenter.editarQuedada(quedada);
+                  }else{
+                      btn_guardar.setEnabled(true);
+                      Snackbar.make(myView,"No se pudo encontrar la ubicación seleccionada!", 4000).show();
+
+                  }
+
               }else{
                   Snackbar.make(myView,"Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
 
@@ -343,9 +355,10 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
     public void buscarLugar(){
         String lugar= tv_lugar.getText().toString().trim();
-
+        ubicacionEncontrada=false;
         this.geocoder= new Geocoder(getActivity());
         this.lista = new ArrayList<>();
+
 
         try {
             lista =geocoder.getFromLocationName(lugar,1);
@@ -355,7 +368,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
         if(lista.size()>0){
             this.localizacion= lista.get(0);
-
+            ubicacionEncontrada=true;
             Log.i("UBICACION A BUSCAR", localizacion.toString());
             this.latLng= new LatLng(localizacion.getLatitude(),localizacion.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
@@ -433,7 +446,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     @Override
     public void onQuedadaEditada() {
         Snackbar.make(myView,"Quedada modificada correctamente", 4000).show();
-
+        btn_guardar.setEnabled(true);
         new Handler().postDelayed(new Runnable(){
             public void run(){
                 progressDialog.dismiss();
@@ -446,7 +459,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
     @Override
     public void onQuedadaEditadaError() {
-
+        btn_guardar.setEnabled(true);
         progressDialog.dismiss();
         Snackbar.make(myView,"No fue posible modificar la quedada ", 4000).show();
 

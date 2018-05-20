@@ -53,4 +53,8 @@
     <string name="apuntarse">Apúntame!</string>
     <string name="autor_quedada">Autor:</string>
     <string name="guardar">guardar</string>
+    <string name="plazas_reserva">¿Cuantas plazas desea reservar?</string>
+    <string name="enviar">Enviar Solicitud</string>
+    <string name="mis_peticiones">Mis peticiones:</string>
+    <string name="estado">Estado:</string>
 </resources>
