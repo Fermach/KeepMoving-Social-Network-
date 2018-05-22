@@ -1,9 +1,11 @@
 package com.example.fermach.keepmoving.Detalle_Quedada.DetalleQuedadaGeneral;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -160,14 +162,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(QUEDADA, quedada);
-                Fragment toFragment = new PeticionQuedadaVista();
-                toFragment.setArguments(bundle);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
+                presenter.verificarPeticionQuedada(quedada);
+
             }
         });
 
@@ -188,8 +184,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(QUEDADA_ID, quedada);
-                Fragment toFragment = new EditarQuedadaVista();
+                bundle.putSerializable(QUEDADA, quedada);
+                Fragment toFragment = new PeticionQuedadaVista();
                 toFragment.setArguments(bundle);
                 getFragmentManager()
                         .beginTransaction()
@@ -263,5 +259,35 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             activarControladoresGenerales();
 
         }
+    }
+
+    @Override
+    public void onPeticionLibre() {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(QUEDADA, quedada);
+        Fragment toFragment = new PeticionQuedadaVista();
+        toFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main, toFragment, QUEDADA)
+                .addToBackStack(QUEDADA).commit();
+    }
+
+    @Override
+    public void onPeticionOcupada() {
+
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+        myBuild.setMessage("Ya existe una petición suya para participar en esta quedada, usted no puede apuntarse dos veces" +
+                        " en la misma quedada!" );
+        myBuild.setTitle("Alerta");
+
+        myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        myBuild.show();
     }
 }

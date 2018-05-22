@@ -1,13 +1,16 @@
 package com.example.fermach.keepmoving.Modelos.API_FIREBASE;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
+import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
+import com.example.fermach.keepmoving.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +41,9 @@ public class QuedadasFirebase implements QuedadaDataSource {
     private Usuario usuarioActual;
     private Quedada quedada;
     private PeticionQuedada peticionQuedada;
+    private PeticionQuedada peticionQuedadaRecibida;
     private static List<PeticionQuedada> listaPeticionesQuedadasUsuario;
+    private static List<PeticionQuedada> listaPeticionesRecibidasQuedadasUsuario;
     private static List<Quedada> listaQuedadasUsuario;
     private static List<Quedada> listaQuedadasGeneral;
     private FirebaseAuth mAuth;
@@ -53,6 +58,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
         listaQuedadasUsuario = new ArrayList<>();
         listaQuedadasGeneral = new ArrayList<>();
         listaPeticionesQuedadasUsuario= new ArrayList<>();
+        listaPeticionesRecibidasQuedadasUsuario=new ArrayList<>();
 
         return INSTANCIA_FIRE;
     }
@@ -69,7 +75,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     @Override
     public void crearQuedada(final Quedada quedada, final CrearQuedadaCallback callback) {
-
+        user = mAuth.getCurrentUser();
 
         //optenemos el usuario actual para cargar el nombre al crear la quedada
         UsuariosRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -124,6 +130,38 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    @Override
+    public void verificarPeticionQuedada(Quedada quedada, final VerificarPeticionQuedadaCallback callback) {
+        user = mAuth.getCurrentUser();
+        //final boolean[] existePeticion = {false};
+
+        Query query = UsuariosRef.child(user.getUid()).child("Peticiones enviadas").orderByChild("id")
+                .equalTo(quedada.getId());
+
+        Log.i("VERIFIACAR_PETICION", "QUEDADA ID: "+quedada.getId());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    callback.onQuedadaOcupada();
+                }else{
+                    callback.onQuedadaLibre();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+    }
+
 
     @Override
     public void obtenerQuedadas(final ObtenerQuedadasCallback callback) {
@@ -163,7 +201,135 @@ public class QuedadasFirebase implements QuedadaDataSource {
     }
 
     @Override
+    public void cambiarEstadoQuedada(final PeticionQuedada peticionQuedada, final CambiarEstadoCallback callback) {
+        user = mAuth.getCurrentUser();
+        Query query = UsuariosRef.child(user.getUid()).child("Peticiones recibidas").orderByChild("id")
+                .equalTo(peticionQuedada.getId());
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                dataSnapshot.getRef().child("estado").setValue(peticionQuedada.getEstado());
+                Query query2 = UsuariosRef.child(peticionQuedada.getAutor_peticion()).child("Peticiones enviadas").orderByChild("id")
+                        .equalTo(peticionQuedada.getId());
+                query2.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        dataSnapshot.getRef().child("estado").setValue(peticionQuedada.getEstado());
+                        Query query3 = QuedadasRef.orderByChild("id")
+                                .equalTo(peticionQuedada.getId());
+                        query3.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                final String plazasActualizadas=""+(Integer.parseInt(peticionQuedada.getPlazas())
+                                        - Integer.parseInt(peticionQuedada.getNum_plazas_solicitadas()));
+                                dataSnapshot.getRef().child("plazas").setValue(plazasActualizadas);
+
+                                Query query4 =  UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("id")
+                                        .equalTo(peticionQuedada.getId());
+                                query4.addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                        dataSnapshot.getRef().child("plazas").setValue(plazasActualizadas);
+
+                                        callback.onEstadoCambiado();
+                                    }
+
+                                    @Override
+                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        callback.onEstadoCambiadoError();
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                callback.onEstadoCambiadoError();
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        callback.onEstadoCambiadoError();
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                  callback.onEstadoCambiadoError();
+            }
+        });
+
+    }
+
+    @Override
     public void obtenerSolicitudesQuedadas(final ObtenerSolicitudesQuedadasCallback callback) {
+        user = mAuth.getCurrentUser();
         UsuariosRef.child(user.getUid()).child("Peticiones enviadas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -200,7 +366,46 @@ public class QuedadasFirebase implements QuedadaDataSource {
     }
 
     @Override
+    public void obtenerPeticionesRecibidasQuedadas(final ObtenerPeticionesRecibidasQuedadasCallback callback) {
+        user = mAuth.getCurrentUser();
+        UsuariosRef.child(user.getUid()).child("Peticiones recibidas").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                peticionQuedadaRecibida = dataSnapshot.getValue(PeticionQuedada.class);
+                Log.i("PETICIONES_REC_OBTENIDA", peticionQuedadaRecibida.toString());
+                listaPeticionesRecibidasQuedadasUsuario.add(peticionQuedadaRecibida);
+
+                callback.onSolicitudesQuedadasObtenidas(listaPeticionesRecibidasQuedadasUsuario);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                callback.onSolicitudesQuedadasObtenidasError();
+            }
+        });
+
+    }
+
+    @Override
     public void obtenerQuedadasUsuario(final ObtenerQuedadasCallback callback) {
+        user = mAuth.getCurrentUser();
         UsuariosRef.child(user.getUid()).child("Quedadas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -210,7 +415,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
                 listaQuedadasUsuario.add(quedada);
 
                 callback.onQuedadasObtenidas(listaQuedadasUsuario);
-                // listaQuedadasUsuario= new ArrayList<>();
+                //listaQuedadasUsuario= new ArrayList<>();
             }
 
             @Override
@@ -238,6 +443,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     @Override
     public void editarQuedada(final Quedada quedada, final EditarQuedadaCallback callback) {
+        user = mAuth.getCurrentUser();
         Query query =  UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("id")
                 .equalTo(quedada.getId());
         query.addChildEventListener(new ChildEventListener() {
@@ -318,7 +524,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     @Override
     public void eliminarQuedada(final String uid, final EliminarQuedadaCallback callback) {
-
+        user = mAuth.getCurrentUser();
         Query query =  UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("id")
                 .equalTo(uid);
 
@@ -406,6 +612,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     @Override
     public void enviarSolicitud(final PeticionQuedada peticionQuedada, final EnviarSolicitudCallback callback) {
+        user = mAuth.getCurrentUser();
         peticionQuedada.setAutor_peticion(user.getUid());
 
         UsuariosRef.child(user.getUid()).child("Peticiones enviadas").push().setValue(peticionQuedada).addOnCompleteListener(new OnCompleteListener<Void>() {

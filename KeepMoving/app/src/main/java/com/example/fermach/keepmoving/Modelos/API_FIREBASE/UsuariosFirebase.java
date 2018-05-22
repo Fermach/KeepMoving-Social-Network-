@@ -2,6 +2,11 @@ package com.example.fermach.keepmoving.Modelos.API_FIREBASE;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
+import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
+import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
+import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +27,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.List;
+
 /**
  * Created by Fermach on 29/03/2018.
  */
@@ -35,6 +42,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private String TOKEN;
     private FirebaseDatabase database;
     private DatabaseReference UsuariosRef;
+   // private QuedadasFirebase quedadasFirebase;
     private StorageReference myfileStoragePath;
     private StorageReference myStorageRef;
     private static UsuariosFirebase INSTANCIA_FIRE =null;
@@ -51,6 +59,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     private UsuariosFirebase() {
         myStorageRef= FirebaseStorage.getInstance().getReference();
+        //quedadasFirebase=QuedadasFirebase.getInstance();
         database = FirebaseDatabase.getInstance();
         UsuariosRef= database.getReference("Usuarios");
         mAuth= FirebaseAuth.getInstance();
@@ -92,6 +101,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
     public void desloguearUsuario(DesloguearUsuarioCallback callback) {
         Log.i("SIGNOUT","------------");
         mAuth.signOut();
+
         callback.onUsuarioDeslogueado();
     }
 

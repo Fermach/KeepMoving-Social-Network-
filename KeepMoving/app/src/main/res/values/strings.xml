@@ -57,4 +57,9 @@
     <string name="enviar">Enviar Solicitud</string>
     <string name="mis_peticiones">Mis peticiones:</string>
     <string name="estado">Estado:</string>
+    <string name="mis_peticiones_recibidas">Peticiones recibidas:</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="rechazar">Rechazar</string>
+    <string name="plazas_solicitadas">Plazas solicitadas:</string>
+    <string name="plazas_iniciales_quedada">Plazas iniciales:</string>
 </resources>

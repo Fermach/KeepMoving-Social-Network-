@@ -51,13 +51,6 @@ public class ListadoSolicitudesEnviadasVista extends Fragment implements Listado
 
         lista_peticiones= new ArrayList<>();
 
-
-
-        progressDialog= new ProgressDialog(myView.getContext());
-        progressDialog.setMessage("Obteniendo datos");
-        progressDialog.setCancelable(false);
-      // progressDialog.show();
-
         presenter = new ListadoSolicitudesEnviadasPresenter(this);
         presenter.obtenerSolicitudes();
 
@@ -96,6 +89,6 @@ public class ListadoSolicitudesEnviadasVista extends Fragment implements Listado
 
     @Override
     public void mostrarSolicitudesQuedadasNumero(List<PeticionQuedada> peticionesQuedadas) {
-        num_peticiones.setText("Numero de quedadas: "+ peticionesQuedadas.size());
+        num_peticiones.setText("Numero de solicitudes enviadas: "+ peticionesQuedadas.size());
     }
 }

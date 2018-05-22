@@ -39,6 +39,23 @@ public class QuedadasRepository implements QuedadaDataSource {
     }
 
     @Override
+    public void verificarPeticionQuedada(Quedada quedada, final VerificarPeticionQuedadaCallback callback) {
+        QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
+        quedadasFirebase.verificarPeticionQuedada(quedada, new VerificarPeticionQuedadaCallback() {
+            @Override
+            public void onQuedadaLibre() {
+                callback.onQuedadaLibre();
+            }
+
+            @Override
+            public void onQuedadaOcupada() {
+
+                callback.onQuedadaOcupada();
+            }
+        });
+    }
+
+    @Override
     public void eliminarQuedada(String uid, final EliminarQuedadaCallback callback) {
         QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
         quedadasFirebase.eliminarQuedada(uid, new EliminarQuedadaCallback() {
@@ -104,6 +121,23 @@ public class QuedadasRepository implements QuedadaDataSource {
     }
 
     @Override
+    public void cambiarEstadoQuedada(PeticionQuedada peticionQuedada, final CambiarEstadoCallback callback) {
+        QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
+        quedadasFirebase.cambiarEstadoQuedada(peticionQuedada, new CambiarEstadoCallback() {
+            @Override
+            public void onEstadoCambiado() {
+                callback.onEstadoCambiado();
+            }
+
+            @Override
+            public void onEstadoCambiadoError() {
+
+                callback.onEstadoCambiadoError();
+            }
+        });
+    }
+
+    @Override
     public void obtenerSolicitudesQuedadas(final ObtenerSolicitudesQuedadasCallback callback) {
         QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
         quedadasFirebase.obtenerSolicitudesQuedadas(new ObtenerSolicitudesQuedadasCallback() {
@@ -115,6 +149,22 @@ public class QuedadasRepository implements QuedadaDataSource {
             @Override
             public void onSolicitudesQuedadasObtenidasError() {
 
+                callback.onSolicitudesQuedadasObtenidasError();
+            }
+        });
+    }
+
+    @Override
+    public void obtenerPeticionesRecibidasQuedadas(final ObtenerPeticionesRecibidasQuedadasCallback callback) {
+        QuedadasFirebase quedadasFirebase= QuedadasFirebase.getInstance();
+        quedadasFirebase.obtenerPeticionesRecibidasQuedadas(new ObtenerPeticionesRecibidasQuedadasCallback() {
+            @Override
+            public void onSolicitudesQuedadasObtenidas(List<PeticionQuedada> peticionesQuedadas) {
+                callback.onSolicitudesQuedadasObtenidas(peticionesQuedadas);
+            }
+
+            @Override
+            public void onSolicitudesQuedadasObtenidasError() {
                 callback.onSolicitudesQuedadasObtenidasError();
             }
         });

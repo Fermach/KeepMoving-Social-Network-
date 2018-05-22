@@ -1,6 +1,8 @@
 package com.example.fermach.keepmoving.Peticion_Quedada;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -101,17 +103,36 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
        btn_enviar.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
-               plazas_max=Integer.parseInt(tv_plazas.getText().toString());
 
-               if(plazas_seleccionadas!=0 && plazas_seleccionadas<plazas_max){
-                   peticionQuedada=new PeticionQuedada(quedada.getId(),quedada.getAutor(),quedada.getAutor_uid(),
-                           quedada.getLugar(),quedada.getFecha(),quedada.getHora(),quedada.getDeporte(),
-                           quedada.getInfo(),quedada.getPlazas(),quedada.getLongitud(),quedada.getLatitud(),
-                           ""+plazas_seleccionadas,"ENVIADA");
 
-                   presenter.EnviarSolicitud(peticionQuedada);
-               }
+               AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+               myBuild.setMessage("¿Estás seguro de que desea enviar esta solicitud? \n\n" +
+                       "Una vez enviada la solicitud no se podrá deshacer!");
+               myBuild.setTitle("Enviar Solicitud");
+
+               myBuild.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       dialog.cancel();
+                   }
+               });
+               myBuild.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
+                       plazas_max=Integer.parseInt(tv_plazas.getText().toString());
+
+                       if(plazas_seleccionadas!=0 && plazas_seleccionadas<plazas_max){
+                           peticionQuedada=new PeticionQuedada(quedada.getId(),quedada.getAutor(),quedada.getAutor_uid(),
+                                   quedada.getLugar(),quedada.getFecha(),quedada.getHora(),quedada.getDeporte(),
+                                   quedada.getInfo(),quedada.getPlazas(),quedada.getLongitud(),quedada.getLatitud(),
+                                   ""+plazas_seleccionadas,"ENVIADA");
+
+                           presenter.EnviarSolicitud(peticionQuedada);
+                       }
+                   }
+               });
+
            }
        });
 

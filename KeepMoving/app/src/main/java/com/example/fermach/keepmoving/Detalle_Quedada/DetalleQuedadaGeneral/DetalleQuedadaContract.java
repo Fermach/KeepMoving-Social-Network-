@@ -9,11 +9,13 @@ import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 public interface DetalleQuedadaContract {
     interface View {
        void onUsuarioActualObtenido(String uid);
-
+       void onPeticionLibre();
+       void onPeticionOcupada();
 
     }
     interface Presenter {
        void obtenerUsuarioActual();
+       void verificarPeticionQuedada(Quedada quedada);
     }
 
 }
