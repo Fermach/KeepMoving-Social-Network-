@@ -14,20 +14,22 @@ import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaContract;
  */
 
 public class PeticionQuedadaPresenter implements PeticionQuedadaContract.Presenter{
-    private QuedadasRepository repository;
+    private QuedadasRepository quedadasRepository;
+    private UsuariosRepository usuarioRepository;
     private PeticionQuedadaContract.View view;
 
 
 
     public PeticionQuedadaPresenter(PeticionQuedadaContract.View view) {
         this.view = view;
-        this.repository = QuedadasRepository.getInstance();
+        this.quedadasRepository = QuedadasRepository.getInstance();
+        this.usuarioRepository= UsuariosRepository.getInstance();
     }
 
 
     @Override
     public void EnviarSolicitud(PeticionQuedada peticionQuedada) {
-          repository.enviarSolicitud(peticionQuedada, new QuedadaDataSource.EnviarSolicitudCallback() {
+        quedadasRepository.enviarSolicitud(peticionQuedada, new QuedadaDataSource.EnviarSolicitudCallback() {
               @Override
               public void onSolicitudEnviada() {
                   view.onSolicitudEnviada();
@@ -38,5 +40,20 @@ public class PeticionQuedadaPresenter implements PeticionQuedadaContract.Present
                    view.onSolicitudEnviadaError();
               }
           });
+    }
+
+    @Override
+    public void obtenerUsuarioActual() {
+        usuarioRepository.obtenerUsuarioActual(new UsuariosDataSource.ObtenerUsuarioActualCallback() {
+            @Override
+            public void onUsuarioObtenido(Usuario usuario) {
+                view.onUsuarioActualObtenido(usuario);
+            }
+
+            @Override
+            public void onUsuarioObtenidoError() {
+                view.onUsuarioActualObtenidoError();
+            }
+        });
     }
 }

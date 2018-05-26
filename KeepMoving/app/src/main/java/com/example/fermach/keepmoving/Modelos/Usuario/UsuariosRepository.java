@@ -3,6 +3,7 @@ package com.example.fermach.keepmoving.Modelos.Usuario;
 import android.util.Log;
 
 import com.example.fermach.keepmoving.Modelos.API_FIREBASE.UsuariosFirebase;
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 
 /**
  * Created by Fermach on 29/03/2018.
@@ -202,6 +203,22 @@ public class UsuariosRepository implements UsuariosDataSource{
     }
 
     @Override
+    public void obtenerFotoPerfilUsuario(String uid, final PeticionQuedada pQuedada, final ObtenerFotoPerfilUsuarioCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerFotoPerfilUsuario(uid,  pQuedada, new ObtenerFotoPerfilUsuarioCallback() {
+            @Override
+            public void onFotoUsuarioPerfilObtenida(byte[] foto, PeticionQuedada pQuedada) {
+                callback.onFotoUsuarioPerfilObtenida(foto,  pQuedada);
+            }
+
+            @Override
+            public void onFotoUsuarioPerfilObtenidaError() {
+                 callback.onFotoUsuarioPerfilObtenidaError();
+            }
+        });
+    }
+
+    @Override
     public void obtenerUsuarioActual(final ObtenerUsuarioActualCallback callback) {
         UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
         usuariosFirebase.obtenerUsuarioActual(new ObtenerUsuarioActualCallback() {
@@ -212,6 +229,23 @@ public class UsuariosRepository implements UsuariosDataSource{
 
             @Override
             public void onUsuarioObtenidoError() {
+                callback.onUsuarioObtenidoError();
+            }
+        });
+    }
+
+    @Override
+    public void obtenerUsuarioPorUID(String Uid, final ObtenerUsuarioPorUIDCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.obtenerUsuarioPorUID(Uid, new ObtenerUsuarioPorUIDCallback() {
+            @Override
+            public void onUsuarioObtenido(Usuario usuario) {
+                callback.onUsuarioObtenido(usuario);
+            }
+
+            @Override
+            public void onUsuarioObtenidoError() {
+
                 callback.onUsuarioObtenidoError();
             }
         });

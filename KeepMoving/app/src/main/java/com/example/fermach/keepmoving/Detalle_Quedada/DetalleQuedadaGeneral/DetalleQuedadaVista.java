@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -21,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +32,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -42,8 +45,10 @@ import com.example.fermach.keepmoving.Editar_Quedada.EditarQuedadaVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
+import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.Peticion_Quedada.PeticionQuedadaVista;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Usuario_Perfil_Vista.PerfilVistaPantallaVista;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -64,6 +69,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Fermach on 27/03/2018.
  */
@@ -79,14 +86,17 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     private Quedada quedada;
     private final String QUEDADA="QUEDADA";
     private final String QUEDADA_ID="QUEDADA_ID";
+    private final String UID_USUARIO="UID_USUARIO";
     private Button btn_apuntarse;
     private Button btn_atras;
     private ImageView img_gps;
+    private LinearLayout layout_usuario_autor;
     private TextView tv_fecha;
     private TextView tv_hora;
     private TextView tv_lugar;
     private TextView tv_mas_info;
     private TextView tv_autor;
+    private CircleImageView imagen_autor;
     private GoogleApiClient googleApiClient;
     private TextView tv_deporte;
     private TextView tv_plazas;
@@ -130,17 +140,21 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        presenter.obtenerFotoUsuario(quedada.getAutor_uid());
         presenter.obtenerUsuarioActual();
+
         iniciarMaps();
 
         return myView;
     }
 
     public void inicializarVista() {
+        imagen_autor= myView.findViewById(R.id.fab_usuario_imagen_quedada_general);
         btn_apuntarse = myView.findViewById(R.id.btn_apuntarse_detalle_quedada_general);
         btn_atras = myView.findViewById(R.id.btn_cancelar_detalle_quedada_general);
         tv_fecha = myView.findViewById(R.id.text_fecha_detalle_quedada_general);
         tv_hora = myView.findViewById(R.id.text_hora_detalle_quedada_general);
+        layout_usuario_autor=myView.findViewById(R.id.layout_autor_detalle_quedada_general);
         tv_lugar = myView.findViewById(R.id.lugar_detalle_quedada_general);
         tv_mas_info = myView.findViewById(R.id.text_masinfo_detalle_quedada_general);
         tv_deporte = myView.findViewById(R.id.text_deporte_detalle_quedada_general);
@@ -158,6 +172,25 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     }
 
     public void activarControladoresGenerales() {
+
+
+        layout_usuario_autor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            //    Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(UID_USUARIO, quedada.getAutor_uid());
+                Fragment toFragment = new PerfilVistaPantallaVista();
+                toFragment.setArguments(bundle);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_main, toFragment, UID_USUARIO)
+                        .addToBackStack(UID_USUARIO).commit();
+            }
+        });
+
+
 
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +211,16 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     }
 
     public void activarControladoresMiQuedada() {
+
+        layout_usuario_autor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              //  Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
+                fragment = new PerfilPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+
+            }
+        });
 
         btn_apuntarse.setText("Editar");
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
@@ -234,9 +277,6 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
 
                             buscarLugar();
-
-
-
                     }
          });
 
@@ -289,5 +329,18 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             }
         });
         myBuild.show();
+    }
+
+    @Override
+    public void onUsuarioFotoObtenida(byte[] foto) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        imagen_autor.setImageBitmap( BitmapFactory.decodeByteArray(foto, 0, foto.length, options));
+    }
+
+    @Override
+    public void onUsuarioFotoObtenidaError() {
+        Snackbar.make(myView,"No se pudo obtener la foto del autor de la quedada", 4000).show();
     }
 }

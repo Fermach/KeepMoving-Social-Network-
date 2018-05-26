@@ -11,10 +11,13 @@ public interface DetalleQuedadaContract {
        void onUsuarioActualObtenido(String uid);
        void onPeticionLibre();
        void onPeticionOcupada();
+       void onUsuarioFotoObtenida(byte[] foto);
+       void onUsuarioFotoObtenidaError();
 
     }
     interface Presenter {
        void obtenerUsuarioActual();
+       void obtenerFotoUsuario(String uid);
        void verificarPeticionQuedada(Quedada quedada);
     }
 

@@ -1,10 +1,22 @@
 package com.example.fermach.keepmoving.Modelos.Quedada;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Fermach on 19/05/2018.
  */
 
-public class PeticionQuedada {
+public class PeticionQuedadaRecibida {
+
+    private Bitmap foto;
+
+    public Bitmap getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Bitmap foto) {
+        this.foto = foto;
+    }
 
     private String id;
     private String autor;
@@ -22,11 +34,11 @@ public class PeticionQuedada {
     private String num_plazas_solicitadas;
     private String estado;
 
-    public PeticionQuedada() {
+    public PeticionQuedadaRecibida() {
     }
 
-    public PeticionQuedada(String id,String autor_peticion_nombre, String autor, String autor_uid, String lugar, String fecha, String hora, String deporte, String info, String plazas,
-                           String longitud, String latitud, String num_plazas_solicitadas, String estado) {
+    public PeticionQuedadaRecibida(String id, String autor_peticion_nombre, String autor, String autor_uid, String lugar, String fecha, String hora, String deporte, String info, String plazas,
+                                   String longitud, String latitud, String num_plazas_solicitadas, String estado,  String autor_peticion) {
         this.id = id;
         this.autor_peticion_nombre=autor_peticion_nombre;
         this.autor = autor;
@@ -41,6 +53,7 @@ public class PeticionQuedada {
         this.latitud = latitud;
         this.num_plazas_solicitadas = num_plazas_solicitadas;
         this.estado = estado;
+        this.autor_peticion=autor_peticion;
     }
 
     public String getAutor_peticion_nombre() {

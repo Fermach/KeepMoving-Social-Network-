@@ -1,5 +1,7 @@
 package com.example.fermach.keepmoving.Modelos.Usuario;
 
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
+
 /**
  * Created by Fermach on 29/03/2018.
  */
@@ -16,7 +18,9 @@ public interface UsuariosDataSource {
     void cancelarRegistroUsuario(CancelarRegistroUsuarioCallback callback);
     void iniciarListener( IniciarListenerCallback callback);
     void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback);
+    void obtenerFotoPerfilUsuario(String uid, PeticionQuedada pQuedada, ObtenerFotoPerfilUsuarioCallback callback);
     void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback);
+    void obtenerUsuarioPorUID(String Uid, ObtenerUsuarioPorUIDCallback callback);
     void obtenerUidUsuarioActual(ObtenerUidUsuarioActualCallback callback);
     void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback);
     void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback);
@@ -35,7 +39,15 @@ public interface UsuariosDataSource {
         void onFotoPerfilObtenida(byte[] foto);
         void onFotoPerfilObtenidaError();
     }
+    interface ObtenerFotoPerfilUsuarioCallback{
+        void onFotoUsuarioPerfilObtenida(byte[] foto, PeticionQuedada pQuedada);
+        void onFotoUsuarioPerfilObtenidaError();
+    }
     interface ObtenerUsuarioActualCallback{
+        void onUsuarioObtenido(Usuario usuario);
+        void onUsuarioObtenidoError();
+    }
+    interface ObtenerUsuarioPorUIDCallback{
         void onUsuarioObtenido(Usuario usuario);
         void onUsuarioObtenidoError();
     }

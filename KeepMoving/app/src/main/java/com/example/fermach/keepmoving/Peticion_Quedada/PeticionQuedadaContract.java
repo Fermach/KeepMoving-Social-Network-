@@ -11,11 +11,13 @@ public interface PeticionQuedadaContract {
     interface View {
       void onSolicitudEnviada();
       void onSolicitudEnviadaError();
+      void onUsuarioActualObtenido(Usuario usuario);
+      void onUsuarioActualObtenidoError();
 
     }
     interface Presenter {
       void EnviarSolicitud(PeticionQuedada peticionQuedada);
-
+      void obtenerUsuarioActual();
     }
 
 }

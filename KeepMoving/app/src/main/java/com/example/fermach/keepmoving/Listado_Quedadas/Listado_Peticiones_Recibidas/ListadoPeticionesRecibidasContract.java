@@ -13,11 +13,15 @@ public interface ListadoPeticionesRecibidasContract {
       void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas);
       void onPeticionesRecibidasObtenidasError();
       void mostrarPeticionesRecibidasNumero(List<PeticionQuedada> peticionesQuedadas);
-
+      void onEstadoCambiado();
+      void onEstadoCambiadoError();
+      void onFotoObtenida(byte[] foto, PeticionQuedada pQuedada);
+      void onFotoObtenidaError();
     }
     interface Presenter {
       void obtenerPeticionesRecibidas();
-
+      void cambiarEstadoQuedada(PeticionQuedada peticionQuedada);
+      void obtenerFotoUsuario(String uid, PeticionQuedada pQuedada);
     }
 
 }

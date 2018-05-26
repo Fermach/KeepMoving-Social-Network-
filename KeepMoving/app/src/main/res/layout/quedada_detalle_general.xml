@@ -30,7 +30,7 @@
                 android:id="@+id/map_detalle_general"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="140dp"
                 android:layout_margin="5sp"
                 tools:context="com.example.fermach.keepmoving.MapsActivity" />
 
@@ -232,40 +232,72 @@
             android:hint="@string/masinfo"
             android:textSize="15sp"/>
 
-
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16sp"
+            android:background="@android:color/darker_gray"
+            />
 
         <LinearLayout
-                android:layout_weight="1"
-                android:layout_marginTop="18sp"
+                android:id="@+id/layout_autor_detalle_quedada_general"
+                android:layout_marginTop="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="187dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8sp"
-                android:layout_weight="1"
-                android:text="@string/autor_quedada"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/text_autor_detalle_quedada_general"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/autor_quedada"
-                android:textSize="15sp" />
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fab_usuario_imagen_quedada_general"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:layout_margin="12sp"
+                    android:elevation="10sp"
+                    android:src="@drawable/user"
+                    app:civ_border_color="@android:color/black"
+                    app:civ_border_width="1sp" />
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="246dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8sp"
+                    android:layout_marginTop="15sp"
+                    android:layout_weight="1"
+                    android:text="@string/autor_quedada"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_autor_detalle_quedada_general"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="8sp"
+                    android:layout_weight="1"
+                    android:hint="@string/autor_quedada"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
             </LinearLayout>
 
     </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="18sp"
+        android:layout_marginTop="4sp"
         android:background="@android:color/darker_gray"
         />
 
@@ -273,7 +305,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35sp"
-        android:layout_marginTop="18sp"
+        android:layout_marginTop="12sp"
         android:orientation="horizontal">
 
         <Button

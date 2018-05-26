@@ -245,6 +245,8 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     }
 
+
+
     @Override
     public void obtenerFotoPerfil(final ObtenerFotoPerfilCallback callback) {
         myfileStoragePath=myStorageRef.child("FotosPerfil/").child(user.getUid());
@@ -260,6 +262,25 @@ public class UsuariosFirebase implements UsuariosDataSource {
             public void onFailure(@NonNull Exception e) {
                 Log.i("OBTENER FOTO FIRE","ERROR" );
                 callback.onFotoPerfilObtenidaError();
+            }
+        });
+    }
+
+    @Override
+    public void obtenerFotoPerfilUsuario(String uid, final  PeticionQuedada pQuedada, final ObtenerFotoPerfilUsuarioCallback callback) {
+        myfileStoragePath=myStorageRef.child("FotosPerfil/").child(uid);
+
+        myfileStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Log.i("OBTENER FOTO US FIRE","SUCCESFUL" );
+                callback.onFotoUsuarioPerfilObtenida(bytes,  pQuedada);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("OBTENER FOTO US FIRE","ERROR" );
+                callback.onFotoUsuarioPerfilObtenidaError();
             }
         });
     }
@@ -288,6 +309,30 @@ public class UsuariosFirebase implements UsuariosDataSource {
             }
         });
 
+    }
+
+    @Override
+    public void obtenerUsuarioPorUID(String Uid, final ObtenerUsuarioPorUIDCallback callback) {
+        UsuariosRef.child(Uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String nombre= dataSnapshot.child("nombre").getValue(String.class);
+                String apellidos= dataSnapshot.child("apellidos").getValue(String.class);
+                String correo= dataSnapshot.child("correo").getValue(String.class);
+                String biografia= dataSnapshot.child("biografia").getValue(String.class);
+                String aficiones= dataSnapshot.child("aficiones").getValue(String.class);
+                usuarioActual= new Usuario(nombre,apellidos,correo,biografia,aficiones);
+
+                Log.i("OBTENER USUARIO UID F","SUCCESFUL -- "+usuarioActual );
+                callback.onUsuarioObtenido(usuarioActual);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onUsuarioObtenidoError();
+                Log.i("OBTENER USUARIO UID F","ERROR -- "+usuarioActual );
+            }
+        });
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.fermach.keepmoving.Detalle_Quedada.DetalleQuedadaGeneral;
 
 import android.util.Log;
 
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
@@ -37,6 +38,23 @@ public class DetalleQuedadaPresenter implements DetalleQuedadaContract.Presenter
             @Override
             public void onUsuarioObtenidoError() {
 
+            }
+        });
+    }
+
+    @Override
+    public void obtenerFotoUsuario(String uid) {
+        PeticionQuedada peticionQuedada= new PeticionQuedada();
+        usuariosRepository.obtenerFotoPerfilUsuario(uid, peticionQuedada, new UsuariosDataSource.ObtenerFotoPerfilUsuarioCallback() {
+            @Override
+            public void onFotoUsuarioPerfilObtenida(byte[] foto,PeticionQuedada pQuedada) {
+                view.onUsuarioFotoObtenida(foto);
+            }
+
+            @Override
+            public void onFotoUsuarioPerfilObtenidaError() {
+
+                view.onUsuarioFotoObtenidaError();
             }
         });
     }

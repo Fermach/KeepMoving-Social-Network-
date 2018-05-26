@@ -24,6 +24,7 @@ import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usua
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
+import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
 import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker;
@@ -38,6 +39,7 @@ import java.util.List;
 public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaContract.View {
 
     private Quedada quedada;
+    private Usuario usuario;
     private PeticionQuedada peticionQuedada;
     private Fragment fragment;
     private int plazas_seleccionadas;
@@ -72,7 +74,8 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
         presenter = new PeticionQuedadaPresenter(this);
 
         inicializarVista();
-        activarControladores();
+        presenter.obtenerUsuarioActual();
+
 
         return myView;
     }
@@ -103,7 +106,10 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
        btn_enviar.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
+               plazas_max=Integer.parseInt(tv_plazas.getText().toString());
 
+               if(plazas_seleccionadas!=0 && plazas_seleccionadas<plazas_max){
 
                AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
                myBuild.setMessage("¿Estás seguro de que desea enviar esta solicitud? \n\n" +
@@ -119,19 +125,23 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
                myBuild.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
-                       plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
-                       plazas_max=Integer.parseInt(tv_plazas.getText().toString());
 
-                       if(plazas_seleccionadas!=0 && plazas_seleccionadas<plazas_max){
-                           peticionQuedada=new PeticionQuedada(quedada.getId(),quedada.getAutor(),quedada.getAutor_uid(),
+
+                           peticionQuedada=new PeticionQuedada(quedada.getId(),usuario.getNombre(),quedada.getAutor(),quedada.getAutor_uid(),
                                    quedada.getLugar(),quedada.getFecha(),quedada.getHora(),quedada.getDeporte(),
                                    quedada.getInfo(),quedada.getPlazas(),quedada.getLongitud(),quedada.getLatitud(),
                                    ""+plazas_seleccionadas,"ENVIADA");
 
                            presenter.EnviarSolicitud(peticionQuedada);
-                       }
+
                    }
                });
+               myBuild.show();
+               }else{
+
+                   Snackbar.make(myView,"Usted ha seleccionado más plazas de las que el autor de la quedada ha puesto disponibles", 4000).show();
+
+               }
 
            }
        });
@@ -169,6 +179,20 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
     @Override
     public void onSolicitudEnviadaError() {
         Snackbar.make(myView,"No se pudo enviar la peticion", 4000).show();
+
+    }
+
+    @Override
+    public void onUsuarioActualObtenido(Usuario usuario) {
+        this.usuario=usuario;
+        activarControladores();
+
+
+
+    }
+
+    @Override
+    public void onUsuarioActualObtenidoError() {
 
     }
 }
