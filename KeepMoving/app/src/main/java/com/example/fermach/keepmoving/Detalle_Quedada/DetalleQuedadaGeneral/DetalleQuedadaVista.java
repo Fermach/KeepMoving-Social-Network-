@@ -177,16 +177,21 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         layout_usuario_autor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
+                if(isOnlineNet()) {
+                    //    Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(UID_USUARIO, quedada.getAutor_uid());
-                Fragment toFragment = new PerfilVistaPantallaVista();
-                toFragment.setArguments(bundle);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_main, toFragment, UID_USUARIO)
-                        .addToBackStack(UID_USUARIO).commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(UID_USUARIO, quedada.getAutor_uid());
+                    Fragment toFragment = new PerfilVistaPantallaVista();
+                    toFragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_main, toFragment, UID_USUARIO)
+                            .addToBackStack(UID_USUARIO).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -195,16 +200,27 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.verificarPeticionQuedada(quedada);
 
+                if(isOnlineNet()) {
+                    presenter.verificarPeticionQuedada(quedada);
+                }else{
+
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new ListadoQuedadasGeneralVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                if(isOnlineNet()) {
+                    fragment = new ListadoQuedadasGeneralVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }
+                else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -215,10 +231,14 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         layout_usuario_autor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
-                fragment = new PerfilPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
+                if(isOnlineNet()) {
+                    //  Toast.makeText(getContext(),"PULSADO",Toast.LENGTH_SHORT).show();
+                    fragment = new PerfilPantallaVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }else{
+                        Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                    }
             }
         });
 
@@ -226,6 +246,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(isOnlineNet()) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(QUEDADA, quedada);
                 Fragment toFragment = new PeticionQuedadaVista();
@@ -234,15 +256,22 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
                         .beginTransaction()
                         .replace(R.id.content_main, toFragment, QUEDADA)
                         .addToBackStack(QUEDADA).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(isOnlineNet()) {
                 fragment = new ListadoQuedadasGeneralVista();
                 getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
-
+                }else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -332,10 +361,9 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     }
 
     @Override
-    public void onUsuarioFotoObtenida(byte[] foto) {
+    public void onUsuarioFotoObtenida(byte[]  foto) {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
-
         imagen_autor.setImageBitmap( BitmapFactory.decodeByteArray(foto, 0, foto.length, options));
     }
 
@@ -343,4 +371,21 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
     public void onUsuarioFotoObtenidaError() {
         Snackbar.make(myView,"No se pudo obtener la foto del autor de la quedada", 4000).show();
     }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

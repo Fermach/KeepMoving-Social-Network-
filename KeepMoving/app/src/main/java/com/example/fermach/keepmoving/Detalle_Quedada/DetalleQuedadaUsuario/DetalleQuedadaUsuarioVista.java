@@ -140,6 +140,7 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
             @Override
             public void onClick(View v) {
                 //mostrar pantalla de editar quedada pasandole los datos
+                if(isOnlineNet()) {
 
                 Bundle args = new Bundle();
                 args.putSerializable(QUEDADA_ID, quedada);
@@ -149,15 +150,24 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
                         .beginTransaction()
                         .replace(R.id.content_main, toFragment, QUEDADA_ID)
                         .addToBackStack(QUEDADA_ID).commit();
+
+                }else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new PerfilPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
+                if(isOnlineNet()) {
+
+                    fragment = new PerfilPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -192,6 +202,22 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
                     }
                 });
 
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

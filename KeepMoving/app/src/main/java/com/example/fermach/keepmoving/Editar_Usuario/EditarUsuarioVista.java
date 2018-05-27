@@ -82,6 +82,7 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         //quedada de la lista
         if(args!=null) {
 
+
             //recoger foro de perfil
             foto_bytes=(byte[]) args.getSerializable("FOTO");
             //recoger usuario
@@ -126,9 +127,10 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         multi_aficiones.setText(usuario_ref.getAficiones());
 
         BitmapFactory.Options options = new BitmapFactory.Options();
-        fotoPerfil = BitmapFactory.decodeByteArray(foto_bytes, 0, foto_bytes.length, options);
-        foto_editar_usuario.setImageBitmap(fotoPerfil);
-
+        if(foto_bytes!=null) {
+            fotoPerfil = BitmapFactory.decodeByteArray(foto_bytes, 0, foto_bytes.length, options);
+            foto_editar_usuario.setImageBitmap(fotoPerfil);
+        }
 
     }
 
@@ -137,6 +139,8 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+           if (isOnlineNet()) {
 
                 nombre=""+ et_nombre.getText().toString().trim();
                 apellidos=""+et_apellidos.getText().toString().trim();
@@ -159,6 +163,9 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
                 }else{
                         Snackbar.make(myView,"Debe introducir el nombre y los apellidos", Snackbar.LENGTH_SHORT).show();
                 }
+           }else {
+               Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+           }
 
             }
         });
@@ -166,9 +173,13 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new PerfilPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                if (isOnlineNet()) {
 
+                    fragment = new PerfilPantallaVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -233,6 +244,21 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         Snackbar.make(myView,"No fue posible modificar el usuario!", 5000).show();
 
 
+    }
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

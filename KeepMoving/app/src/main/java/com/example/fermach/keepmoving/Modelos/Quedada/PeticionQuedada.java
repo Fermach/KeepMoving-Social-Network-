@@ -6,6 +6,7 @@ package com.example.fermach.keepmoving.Modelos.Quedada;
 
 public class PeticionQuedada {
 
+    private String id_peticion;
     private String id;
     private String autor;
     private String autor_uid;
@@ -25,8 +26,9 @@ public class PeticionQuedada {
     public PeticionQuedada() {
     }
 
-    public PeticionQuedada(String id,String autor_peticion_nombre, String autor, String autor_uid, String lugar, String fecha, String hora, String deporte, String info, String plazas,
+    public PeticionQuedada( String id,String autor_peticion_nombre, String autor, String autor_uid, String lugar, String fecha, String hora, String deporte, String info, String plazas,
                            String longitud, String latitud, String num_plazas_solicitadas, String estado) {
+
         this.id = id;
         this.autor_peticion_nombre=autor_peticion_nombre;
         this.autor = autor;
@@ -41,6 +43,14 @@ public class PeticionQuedada {
         this.latitud = latitud;
         this.num_plazas_solicitadas = num_plazas_solicitadas;
         this.estado = estado;
+    }
+
+    public String getId_peticion() {
+        return id_peticion;
+    }
+
+    public void setId_peticion(String id_peticion) {
+        this.id_peticion = id_peticion;
     }
 
     public String getAutor_peticion_nombre() {
@@ -166,9 +176,9 @@ public class PeticionQuedada {
     @Override
     public String toString() {
         return "PeticionQuedada{" +
-                "id='" + id + '\'' +
+                "id_peticion='" + id_peticion + '\'' +
+                ", id='" + id + '\'' +
                 ", autor='" + autor + '\'' +
-                ", autor_peticion ='" + autor_peticion + '\'' +
                 ", autor_uid='" + autor_uid + '\'' +
                 ", lugar='" + lugar + '\'' +
                 ", fecha='" + fecha + '\'' +
@@ -178,6 +188,8 @@ public class PeticionQuedada {
                 ", plazas='" + plazas + '\'' +
                 ", longitud='" + longitud + '\'' +
                 ", latitud='" + latitud + '\'' +
+                ", autor_peticion='" + autor_peticion + '\'' +
+                ", autor_peticion_nombre='" + autor_peticion_nombre + '\'' +
                 ", num_plazas_solicitadas='" + num_plazas_solicitadas + '\'' +
                 ", estado='" + estado + '\'' +
                 '}';

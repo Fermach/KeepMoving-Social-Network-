@@ -92,7 +92,10 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         btn_registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //correo=usuario.getCorreo();
+
+                if (isOnlineNet()) {
+
+                    //correo=usuario.getCorreo();
                 nombre=""+ et_nombre.getText().toString().trim();
                 apellidos=""+et_apellidos.getText().toString().trim();
                 aficiones=""+ multi_aficiones.getText().toString().trim();
@@ -118,6 +121,9 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                 }else{
                         Snackbar.make(myView,"Debe introducir el nombre y los apellidos", Snackbar.LENGTH_SHORT).show();
                  }
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -125,15 +131,25 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.setTOKKEN("REGISTRO");
 
+                if (isOnlineNet()) {
+
+                    presenter.setTOKKEN("REGISTRO");
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
         foto_registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarImagenGaleria();
+                if (isOnlineNet()) {
+                    cargarImagenGaleria();
+
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -272,5 +288,21 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     public void onDestroy() {
         super.onDestroy();
 //        presenter.desloguearUsuario();
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

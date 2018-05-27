@@ -287,7 +287,6 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     @Override
     public void obtenerUsuarioActual(final ObtenerUsuarioActualCallback callback) {
-
         UsuariosRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

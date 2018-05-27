@@ -144,7 +144,7 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
+                if(isOnlineNet()) {
                 quedada= lista_quedadas.get(position);
 
                 Bundle args = new Bundle();
@@ -155,6 +155,10 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
                         .beginTransaction()
                         .replace(R.id.content_main, toFragment, QUEDADA)
                         .addToBackStack(QUEDADA).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -163,22 +167,35 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                quedada= lista_quedadas.get(position);
-                FragmentManager fragmentManager=getFragmentManager();
+                if (isOnlineNet()) {
 
-                DialogFragment dialogFragment= ListadoQuedadasUsuarioMenuLClick.newInstance(quedada);
-                dialogFragment.show(fragmentManager, "menu_quedadas");
+                    quedada = lista_quedadas.get(position);
+                    FragmentManager fragmentManager = getFragmentManager();
 
-                return true;
+                    DialogFragment dialogFragment = ListadoQuedadasUsuarioMenuLClick.newInstance(quedada);
+                    dialogFragment.show(fragmentManager, "menu_quedadas");
+
+                    return true;
+                } else {
+                    Snackbar.make(myView, "No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
+                    return false;
+
+                }
             }
         });
 
         fab_quedadas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new CrearQuedadaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
 
+                if(isOnlineNet()) {
+
+                    fragment = new CrearQuedadaVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -222,5 +239,21 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
     @Override
     public void mostrarQuedadasNumero(List<Quedada> quedadas) {
         num_quedadas.setText("Numero de quedadas: " + quedadas.size());
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

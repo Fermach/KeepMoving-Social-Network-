@@ -18,6 +18,7 @@ public class PeticionQuedadaRecibida {
         this.foto = foto;
     }
 
+    private String id_peticion;
     private String id;
     private String autor;
     private String autor_uid;
@@ -62,6 +63,14 @@ public class PeticionQuedadaRecibida {
 
     public void setAutor_peticion_nombre(String autor_peticion_nombre) {
         this.autor_peticion_nombre = autor_peticion_nombre;
+    }
+
+    public String getId_peticion() {
+        return id_peticion;
+    }
+
+    public void setId_peticion(String id_peticion) {
+        this.id_peticion = id_peticion;
     }
 
     public String getId() {
@@ -178,10 +187,11 @@ public class PeticionQuedadaRecibida {
 
     @Override
     public String toString() {
-        return "PeticionQuedada{" +
-                "id='" + id + '\'' +
+        return "PeticionQuedadaRecibida{" +
+                "foto=" + foto +
+                ", id_peticion='" + id_peticion + '\'' +
+                ", id='" + id + '\'' +
                 ", autor='" + autor + '\'' +
-                ", autor_peticion ='" + autor_peticion + '\'' +
                 ", autor_uid='" + autor_uid + '\'' +
                 ", lugar='" + lugar + '\'' +
                 ", fecha='" + fecha + '\'' +
@@ -191,6 +201,8 @@ public class PeticionQuedadaRecibida {
                 ", plazas='" + plazas + '\'' +
                 ", longitud='" + longitud + '\'' +
                 ", latitud='" + latitud + '\'' +
+                ", autor_peticion='" + autor_peticion + '\'' +
+                ", autor_peticion_nombre='" + autor_peticion_nombre + '\'' +
                 ", num_plazas_solicitadas='" + num_plazas_solicitadas + '\'' +
                 ", estado='" + estado + '\'' +
                 '}';

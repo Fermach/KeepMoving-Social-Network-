@@ -69,11 +69,12 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isOnlineNet()) {
                 correo= et_correo.getText().toString().trim();
                 contraseña= et_contraseña.getText().toString().trim();
                 contraseña2= et_contraseña2.getText().toString().trim();
 
-                if(!correo.isEmpty() && !contraseña.isEmpty()  && !contraseña2.isEmpty())  {
+                 if(!correo.isEmpty() && !contraseña.isEmpty()  && !contraseña2.isEmpty())  {
 
                     if(contraseña2.equals(contraseña)) {
 
@@ -88,9 +89,12 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                         Snackbar.make(myView,"Deben coincidir las contraseñas", Snackbar.LENGTH_SHORT).show();
 
                     }
-                }else{
+                 }else{
                     Snackbar.make(myView,"Debe rellenar todos los campos", Snackbar.LENGTH_SHORT).show();
 
+                 }
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,9 +102,12 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new LogginPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
-
+                if (isOnlineNet()) {
+                   fragment = new LogginPantallaVista();
+                   getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -151,5 +158,21 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
     public void onDestroy() {
         super.onDestroy();
       // presenter.cancelarRegistro();
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

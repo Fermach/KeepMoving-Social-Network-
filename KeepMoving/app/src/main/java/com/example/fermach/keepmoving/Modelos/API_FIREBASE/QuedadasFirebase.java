@@ -202,21 +202,26 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     @Override
     public void cambiarEstadoQuedada(final PeticionQuedada peticionQuedada, final CambiarEstadoCallback callback) {
+        listaPeticionesRecibidasQuedadasUsuario= new ArrayList<>();
         user = mAuth.getCurrentUser();
-        Query query = UsuariosRef.child(user.getUid()).child("Peticiones recibidas").orderByChild("id")
-                .equalTo(peticionQuedada.getId());
+        Query query = UsuariosRef.child(user.getUid()).child("Peticiones recibidas").orderByChild("id_peticion")
+                .equalTo(peticionQuedada.getId_peticion());
+
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 dataSnapshot.getRef().child("estado").setValue(peticionQuedada.getEstado());
-                Query query2 = UsuariosRef.child(peticionQuedada.getAutor_peticion()).child("Peticiones enviadas").orderByChild("id")
-                        .equalTo(peticionQuedada.getId());
+                Query query2 = UsuariosRef.child(peticionQuedada.getAutor_peticion()).child("Peticiones enviadas").orderByChild("id_peticion")
+                        .equalTo(peticionQuedada.getId_peticion());
+                Log.i("CAMBIO ESTADO","1");
                 query2.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         dataSnapshot.getRef().child("estado").setValue(peticionQuedada.getEstado());
                         Query query3 = QuedadasRef.orderByChild("id")
                                 .equalTo(peticionQuedada.getId());
+                        Log.i("CAMBIO ESTADO","2");
+
                         query3.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -226,10 +231,13 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
                                 Query query4 =  UsuariosRef.child(user.getUid()).child("Quedadas").orderByChild("id")
                                         .equalTo(peticionQuedada.getId());
+                                Log.i("CAMBIO ESTADO","3");
+
                                 query4.addChildEventListener(new ChildEventListener() {
                                     @Override
                                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                         dataSnapshot.getRef().child("plazas").setValue(plazasActualizadas);
+                                        Log.i("CAMBIO ESTADO","4");
 
                                         callback.onEstadoCambiado();
                                     }
@@ -368,14 +376,19 @@ public class QuedadasFirebase implements QuedadaDataSource {
     @Override
     public void obtenerPeticionesRecibidasQuedadas(final ObtenerPeticionesRecibidasQuedadasCallback callback) {
         user = mAuth.getCurrentUser();
+        final int numero_deQuedadas_BD = 0;
+        listaPeticionesRecibidasQuedadasUsuario= new ArrayList<>();
+        callback.onSolicitudesQuedadasObtenidas(listaPeticionesRecibidasQuedadasUsuario);
+
         UsuariosRef.child(user.getUid()).child("Peticiones recibidas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                peticionQuedadaRecibida = dataSnapshot.getValue(PeticionQuedada.class);
-                Log.i("PETICIONES_REC_OBTENIDA", peticionQuedadaRecibida.toString());
-                listaPeticionesRecibidasQuedadasUsuario.add(peticionQuedadaRecibida);
 
-                callback.onSolicitudesQuedadasObtenidas(listaPeticionesRecibidasQuedadasUsuario);
+                  peticionQuedadaRecibida = dataSnapshot.getValue(PeticionQuedada.class);
+                  listaPeticionesRecibidasQuedadasUsuario.add(peticionQuedadaRecibida);
+                  Log.i("PETICIONES_REC_OBTENIDA", "Peticion recibida: "+peticionQuedadaRecibida.toString());
+
+                  callback.onSolicitudesQuedadasObtenidas(listaPeticionesRecibidasQuedadasUsuario);
 
             }
 
@@ -614,7 +627,9 @@ public class QuedadasFirebase implements QuedadaDataSource {
     public void enviarSolicitud(final PeticionQuedada peticionQuedada, final EnviarSolicitudCallback callback) {
         user = mAuth.getCurrentUser();
         peticionQuedada.setAutor_peticion(user.getUid());
+        String peticion_id= peticionQuedada.getAutor_peticion()+peticionQuedada.getId();
 
+        peticionQuedada.setId_peticion(peticion_id);
         UsuariosRef.child(user.getUid()).child("Peticiones enviadas").push().setValue(peticionQuedada).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

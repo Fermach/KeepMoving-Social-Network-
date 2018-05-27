@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.fermach.keepmoving.MainActivity.DrawerLocker;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
@@ -48,7 +49,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         inicializarVista();
         activarControladores();
 
-
+        ((DrawerLocker)getActivity()).setDrawerLocked(true);
         presenter= new LogginPantallaPresenter(this);
         progressDialog=new ProgressDialog(myView.getContext());
 
@@ -68,30 +69,45 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new RegistroPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                if(isOnlineNet()) {
 
+                    fragment = new RegistroPantallaVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }else{
+
+                    Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
         btn_iniciar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correo= et_correo.getText().toString().trim();
-                contraseña= et_contraseña.getText().toString().trim();
 
-                if(!correo.isEmpty() && !contraseña.isEmpty()) {
+                if(isOnlineNet()) {
 
-                    progressDialog.setMessage("Logueando usuario");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                    correo = et_correo.getText().toString().trim();
+                    contraseña = et_contraseña.getText().toString().trim();
 
-                    usuario = new Usuario(correo, contraseña);
-                    presenter.setTOKEN("LOGGIN");
+                    if (!correo.isEmpty() && !contraseña.isEmpty()) {
+
+                        progressDialog.setMessage("Logueando usuario");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+
+                        usuario = new Usuario(correo, contraseña);
+                        presenter.setTOKEN("LOGGIN");
+                    } else {
+                        Snackbar.make(myView, "Debe rellenar todos los campos", Snackbar.LENGTH_SHORT).show();
+
+                    }
                 }else{
-                    Snackbar.make(myView,"Debe rellenar todos los campos", Snackbar.LENGTH_SHORT).show();
+
 
                 }
+
+
             }
         });
     }
@@ -129,5 +145,20 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
        // presenter.detenerListenerFire();
     }
 
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

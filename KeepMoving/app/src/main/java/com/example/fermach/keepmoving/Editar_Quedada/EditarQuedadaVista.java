@@ -286,61 +286,71 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              lugar=""+tv_lugar.getText().toString().trim();
-              hora=""+tv_hora.getText().toString().trim();
-              fecha=""+tv_fecha.getText().toString().trim();
-              mas_info=""+tv_mas_info.getText().toString().trim();
-              plazas=""+picker_plazas.getValue();
-              deporte=""+spinner_deporte.getSelectedItem().toString().trim();
+
+                if (isOnlineNet()) {
+                    lugar = "" + tv_lugar.getText().toString().trim();
+                    hora = "" + tv_hora.getText().toString().trim();
+                    fecha = "" + tv_fecha.getText().toString().trim();
+                    mas_info = "" + tv_mas_info.getText().toString().trim();
+                    plazas = "" + picker_plazas.getValue();
+                    deporte = "" + spinner_deporte.getSelectedItem().toString().trim();
 
 
-              if(!lugar.isEmpty() && !hora.isEmpty() &&
-                        !fecha.isEmpty() && !deporte.isEmpty()&& !plazas.isEmpty())  {
-                  //subir quedada
+                    if (!lugar.isEmpty() && !hora.isEmpty() &&
+                            !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
+                        //subir quedada
 
-                  buscarLugar();
-                  btn_guardar.setEnabled(false);
-                  try {
-                      Thread.sleep(1000);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
-
-
-                  if(ubicacionEncontrada==true) {
+                        buscarLugar();
+                        btn_guardar.setEnabled(false);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
 
-                      progressDialog.setMessage("Se están actualizando los datos de la quedada");
-                      progressDialog.setCancelable(false);
-                      progressDialog.show();
+                        if (ubicacionEncontrada == true) {
 
-                      longitud = "" + localizacion.getLongitude();
-                      latitud = "" + localizacion.getLatitude();
-                      //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
 
-                      quedada = new Quedada(quedada.getId(), quedada.getAutor(), lugar, fecha, hora, deporte, mas_info, plazas,
-                              longitud, latitud);
+                            progressDialog.setMessage("Se están actualizando los datos de la quedada");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
 
-                      presenter.editarQuedada(quedada);
-                  }else{
-                      btn_guardar.setEnabled(true);
-                      Snackbar.make(myView,"No se pudo encontrar la ubicación seleccionada!", 4000).show();
+                            longitud = "" + localizacion.getLongitude();
+                            latitud = "" + localizacion.getLatitude();
+                            //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
 
-                  }
+                            quedada = new Quedada(quedada.getId(), quedada.getAutor(), lugar, fecha, hora, deporte, mas_info, plazas,
+                                    longitud, latitud);
 
-              }else{
-                  Snackbar.make(myView,"Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+                            presenter.editarQuedada(quedada);
+                        } else {
+                            btn_guardar.setEnabled(true);
+                            Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
 
-              }
+                        }
+
+                    } else {
+                        Snackbar.make(myView, "Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+
+                    }
+
+            }else {
+                Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
             }
+         }
         });
 
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new PerfilPantallaVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                if (isOnlineNet()) {
 
+                    fragment = new PerfilPantallaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -464,5 +474,21 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         Snackbar.make(myView,"No fue posible modificar la quedada ", 4000).show();
 
 
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

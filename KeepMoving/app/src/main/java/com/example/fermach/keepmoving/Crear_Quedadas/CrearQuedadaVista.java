@@ -223,6 +223,8 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         tv_lugar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+
                 if(actionId == EditorInfo.IME_ACTION_SEARCH
                         || actionId== EditorInfo.IME_ACTION_DONE
                         || event.getAction()==KeyEvent.ACTION_DOWN
@@ -272,66 +274,76 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         btn_publicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              lugar=""+tv_lugar.getText().toString().trim();
-              hora=""+tv_hora.getText().toString().trim();
-              fecha=""+tv_fecha.getText().toString().trim();
-              mas_info=""+tv_mas_info.getText().toString().trim();
-              plazas=""+picker_plazas.getValue();
-              deporte=""+spinner_deporte.getSelectedItem().toString().trim();
+
+                if (isOnlineNet()) {
+
+                    lugar = "" + tv_lugar.getText().toString().trim();
+                    hora = "" + tv_hora.getText().toString().trim();
+                    fecha = "" + tv_fecha.getText().toString().trim();
+                    mas_info = "" + tv_mas_info.getText().toString().trim();
+                    plazas = "" + picker_plazas.getValue();
+                    deporte = "" + spinner_deporte.getSelectedItem().toString().trim();
 
 
-              if(!lugar.isEmpty() && !hora.isEmpty() &&
-                        !fecha.isEmpty() && !deporte.isEmpty()&& !plazas.isEmpty()) {
-                  //subir quedada
+                    if (!lugar.isEmpty() && !hora.isEmpty() &&
+                            !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
+                        //subir quedada
 
-                  buscarLugar();
+                        buscarLugar();
 
-                  btn_publicar.setEnabled(false);
-                  try {
-                      Thread.sleep(1000);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
+                        btn_publicar.setEnabled(false);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                  if(ubicacionEncontrada==true) {
+                        if (ubicacionEncontrada == true) {
 
-                      progressDialog.setMessage("Se está creando la quedada");
-                      progressDialog.setCancelable(false);
-                      progressDialog.show();
+                            progressDialog.setMessage("Se está creando la quedada");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
 
-                      longitud = "" + localizacion.getLongitude();
-                      latitud = "" + localizacion.getLatitude();
-                      id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
+                            longitud = "" + localizacion.getLongitude();
+                            latitud = "" + localizacion.getLatitude();
+                            id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
 
-                      quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
-                              longitud, latitud);
+                            quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
+                                    longitud, latitud);
 
-                      presenter.CrearQuedada(quedada);
-                  }else{
-                      btn_publicar.setEnabled(true);
-                      Snackbar.make(myView,"No se pudo encontrar la ubicación seleccionada!", 4000).show();
+                            presenter.CrearQuedada(quedada);
+                        } else {
+                            btn_publicar.setEnabled(true);
+                            Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
 
-                  }
-              }
+                        }
+                    }
 
+                } else {
+
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
 
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new ListadoQuedadasUsuarioVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
+                if (isOnlineNet()) {
+
+                    fragment = new ListadoQuedadasUsuarioVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                } else {
+
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+
+                }
             }
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
     public void onQuedadaCreada() {
@@ -444,6 +456,22 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
           }catch (  SecurityException e){
               Log.e("MAPS_ERROR","getDeviceLocation: "+e.getMessage());
           }
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

@@ -88,15 +88,21 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         btn_mis_quedadas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new ListadoQuedadasUsuarioVista();
-                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                if (isOnlineNet()) {
 
+                    fragment = new ListadoQuedadasUsuarioVista();
+                    getFragmentManager().beginTransaction().replace(R.id.content_main, fragment ).commit();
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
         btn_editar_datos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isOnlineNet()) {
+
                //mostramos la pantalla de edicion panadole el usuario y la foto
                 Bundle args = new Bundle();
                 args.putSerializable(USUARIO, usuarioPerfil);
@@ -108,7 +114,9 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
                         .replace(R.id.content_main, toFragment)
                         .addToBackStack(USUARIO).addToBackStack(FOTO).commit();
 
-
+                }else {
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -181,5 +189,21 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
     public void onStart() {
         super.onStart();
 
+    }
+
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -106,10 +106,12 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
        btn_enviar.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
+               if (isOnlineNet()) {
+
+                   plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
                plazas_max=Integer.parseInt(tv_plazas.getText().toString());
 
-               if(plazas_seleccionadas!=0 && plazas_seleccionadas<plazas_max){
+               if(plazas_seleccionadas!=0 && plazas_seleccionadas<=plazas_max){
 
                AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
                myBuild.setMessage("¿Estás seguro de que desea enviar esta solicitud? \n\n" +
@@ -142,6 +144,9 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
                    Snackbar.make(myView,"Usted ha seleccionado más plazas de las que el autor de la quedada ha puesto disponibles", 4000).show();
 
                }
+               }else {
+                   Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+               }
 
            }
        });
@@ -149,7 +154,10 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
        btn_cancelar.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Bundle bundle = new Bundle();
+
+               if (isOnlineNet()) {
+
+                   Bundle bundle = new Bundle();
                bundle.putSerializable(QUEDADA, quedada);
                Fragment toFragment = new DetalleQuedadaVista();
                toFragment.setArguments(bundle);
@@ -157,6 +165,10 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
                        .beginTransaction()
                        .replace(R.id.content_main, toFragment, QUEDADA)
                        .addToBackStack(QUEDADA).commit();
+
+               }else {
+                   Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+               }
            }
        });
 
@@ -195,4 +207,20 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
     public void onUsuarioActualObtenidoError() {
 
     }
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

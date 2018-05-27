@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedadaRecibida;
 import com.example.fermach.keepmoving.R;
@@ -71,10 +72,22 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
         lista_peticiones= new ArrayList<>();
         lista_peticionesRecibidas= new ArrayList<>();
 
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+
+              if(progressDialog.isShowing()){
+                  Snackbar.make(myView,"No ha sido posible obtener la lista de peticiones pendientes", Snackbar.LENGTH_SHORT).show();
+                  progressDialog.dismiss();
+
+              }
+
+            };
+        }, 30000);
+
         progressDialog= new ProgressDialog(myView.getContext());
         progressDialog.setMessage("Obteniendo peticiones");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+
 
         presenter = new ListadoPeticionesRecibidasPresenter(this);
         presenter.obtenerPeticionesRecibidas();
@@ -102,11 +115,18 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
     public void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas) {
         this.lista_peticiones= peticionesQuedadas;
         lista_peticionesRecibidas=new ArrayList<>();
-        adaptadorSeteado=false;
-        for(PeticionQuedada mpeticionQuedada: lista_peticiones){
-            presenter.obtenerFotoUsuario(mpeticionQuedada.getAutor_peticion(),mpeticionQuedada);
 
-        }
+
+        progressDialog.show();
+        Log.i("ADAPTADOR", "+++++++++ LISTA PETICIONES RECIBIDAS ++++++++\n" + peticionesQuedadas.toString());
+
+        PeticionQuedada mPeticionQuedada= peticionesQuedadas.get(peticionesQuedadas.size()-1);
+
+        Log.i("ADAPTADOR", "+++++++++ OBTENIENDO FOTO  ++++++++\n" + mPeticionQuedada.toString());
+
+        presenter.obtenerFotoUsuario(mPeticionQuedada.getAutor_peticion(),mPeticionQuedada);
+
+
     }
 
     @Override
@@ -139,10 +159,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
     @Override
     public void onFotoObtenida(byte[] foto,  PeticionQuedada pQuedada)
     {
-        Log.i("ADAPTADOR", "+++++++++++++ ADAPTADOR SETEADO = "+adaptadorSeteado+" ++++++++++++++++++++++");
-        if(adaptadorSeteado==true){
-            return;
-        }else {
+
             Log.i("ADAPTADOR", "+++++++++ PetCon FOTO" + pQuedada.toString() + " ++++++++");
 
 
@@ -152,21 +169,10 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
             peticionQuedadaRecibida = new PeticionQuedadaRecibida(pQuedada.getId(), pQuedada.getAutor_peticion_nombre(), pQuedada.getAutor(), pQuedada.getAutor_uid(), pQuedada.getLugar(), pQuedada.getFecha(), pQuedada.getHora(), pQuedada.getDeporte(), pQuedada.getInfo(), pQuedada.getPlazas(), pQuedada.getLongitud(),
                     pQuedada.getLatitud(), pQuedada.getNum_plazas_solicitadas(), pQuedada.getEstado(), pQuedada.getAutor_peticion());
             peticionQuedadaRecibida.setFoto(bitmap);
+            peticionQuedadaRecibida.setId_peticion(pQuedada.getId_peticion());
 
-            if (lista_peticionesRecibidas.isEmpty()) {
-                lista_peticionesRecibidas.add(peticionQuedadaRecibida);
-            } else {
-                for (int i = 0; i < lista_peticionesRecibidas.size(); i++) {
-                    if (lista_peticionesRecibidas.get(i).getId().equals(peticionQuedadaRecibida.getId()) &&
-                            lista_peticionesRecibidas.get(i).getAutor_peticion().equals(peticionQuedadaRecibida.getAutor_peticion())) {
-
-
-                    } else {
-                        lista_peticionesRecibidas.add(peticionQuedadaRecibida);
-
-                    }
-                }
-            }
+            lista_peticionesRecibidas.add(peticionQuedadaRecibida);
+            Log.i("ADAPTADOR", "+++++++++ QUEDADA AÑADIDA A LISTA ++++++++\n" + peticionQuedadaRecibida.toString());
 
             if (lista_peticionesRecibidas.size() == lista_peticiones.size()) {
 
@@ -175,17 +181,15 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
                 adaptador.setCustomButtonListner(this);
                 adaptador.setCustomImageButtonListener(this);
                 listView.setAdapter(adaptador);
-                adaptadorSeteado = true;
 
                 LinearLayoutManager llm = new LinearLayoutManager(getContext());
                 llm.setOrientation(LinearLayoutManager.HORIZONTAL);
                 listView.setLayoutManager(llm);
 
-
                 progressDialog.dismiss();
             }
 
-        }
+
     }
 
     @Override
@@ -196,14 +200,26 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     @Override
     public void onButtonClickListner(int position, PeticionQuedadaRecibida pQuedada, String estado) {
-        pQuedada.setEstado(estado);
+        if(isOnlineNet()) {
+
         peticionQuedada=new PeticionQuedada(pQuedada.getId(),pQuedada.getAutor_peticion_nombre(),pQuedada.getAutor(),pQuedada.getAutor_uid(),pQuedada.getLugar(),pQuedada.getFecha(),pQuedada.getHora(),pQuedada.getDeporte(),pQuedada.getInfo(),pQuedada.getPlazas(),pQuedada.getLongitud(),
-                pQuedada.getLatitud(),pQuedada.getNum_plazas_solicitadas(),pQuedada.getEstado() );
+                pQuedada.getLatitud(),pQuedada.getNum_plazas_solicitadas(),estado );
+        peticionQuedada.setAutor_peticion(pQuedada.getAutor_peticion());
+        peticionQuedada.setId_peticion(pQuedada.getId_peticion());
+
+        Log.i("CAMBIANDO ESTADO ", "NUEVA PETICION CON CAMBIO DE ESTADO: " + peticionQuedada.toString());
+
         presenter.cambiarEstadoQuedada(peticionQuedada);
+
+        }else{
+            Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
+
+        }
     }
 
     @Override
     public void onImageButtonListner(int position, PeticionQuedadaRecibida pQuedada) {
+        if(isOnlineNet()) {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(UID_USUARIO, pQuedada.getAutor_peticion());
@@ -213,7 +229,26 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
                 .beginTransaction()
                 .replace(R.id.content_main, toFragment, UID_USUARIO)
                 .addToBackStack(UID_USUARIO).commit();
-    }
+        }else{
+            Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
 
+        }
+
+    }
+    public Boolean isOnlineNet() {
+
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

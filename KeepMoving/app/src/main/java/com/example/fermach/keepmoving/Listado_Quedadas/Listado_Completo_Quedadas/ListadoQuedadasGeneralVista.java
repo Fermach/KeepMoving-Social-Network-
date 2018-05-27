@@ -23,6 +23,7 @@ import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usua
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioContract;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioMenuLClick;
 import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioPresenter;
+import com.example.fermach.keepmoving.MainActivity.DrawerLocker;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.R;
 
@@ -57,7 +58,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
         lista_quedadas= new ArrayList<>();
 
 
-
+        ((DrawerLocker)getActivity()).setDrawerLocked(false);
         progressDialog= new ProgressDialog(myView.getContext());
         progressDialog.setMessage("Obteniendo datos");
         progressDialog.setCancelable(false);
@@ -87,15 +88,19 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 quedada= lista_quedadas.get(position);
 
-                Bundle args = new Bundle();
-                args.putSerializable(QUEDADA, quedada);
-                Fragment toFragment = new DetalleQuedadaVista();
-                toFragment.setArguments(args);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
+                if(isOnlineNet()) {
+                    Bundle args = new Bundle();
+                    args.putSerializable(QUEDADA, quedada);
+                    Fragment toFragment = new DetalleQuedadaVista();
+                    toFragment.setArguments(args);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_main, toFragment, QUEDADA)
+                            .addToBackStack(QUEDADA).commit();
+                }else{
+                    Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
 
+                }
             }
         });
 
@@ -133,5 +138,19 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
         num_quedadas.setText("Numero de quedadas: "+ quedadas.size());
     }
 
+    public Boolean isOnlineNet() {
 
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
