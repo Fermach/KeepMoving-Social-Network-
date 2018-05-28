@@ -25,7 +25,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Console;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -156,15 +161,12 @@ public class QuedadasFirebase implements QuedadaDataSource {
             }
         });
 
-
-
-
-
     }
 
 
     @Override
     public void obtenerQuedadas(final ObtenerQuedadasCallback callback) {
+
 
         QuedadasRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -172,9 +174,20 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
                 quedada = dataSnapshot.getValue(Quedada.class);
                 Log.i("Quedada_OBTENIDA", quedada.toString());
-                listaQuedadasGeneral.add(quedada);
+
+               // Log.i("FECHA ACTUAL", dateFormat.format(date));
+                String fecha_obtenida= ""+quedada.getFecha()+ " "+quedada.getHora();
+                if(compararFechaActualCon(fecha_obtenida)) {
+
+
+                         Log.i("Quedada_OBTENIDA", "FECHA VALIDA");
+                         listaQuedadasGeneral.add(quedada);
+
+                }
+
 
                 callback.onQuedadasObtenidas(listaQuedadasGeneral);
+
                 //listaQuedadasGeneral= new ArrayList<>();
             }
 
@@ -198,6 +211,37 @@ public class QuedadasFirebase implements QuedadaDataSource {
                 callback.onQuedadasObtenidasError();
             }
         });
+
+    }
+
+    private boolean compararFechaActualCon(String fecha_obtenida) {
+        boolean fecha_valida=false;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/m/yyyy HH:mm");
+        Date date = new Date();
+        String fecha_actual= dateFormat.format(date);
+
+        try {
+            Date date2 = dateFormat.parse(fecha_obtenida);
+            Date date1 = dateFormat.parse(fecha_actual);
+
+            Log.i("COMPARANDO FECHAS", "F_ACTUAL: "+ date1+", F_OBTENIDA: "+date2);
+
+            if(date2.after(date1)){
+                fecha_valida=true;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
+            }else{
+                fecha_valida=false;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: FALSE");
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return fecha_valida;
     }
 
     @Override

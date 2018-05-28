@@ -1,6 +1,8 @@
 package com.example.fermach.keepmoving.Listado_Quedadas.Listado_Peticiones_Recibidas;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.LocaleDisplayNames;
@@ -25,7 +27,11 @@ import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedadaRecibida;
 import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Usuario_Perfil_Vista.PerfilVistaPantallaVista;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -209,7 +215,23 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
         Log.i("CAMBIANDO ESTADO ", "NUEVA PETICION CON CAMBIO DE ESTADO: " + peticionQuedada.toString());
 
-        presenter.cambiarEstadoQuedada(peticionQuedada);
+            String fecha_obtenida= ""+peticionQuedada.getFecha()+ " "+peticionQuedada.getHora();
+            if(compararFechaActualCon(fecha_obtenida)) {
+                presenter.cambiarEstadoQuedada(peticionQuedada);
+
+            }else{
+                AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+                myBuild.setMessage("La fecha propuesta de la quedada ya ha expirado.\n\n No es posible confirmar o rechazar esta quedada!" );
+                myBuild.setTitle("Alerta");
+
+                myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                myBuild.show();
+            }
 
         }else{
             Snackbar.make(myView,"No hay conexión con internet", Snackbar.LENGTH_SHORT).show();
@@ -249,6 +271,36 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
             e.printStackTrace();
         }
         return false;
+    }
+
+    private boolean compararFechaActualCon(String fecha_obtenida) {
+        boolean fecha_valida=false;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/m/yyyy HH:mm");
+        Date date = new Date();
+        String fecha_actual= dateFormat.format(date);
+
+        try {
+            Date date2 = dateFormat.parse(fecha_obtenida);
+            Date date1 = dateFormat.parse(fecha_actual);
+
+            Log.i("COMPARANDO FECHAS", "F_ACTUAL: "+ date1+", F_OBTENIDA: "+date2);
+
+            if(date2.after(date1)){
+                fecha_valida=true;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
+            }else{
+                fecha_valida=false;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: FALSE");
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return fecha_valida;
     }
 
 }

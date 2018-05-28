@@ -262,7 +262,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                 TimePickerFragment timerFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        final String horaSeleccionada = hourOfDay + ":" + minute;
+                        final String horaSeleccionada = ""+hourOfDay+":"+minute;
                         tv_hora.setText(horaSeleccionada);
                     }
                 });
