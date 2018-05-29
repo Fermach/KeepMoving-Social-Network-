@@ -1,7 +1,5 @@
 package com.example.fermach.keepmoving.MainActivity;
 
-import android.app.ProgressDialog;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,23 +13,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
-import com.example.fermach.keepmoving.App;
-import com.example.fermach.keepmoving.Crear_Quedadas.CrearQuedadaVista;
-import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
-import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Peticiones_Recibidas.ListadoPeticionesRecibidasVista;
-import com.example.fermach.keepmoving.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
-import com.example.fermach.keepmoving.Loggin.LogginPantallaVista;
-import com.example.fermach.keepmoving.Perfil_Usuario.PerfilPantallaVista;
+import com.example.fermach.keepmoving.Quedadas.Crear_Quedadas.CrearQuedadaVista;
+import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
+import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Peticiones_Recibidas.ListadoPeticionesRecibidasVista;
+import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Solicitudes_Enviadas.ListadoSolicitudesEnviadasVista;
+import com.example.fermach.keepmoving.Usuarios.Loggin.LogginPantallaVista;
+import com.example.fermach.keepmoving.Usuarios.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
-import com.example.fermach.keepmoving.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
-import com.example.fermach.keepmoving.Registro.Registro_Basico.RegistroPantallaVista;
+import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
+import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.RegistroPantallaVista;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View, DrawerLocker{
+public class MainActivity extends AppCompatActivity implements MainContract.View, DrawerLocker,ChangeToolbar{
     private final static String MAIN_FRAGMENT="MAIN_FRAGMENT";
     private Fragment fragment;
     private String TOKEN;
     private View view;
+    private Toolbar toolbar;
     private MainContract.Presenter presenter;
     private DrawerLayout drawer;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         view = this.findViewById(R.id.content_main);
 
         //se instancia el toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //se inicia el fragmento con la lista de loggin
@@ -231,6 +231,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }else{
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+    }
+
+    @Override
+    public void setToolbarText(String title) {
+            toolbar.setTitle(title);
+    }
+
+    @Override
+    public void hideToolbar(boolean hide) {
+        if (hide) {
+            getSupportActionBar().hide();
+        }else{
+            getSupportActionBar().show();
+            toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
         }
     }
 }
