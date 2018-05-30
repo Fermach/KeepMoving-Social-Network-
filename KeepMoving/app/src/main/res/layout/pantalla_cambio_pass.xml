@@ -7,30 +7,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginTop="75sp"
+        android:layout_marginTop="115sp"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30sp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_marginLeft="13sp"
-            android:layout_marginRight="17sp"
-            android:textColorHint="@android:color/black"
-            app:errorEnabled="true">
-
-            <EditText
-                android:id="@+id/editText_correoUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/intr_correo"
-                android:inputType="text"
-                android:maxLength="35"
-                android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
-        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -41,12 +23,11 @@
             app:errorEnabled="true">
 
             <EditText
-                android:id="@+id/editText_passwordUsuario"
+                android:id="@+id/editText_cambioContraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/intr_contraseña"
-                android:inputType="textPassword"
-                android:textStyle="italic"
+                android:hint="@string/intr_correo"
+                android:inputType="text"
                 android:maxLength="35"
                 android:textColorHint="@android:color/black"
                 android:textSize="15sp" />
@@ -55,38 +36,42 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="14sp"
+        android:layout_marginTop="10sp"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35sp"
         android:orientation="horizontal">
-
         <Button
-            android:id="@+id/btn_registro"
+            android:id="@+id/btn_cancelar_canbioContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:elevation="10sp"
-            android:text="@string/registrarse" />
-
+            android:text="@string/cancelar" />
         <Button
-            android:id="@+id/btn_iniciar_sesion"
+            android:id="@+id/btn_cambioContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:elevation="10sp"
-            android:text="@string/iniciar_sesion" />
-    </LinearLayout>
+            android:text="@string/Enviar_Email" />
 
-    <TextView
-        android:id="@+id/tv_contraseña_olvidada"
-        android:gravity="center"
-        android:layout_marginTop="150sp"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="italic"
-        android:layout_height="wrap_content"
-        android:text="@string/olvidoContraseña"
-        android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginHorizontal="22sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/msg_cambioContraseña"
+            android:textSize="15sp" />
+
+
+
+
 
 </LinearLayout>

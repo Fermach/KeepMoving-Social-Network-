@@ -85,10 +85,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     itemSeleccionado = true;
                 }
                 else if (id == R.id.nav_signout) {
+                    if(isOnlineNet()) {
+                        //Log.i("PULSADO","PULSADO");
+                        itemSeleccionado = false;
+                        presenter.setTOKEN("MENU");
+                    }else {
+                            Snackbar.make(view, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
+                        }
 
-                    //Log.i("PULSADO","PULSADO");
-                    itemSeleccionado=false;
-                    presenter.setTOKEN("MENU");
                 }
                 else if (id == R.id.nav_perfil) {
                     fragment= new PerfilPantallaVista();

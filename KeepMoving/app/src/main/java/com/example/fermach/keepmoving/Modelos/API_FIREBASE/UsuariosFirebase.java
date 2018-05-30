@@ -122,8 +122,8 @@ public class UsuariosFirebase implements UsuariosDataSource {
                             callback.onUsuarioRegistrado();
                         }else{
 
-                            Log.i("REGISTRO_FIRE","ERROR");
-                            callback.onUsuarioRegistradoError();
+                            Log.i("REGISTRO_FIRE","ERROR " +task.getException().getMessage() );
+                            callback.onUsuarioRegistradoError(""+task.getException().getMessage());
                         }
                     }
                 });
@@ -308,6 +308,42 @@ public class UsuariosFirebase implements UsuariosDataSource {
             }
         });
 
+    }
+
+    @Override
+    public void cambiarContraseña(String email, final CambiarContraseñaCallback callback) {
+        user=mAuth.getCurrentUser();
+        if(user!=null) {
+
+            mAuth.sendPasswordResetEmail(""+user.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i("CAMBIAR CONTRASEÑA FIRE", "SUCCESFUL -- ");
+                        callback.onContraseñaCambiada();
+                    } else {
+                        Log.i("CAMBIAR CONTRASEÑA FIRE", "ERROR -- ");
+                        callback.onContraseñaCambiadaError();
+                    }
+                }
+            });
+        }else{
+
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i("CAMBIAR CONTRASEÑA FIRE", "SUCCESFUL -- ");
+                        callback.onContraseñaCambiada();
+                    } else {
+                        Log.i("CAMBIAR CONTRASEÑA FIRE", "ERROR -- ");
+                        callback.onContraseñaCambiadaError();
+                    }
+                }
+            });
+
+
+        }
     }
 
     @Override

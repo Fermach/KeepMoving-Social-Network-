@@ -1,10 +1,13 @@
 package com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Completo_Quedadas;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Quedadas.Detalle_Quedada.DetalleQuedadaGeneral.DetalleQuedadaVista;
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.MainActivity.DrawerLocker;
@@ -60,6 +64,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
         presenter = new ListadoQuedadasGeneralPresenter(this);
         presenter.obtenerQuedadas();
+        presenter.obtenerPeticionesRecibidas();
 
         inicializarVista();
         activarControladores();
@@ -124,6 +129,36 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
        // progressDialog.dismiss();
 
         Snackbar.make(myView,"No ha sido posible obtener la lista de quedadas", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas) {
+       boolean nuevasPeticiones=false;
+        for (PeticionQuedada peticionQuedada: peticionesQuedadas) {
+            if(peticionQuedada.getEstado().equals("ENVIADA")){
+                nuevasPeticiones=true;
+            }
+        }
+
+        Log.i("NUEVAS PETICIONES:", "----------------------"+nuevasPeticiones);
+        if(nuevasPeticiones){
+            AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+            myBuild.setMessage("Tiene nuevas peticiones pendientes de confirmar.\n\nRevise su lista de peticiones.");
+            myBuild.setTitle("Alerta");
+
+            myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            myBuild.show();
+        }
+    }
+
+    @Override
+    public void onPeticionesRecibidasObtenidasError() {
+
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 
 public interface RegistroPantallaContract {
     interface View {
-        void onRegistroError();
+        void onRegistroError(String error);
         void onRegistro();
         void onLogueo();
         void onTOKENselecionado();

@@ -13,6 +13,7 @@ public interface MainContract {
         void onUsuarioNoRegistrado(String TOKEN);
         void onUsuarioRegistrado(String TOKEN);
         void onTOKENseleccionado();
+
     }
     interface Presenter {
         void cerrarSesion();

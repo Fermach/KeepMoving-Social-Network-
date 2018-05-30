@@ -17,11 +17,11 @@
             android:title="Crear Quedada" />
         <item
             android:id="@+id/nav_mis_solicitudes_enviadas"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_list_2"
             android:title="Mis solicitudes enviadas" />
         <item
             android:id="@+id/nav_mis_peticiones_recibidas"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_list_2"
             android:title="Mis peticiones recibidas" />
 
     </group>
@@ -34,6 +34,7 @@
             android:id="@+id/nav_signout"
             android:icon="@drawable/signout"
             android:title="Cerrar Sesión" />
+
 
     </group>
 </menu>

@@ -30,8 +30,8 @@ public class RegistroPantallaPresenter implements  RegistroPantallaContract.Pres
           }
 
           @Override
-          public void onUsuarioRegistradoError() {
-             registroView.onRegistroError();
+          public void onUsuarioRegistradoError(String error) {
+             registroView.onRegistroError(error);
           }
        });
     }

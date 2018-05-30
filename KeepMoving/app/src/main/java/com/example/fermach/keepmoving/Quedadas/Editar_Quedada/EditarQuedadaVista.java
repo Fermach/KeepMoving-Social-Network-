@@ -1,9 +1,11 @@
 package com.example.fermach.keepmoving.Quedadas.Editar_Quedada;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -38,6 +40,7 @@ import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Usuarios.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.Validador;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -53,8 +56,11 @@ import com.google.android.gms.tasks.Task;
 import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +96,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     private Location mLastLocation;
     private LatLng latLng;
     private Date cDate;
+    private Calendar calendar;
     private Address localizacion;
     private List<Address> lista;
     private Geocoder geocoder;
@@ -120,6 +127,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         ((ChangeToolbar)getActivity()).setToolbarText("Editar quedada");
 
         cDate = new Date();
+        calendar= Calendar.getInstance();
         progressDialog= new ProgressDialog(myView.getContext());
         presenter = new EditarQuedadaPresenter(this);
         permisosConcedidos=false;
@@ -210,8 +218,8 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
         spinner_deporte.setAdapter(adapter);
 
-        fecha = new SimpleDateFormat("dd-M-YYYY").format(cDate);
-        hora = new SimpleDateFormat("HH:mm").format(cDate);
+        fecha = new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime());
+        hora = new SimpleDateFormat("HH:mm").format(calendar.getTime());
 
         tv_fecha.setText(quedada.getFecha());
         tv_hora.setText(quedada.getHora());
@@ -299,36 +307,54 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                             !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
                         //subir quedada
 
-                        buscarLugar();
-                        btn_guardar.setEnabled(false);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+
+                       String fecha_obtenida = "" + fecha + " " + hora;
+
+                       Validador validador= new Validador();
+                       if(validador.validateFecha(fecha)){
+                        if(compararFechaActualCon(fecha_obtenida)) {
+
+                           buscarLugar();
+                           btn_guardar.setEnabled(false);
+
+
+                           if (ubicacionEncontrada == true) {
+
+
+                               progressDialog.setMessage("Se están actualizando los datos de la quedada");
+                               progressDialog.setCancelable(false);
+                               progressDialog.show();
+
+                               longitud = "" + localizacion.getLongitude();
+                               latitud = "" + localizacion.getLatitude();
+                               //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
+
+                               quedada = new Quedada(quedada.getId(), quedada.getAutor(), lugar, fecha, hora, deporte, mas_info, plazas,
+                                       longitud, latitud);
+
+                               presenter.editarQuedada(quedada);
+                           } else {
+                               btn_guardar.setEnabled(true);
+                               Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
+
+                           }
+                        }else {
+                           AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+                           myBuild.setMessage("La fecha propuesta de la quedada ya ha expirado.\n\nIntroduzca una fecha válida!");
+                           myBuild.setTitle("Alerta");
+
+                           myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   dialog.cancel();
+                               }
+                           });
+                           myBuild.show();
                         }
+                       } else {
+                           Snackbar.make(myView, "Fecha no valida", Snackbar.LENGTH_SHORT).show();
 
-
-                        if (ubicacionEncontrada == true) {
-
-
-                            progressDialog.setMessage("Se están actualizando los datos de la quedada");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
-
-                            longitud = "" + localizacion.getLongitude();
-                            latitud = "" + localizacion.getLatitude();
-                            //  id=""+ (localizacion.getLongitude()+localizacion.getLatitude()) + ""+fecha+hora;
-
-                            quedada = new Quedada(quedada.getId(), quedada.getAutor(), lugar, fecha, hora, deporte, mas_info, plazas,
-                                    longitud, latitud);
-
-                            presenter.editarQuedada(quedada);
-                        } else {
-                            btn_guardar.setEnabled(true);
-                            Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
-
-                        }
-
+                       }
                     } else {
                         Snackbar.make(myView, "Debe rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
 
@@ -474,6 +500,34 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
 
     }
+
+    private boolean compararFechaActualCon(String fecha_obtenida) {
+        boolean fecha_valida = false;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        String fecha_actual = dateFormat.format(date);
+
+        try {
+            Date date2 = dateFormat.parse(fecha_obtenida);
+            Date date1 = dateFormat.parse(fecha_actual);
+
+            Log.i("COMPARANDO FECHAS", "F_ACTUAL: " + date1 + ", F_OBTENIDA: " + date2);
+
+            if (date2.after(date1) ) {
+                fecha_valida = true;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
+            } else {
+                fecha_valida = false;
+                Log.i("COMPARANDO FECHAS", "F_VALIDA: FALSE");
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return fecha_valida;
+    }
+
 
     public Boolean isOnlineNet() {
 

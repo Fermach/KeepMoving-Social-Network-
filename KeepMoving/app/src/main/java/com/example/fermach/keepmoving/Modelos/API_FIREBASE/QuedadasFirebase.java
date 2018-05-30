@@ -220,7 +220,7 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
             Log.i("COMPARANDO FECHAS", "F_ACTUAL: "+ date1+", F_OBTENIDA: "+date2);
 
-            if(date2.after(date1)){
+            if(date2.after(date1) || date2.equals(date1)){
                 fecha_valida=true;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
             }else{

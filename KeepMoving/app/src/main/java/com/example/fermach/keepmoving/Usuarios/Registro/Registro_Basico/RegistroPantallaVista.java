@@ -79,13 +79,25 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
 
                     if(contraseña2.equals(contraseña)) {
 
-                        progressDialog.setMessage("Se están validando los datos");
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
+                      Validador validador= new Validador();
+                      if(validador.validateEmail(correo)) {
+                           if(contraseña.length()<30 && contraseña.length()>=6) {
 
-                        usuario = new Usuario(correo, contraseña);
-                        presenter.setTOKEN("REGISTRO");
+                               progressDialog.setMessage("Se están validando los datos");
+                               progressDialog.setCancelable(false);
+                               progressDialog.show();
 
+                               usuario = new Usuario(correo, contraseña);
+                               presenter.setTOKEN("REGISTRO");
+                           }
+                           else{
+                               Snackbar.make(myView,"La contraseña introducida debe de tener entre 6 y 30 caractéres", Snackbar.LENGTH_SHORT).show();
+
+                           }
+                      }else{
+                          Snackbar.make(myView,"El correo introducido no es un correo válido", Snackbar.LENGTH_SHORT).show();
+
+                      }
                     }else{
                         Snackbar.make(myView,"Deben coincidir las contraseñas", Snackbar.LENGTH_SHORT).show();
 
@@ -114,8 +126,8 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
     }
 
     @Override
-    public void onRegistroError() {
-        Snackbar.make(myView,"En este momento, no se pudo registrar el usuario", Snackbar.LENGTH_LONG).show();
+    public void onRegistroError(String error) {
+        Snackbar.make(myView,"En este momento, no se pudo registrar el usuario:\n"+error, Snackbar.LENGTH_LONG).show();
         Log.i("INFO","ERROR EN REGISTRO");
         progressDialog.dismiss();
     }

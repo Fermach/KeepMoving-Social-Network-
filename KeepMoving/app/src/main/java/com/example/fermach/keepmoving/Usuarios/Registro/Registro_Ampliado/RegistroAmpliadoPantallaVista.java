@@ -43,7 +43,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
     private EditText et_apellidos;
     private EditText et_biografia;
     ProgressDialog progressDialog;
-    private MultiAutoCompleteTextView multi_aficiones;
+    private EditText et_aficiones;
     private CircleImageView foto_registro;
     private View myView;
     private RegistroAmpliadoPantallaContract.Presenter presenter;
@@ -81,7 +81,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         et_apellidos=myView.findViewById(R.id.editText_apellidosUsuario_registro);
         et_nombre=myView.findViewById(R.id.editText_nombreUsuario_registro);
         et_biografia=myView.findViewById(R.id.editText_biografiaUsuario_registro1);
-        multi_aficiones=myView.findViewById(R.id.multiAutoComplete_aficiones_registro);
+        et_aficiones=myView.findViewById(R.id.editText_aficiones_registro);
         foto_registro=myView.findViewById(R.id.fab_usuarioImagen_registro);
     }
 
@@ -96,7 +96,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                     //correo=usuario.getCorreo();
                 nombre=""+ et_nombre.getText().toString().trim();
                 apellidos=""+et_apellidos.getText().toString().trim();
-                aficiones=""+ multi_aficiones.getText().toString().trim();
+                aficiones=""+ et_aficiones.getText().toString().trim();
                 biografia=""+ et_biografia.getText().toString().trim();
 
 
@@ -152,18 +152,6 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         });
     }
 
-    public void iniciarAdeptadores(){
-
-
-        String[] valores_aficiones= {"Futbol","Tenis","Baloncesto",
-                "Running","Rugby","Boxeo","Artes Marciales","Senderismo","Otros"};
-
-        multi_aficiones.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        multi_aficiones.setAdapter(new ArrayAdapter<String>
-                (getContext(),R.layout.support_simple_spinner_dropdown_item,valores_aficiones));
-
-
-    }
 
     public void cargarImagenGaleria(){
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -256,7 +244,6 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         Log.i("CORREO ACTUAL", ""+correo);
         inicializarVista();
         activarControladores();
-        iniciarAdeptadores();
     }
 
     @Override

@@ -85,9 +85,9 @@ public class UsuariosRepository implements UsuariosDataSource{
             }
 
             @Override
-            public void onUsuarioRegistradoError() {
+            public void onUsuarioRegistradoError(String error) {
                 Log.i("REGISTRO", "ERROR");
-                callback.onUsuarioRegistradoError();
+                callback.onUsuarioRegistradoError(error);
             }
         });
     }
@@ -231,6 +231,22 @@ public class UsuariosRepository implements UsuariosDataSource{
             public void onUsuarioObtenidoError() {
                 callback.onUsuarioObtenidoError();
             }
+        });
+    }
+
+    @Override
+    public void cambiarContraseña(String email, final CambiarContraseñaCallback callback) {
+        UsuariosFirebase usuariosFirebase= UsuariosFirebase.getInstance();
+        usuariosFirebase.cambiarContraseña(email, new CambiarContraseñaCallback() {
+             @Override
+             public void onContraseñaCambiada() {
+                  callback.onContraseñaCambiada();
+             }
+
+             @Override
+             public void onContraseñaCambiadaError() {
+                  callback.onContraseñaCambiadaError();
+             }
         });
     }
 

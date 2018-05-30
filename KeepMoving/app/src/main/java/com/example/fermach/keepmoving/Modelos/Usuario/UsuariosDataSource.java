@@ -20,6 +20,7 @@ public interface UsuariosDataSource {
     void obtenerFotoPerfil(ObtenerFotoPerfilCallback callback);
     void obtenerFotoPerfilUsuario(String uid, PeticionQuedada pQuedada, ObtenerFotoPerfilUsuarioCallback callback);
     void obtenerUsuarioActual(ObtenerUsuarioActualCallback callback);
+    void cambiarContraseña(String email, CambiarContraseñaCallback callback);
     void obtenerUsuarioPorUID(String Uid, ObtenerUsuarioPorUIDCallback callback);
     void obtenerUidUsuarioActual(ObtenerUidUsuarioActualCallback callback);
     void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback);
@@ -38,6 +39,10 @@ public interface UsuariosDataSource {
     interface ObtenerFotoPerfilCallback{
         void onFotoPerfilObtenida(byte[] foto);
         void onFotoPerfilObtenidaError();
+    }
+    interface CambiarContraseñaCallback{
+        void onContraseñaCambiada();
+        void onContraseñaCambiadaError();
     }
     interface ObtenerFotoPerfilUsuarioCallback{
         void onFotoUsuarioPerfilObtenida(byte[] foto, PeticionQuedada pQuedada);
@@ -69,7 +74,7 @@ public interface UsuariosDataSource {
     }
     interface RegistrarUsuarioCallback{
         void onUsuarioRegistrado();
-        void onUsuarioRegistradoError();
+        void onUsuarioRegistradoError(String error);
     }
     interface RegistrarUsuarioConFotoCallback{
         void onUsuarioRegistrado();

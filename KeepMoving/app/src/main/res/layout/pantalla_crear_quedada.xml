@@ -25,6 +25,7 @@
             android:inputType="text"
             android:textColorHint="@android:color/black"
             android:textSize="15sp"
+            android:maxLength="40"
             android:imeOptions="actionSearch"/>
 
 
@@ -97,7 +98,7 @@
                 android:clickable="true"
                 android:hint="@string/fecha"
                 android:inputType="date"
-                android:maxLength="9"
+                android:maxLength="10"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -172,6 +173,7 @@
                 android:layout_marginLeft="2sp"
                 android:hint="@string/intr_descripcion"
                 android:inputType="text"
+                android:maxLength="80"
                 android:textColorHint="@android:color/black"
                 android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
@@ -198,7 +200,7 @@
                 android:layout_weight="1"
                 app:snp_buttonIconLeft="@drawable/menu_left"
                 app:snp_buttonIconRight="@drawable/menu_right"
-                app:snp_maxValue="20"
+                app:snp_maxValue="50"
                 app:snp_minValue="0"
                 app:snp_orientation="horizontal"
                 app:snp_stepSize="1"

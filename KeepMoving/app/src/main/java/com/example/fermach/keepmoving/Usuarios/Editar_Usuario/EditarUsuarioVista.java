@@ -44,8 +44,8 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
     private EditText et_apellidos;
     private EditText et_biografia;
     private Bitmap fotoPerfil;
-    ProgressDialog progressDialog;
-    private MultiAutoCompleteTextView multi_aficiones;
+    private ProgressDialog progressDialog;
+    private EditText et_aficiones;
     private CircleImageView foto_editar_usuario;
     private View myView;
     private EditarUsuarioContract.Presenter presenter;
@@ -107,22 +107,15 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         et_apellidos=myView.findViewById(R.id.editText_apellidosUsuario_editar_usuario);
         et_nombre=myView.findViewById(R.id.editText_nombreUsuario_editar_usuario);
         et_biografia=myView.findViewById(R.id.editText_biografiaUsuario_editar_usuario);
-        multi_aficiones=myView.findViewById(R.id.multiAutoComplete_aficiones_editar_usuario);
+        et_aficiones=myView.findViewById(R.id.editText_aficionesUsuario_editar_usuario);
         foto_editar_usuario=myView.findViewById(R.id.fab_editar_usuarioImagen);
 
-
-        String[] valores_aficiones= {"Futbol","Tenis","Baloncesto",
-                "Running","Rugby","Boxeo","Artes Marciales","Senderismo","Otros"};
-
-        multi_aficiones.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        multi_aficiones.setAdapter(new ArrayAdapter<String>
-                (getContext(),R.layout.support_simple_spinner_dropdown_item,valores_aficiones));
 
         //setear datos
         et_apellidos.setText(usuario_ref.getApellidos());
         et_biografia.setText(usuario_ref.getBiografia());
         et_nombre.setText(usuario_ref.getNombre());
-        multi_aficiones.setText(usuario_ref.getAficiones());
+        et_aficiones.setText(usuario_ref.getAficiones());
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         if(foto_bytes!=null) {
@@ -142,7 +135,7 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
 
                 nombre=""+ et_nombre.getText().toString().trim();
                 apellidos=""+et_apellidos.getText().toString().trim();
-                aficiones=""+ multi_aficiones.getText().toString().trim();
+                aficiones=""+ et_aficiones.getText().toString().trim();
                 biografia=""+ et_biografia.getText().toString().trim();
 
 

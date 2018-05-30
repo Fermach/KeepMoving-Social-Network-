@@ -40,106 +40,120 @@
         android:background="@android:color/darker_gray"
         />
 
+    <LinearLayout
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16sp"
+        android:layout_marginTop="4sp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_marginTop="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14sp"
-                android:layout_weight="1"
                 android:layout_marginTop="15sp"
+                android:layout_weight="1"
                 android:text="@string/nombre_usuario_perfil_titulo"
-                android:textSize="19sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/nombre_usuario_perfil_vista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14sp"
                 android:layout_marginTop="15sp"
                 android:layout_weight="1"
                 android:text="@string/nombre_usuario_perfil"
-                android:textSize="19sp"
-                android:id="@+id/nombre_usuario_perfil_vista" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14sp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="15sp"
-                    android:text="@string/correo_usuario_perfil_titulo"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14sp"
-                    android:layout_marginTop="15sp"
-                    android:layout_weight="1"
-                    android:text="@string/correo_usuario_perfil"
-                    android:textSize="19sp"
-                    android:id="@+id/correo_usuario_perfil_vista" />
-
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14sp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="15sp"
-                    android:text="@string/aficiones_usuario_perfil_titulo"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/aficiones_usuario_perfil_vista"
-                    android:layout_width="match_parent"
-                    android:layout_height="63dp"
-                    android:layout_marginLeft="14sp"
-                    android:layout_weight="1"
-                    android:text="@string/aficiones_usuario_perfil"
-                    android:textSize="19sp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14sp"
-                android:layout_weight="1"
                 android:layout_marginTop="15sp"
-                android:text="@string/biografia_usuario_perfil_titulo"
-                android:textSize="19sp"
+                android:layout_weight="1"
+                android:text="@string/correo_usuario_perfil_titulo"
+                android:textSize="15sp"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/correo_usuario_perfil_vista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_marginTop="15sp"
+                android:layout_weight="1"
+                android:text="@string/correo_usuario_perfil"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_marginTop="15sp"
+                android:layout_weight="1"
+                android:text="@string/aficiones_usuario_perfil_titulo"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/aficiones_usuario_perfil_vista"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginLeft="14sp"
+                android:layout_weight="1"
+                android:text="@string/aficiones_usuario_perfil"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14sp"
+                android:layout_marginTop="15sp"
+                android:layout_weight="1"
+                android:text="@string/biografia_usuario_perfil_titulo"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/biografia_usuario_perfil_vista"
                 android:layout_width="match_parent"
                 android:layout_height="90sp"
                 android:layout_marginLeft="14sp"
                 android:layout_weight="1"
                 android:text="@string/biografia_usuario_perfil"
-                android:textSize="19sp"
-                android:id="@+id/biografia_usuario_perfil_vista" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
-
+    </LinearLayout>
 
 </LinearLayout>

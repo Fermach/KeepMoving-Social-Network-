@@ -41,6 +41,7 @@ import com.example.fermach.keepmoving.Usuarios.Perfil_Usuario.PerfilPantallaVist
 import com.example.fermach.keepmoving.R;
 
 
+import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.Validador;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -62,6 +63,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.validation.Validator;
 
 /**
  * Created by Fermach on 27/03/2018.
@@ -203,7 +206,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                 (getContext(), R.layout.support_simple_spinner_dropdown_item, valores_deportes));
 
 
-        fecha = new SimpleDateFormat("dd-M-YYYY").format(cDate);
+        fecha = new SimpleDateFormat("dd/MM/yyyy").format(cDate);
         hora = new SimpleDateFormat("HH:mm").format(cDate);
 
         tv_fecha.setText("" + fecha);
@@ -277,59 +280,63 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                     plazas = "" + picker_plazas.getValue();
                     deporte = "" + spinner_deporte.getSelectedItem().toString().trim();
 
-                    String fecha_obtenida= ""+fecha+ " "+hora;
-                    if(compararFechaActualCon(fecha_obtenida)) {
-
-
-
-
-                      if (!lugar.isEmpty() && !hora.isEmpty() &&
+                    if (!lugar.isEmpty() && !hora.isEmpty() &&
                             !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
                         //subir quedada
+                        String fecha_obtenida = "" + fecha + " " + hora;
 
-                        buscarLugar();
+                       Validador validador= new Validador();
+                       if(validador.validateFecha(fecha)){
+                        if (compararFechaActualCon(fecha_obtenida)) {
 
-                        btn_publicar.setEnabled(false);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                            buscarLugar();
 
-                        if (ubicacionEncontrada == true) {
+                            btn_publicar.setEnabled(false);
 
-                            progressDialog.setMessage("Se está creando la quedada");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
 
-                            longitud = "" + localizacion.getLongitude();
-                            latitud = "" + localizacion.getLatitude();
-                            id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
+                            if (ubicacionEncontrada == true) {
 
-                            quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
-                                    longitud, latitud);
+                                progressDialog.setMessage("Se está creando la quedada");
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
 
-                            presenter.CrearQuedada(quedada);
-                        } else {
-                            btn_publicar.setEnabled(true);
-                            Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
+                                longitud = "" + localizacion.getLongitude();
+                                latitud = "" + localizacion.getLatitude();
+                                id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
 
-                        }
-                      }
-                    }else{
-                        AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
-                        myBuild.setMessage("La fecha propuesta de la quedada ya ha expirado.\n\nIntroduzca una fecha válida!" );
-                        myBuild.setTitle("Alerta");
+                                quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
+                                        longitud, latitud);
 
-                        myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                                presenter.CrearQuedada(quedada);
+                            } else {
+                                btn_publicar.setEnabled(true);
+                                Snackbar.make(myView, "No se pudo encontrar la ubicación seleccionada!", 4000).show();
+
                             }
-                        });
-                        myBuild.show();
+                         } else {
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(getContext());
+                            myBuild.setMessage("La fecha propuesta de la quedada ya ha expirado.\n\nIntroduzca una fecha válida!");
+                            myBuild.setTitle("Alerta");
+
+                            myBuild.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            myBuild.show();
+                         }
+                        }else {
+
+                            Snackbar.make(myView, "Fecha no valida!", Snackbar.LENGTH_SHORT).show();
+
+                        }
+                    }else {
+
+                        Snackbar.make(myView, "Debe de rellenar todos los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+
                     }
-                } else {
+                }else {
 
                     Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
 
@@ -445,7 +452,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     private boolean compararFechaActualCon(String fecha_obtenida) {
         boolean fecha_valida = false;
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/m/yyyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = new Date();
         String fecha_actual = dateFormat.format(date);
 
@@ -455,7 +462,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
             Log.i("COMPARANDO FECHAS", "F_ACTUAL: " + date1 + ", F_OBTENIDA: " + date2);
 
-            if (date2.after(date1)) {
+            if (date2.after(date1) ) {
                 fecha_valida = true;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
             } else {

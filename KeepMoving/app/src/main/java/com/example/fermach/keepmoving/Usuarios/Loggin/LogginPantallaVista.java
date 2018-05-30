@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.MainActivity.DrawerLocker;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.R;
+import com.example.fermach.keepmoving.Usuarios.CambioContraseña.CambioContraseñaVista;
 import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.RegistroPantallaVista;
 
 /**
@@ -28,6 +30,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
     private Button btn_iniciar_sesion;
     private EditText et_correo;
     private EditText et_contraseña;
+    private TextView tv_contraseña_olvidada;
     private View myView;
     private ProgressDialog progressDialog;
     private LogginPantallaContract.Presenter presenter;
@@ -61,9 +64,18 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         btn_iniciar_sesion=myView.findViewById(R.id.btn_iniciar_sesion);
         et_correo=myView.findViewById(R.id.editText_correoUsuario);
         et_contraseña=myView.findViewById(R.id.editText_passwordUsuario);
+        tv_contraseña_olvidada=myView.findViewById(R.id.tv_contraseña_olvidada);
     }
 
     public void activarControladores() {
+
+        tv_contraseña_olvidada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new CambioContraseñaVista();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+            }
+        });
 
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +115,7 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
                     }
                 }else{
 
+                    Snackbar.make(myView, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
 
                 }
 

@@ -64,4 +64,8 @@
     <string name="plazas_iniciales_quedada">Plazas iniciales:</string>
     <string name="nombre_autor">Autor de la Petición:</string>
     <string name="verPerfil">Ver Perfil</string>
+    <string name="alerta_contraseña">La contraseña debe tener entre 6 y 30 caracteres</string>
+    <string name="Enviar_Email">Enviar email</string>
+    <string name="msg_cambioContraseña">Este botón enviará un email a su correo electronico para que pueda cambiar su contraseña</string>
+    <string name="olvidoContraseña">¿Ha olvidado su contraseña?</string>
 </resources>

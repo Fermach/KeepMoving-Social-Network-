@@ -55,6 +55,7 @@
                 android:id="@+id/editText_nombreUsuario_registro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="30"
                 android:hint="@string/intr_nombre"
                 android:inputType="text"
                 android:textColorHint="@android:color/black"
@@ -76,21 +77,29 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/intr_apellidos"
                 android:inputType="text"
+                android:maxLength="30"
                 android:textColorHint="@android:color/black"
                 android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
 
-        <MultiAutoCompleteTextView
-            android:id="@+id/multiAutoComplete_aficiones_registro"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="13sp"
             android:layout_marginRight="17sp"
-            android:hint="@string/int_aficiones"
             android:textColorHint="@android:color/black"
-            android:textSize="15sp" />
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/editText_aficiones_registro"                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="6sp"
+                android:hint="@string/int_aficiones"
+                android:inputType="text"
+                android:maxLength="45"
+                android:textColorHint="@android:color/black"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -103,9 +112,10 @@
             <EditText
                 android:id="@+id/editText_biografiaUsuario_registro1"
                 android:layout_width="match_parent"
-                android:layout_height="82dp"
+                android:layout_height="42dp"
                 android:hint="@string/intr_bio"
                 android:inputType="text"
+                android:maxLength="40"
                 android:textColorHint="@android:color/black"
                 android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
@@ -117,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35sp"
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="27sp"
         android:orientation="horizontal">
 
         <Button
