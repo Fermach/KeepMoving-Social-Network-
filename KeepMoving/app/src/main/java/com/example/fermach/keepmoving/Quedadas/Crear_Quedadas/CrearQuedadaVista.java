@@ -200,8 +200,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             }
         });
 
-        String[] valores_deportes = {"Futbol", "Tenis", "Baloncesto",
-                "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo", "Otros"};
+        String[] valores_deportes = {"Futbol", "Tenis", "Pádel","Baloncesto",
+                "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo","Skate","Ciclismo",
+                "Volley","Surf","Esquí","Musculación","Calistenia","Crossfit","Andar","Otro"};
         spinner_deporte.setAdapter(new ArrayAdapter<String>
                 (getContext(), R.layout.support_simple_spinner_dropdown_item, valores_deportes));
 

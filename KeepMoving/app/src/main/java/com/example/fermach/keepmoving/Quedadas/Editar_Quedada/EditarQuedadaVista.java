@@ -210,9 +210,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         picker_plazas = myView.findViewById(R.id.plazas_editar_quedada);
         img_gps=myView.findViewById(R.id.img_ubicacion_editar_quedada);
 
-
-        String[] valores_deportes = {quedada.getDeporte(),"Futbol", "Tenis", "Baloncesto",
-                "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo", "Otros"};
+        String[] valores_deportes = {"Futbol", "Tenis", "Pádel","Baloncesto",
+                "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo","Skate","Ciclismo",
+                "Volley","Surf","Esquí","Musculación","Calistenia","Crossfit","Andar","Otro"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>
                 (getContext(), R.layout.support_simple_spinner_dropdown_item, valores_deportes);
 
