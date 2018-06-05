@@ -68,4 +68,5 @@
     <string name="Enviar_Email">Enviar email</string>
     <string name="msg_cambioContraseña">Este botón enviará un email a su correo electronico para que pueda cambiar su contraseña</string>
     <string name="olvidoContraseña">¿Ha olvidado su contraseña?</string>
+    <string name="plazas2">plazas</string>
 </resources>

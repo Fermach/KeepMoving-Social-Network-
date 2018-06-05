@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="blueSky">#E0E4F3</color>
     <color name="gris">#E4E6EA</color>
+    <color name="gris_oscuro"> #bfbfbf</color>
+    <color name="azul"> #7eaae7</color>
+    <color name="azul_claro"> #eaf1fb</color>
     <color name="yellow1">#FBF849</color>
     <color name="yellow2">#ECE6A4</color>
     <color name="tierra">#FEF0D8</color>

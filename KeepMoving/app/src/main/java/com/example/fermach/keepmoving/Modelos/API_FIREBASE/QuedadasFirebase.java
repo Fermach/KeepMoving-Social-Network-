@@ -208,32 +208,29 @@ public class QuedadasFirebase implements QuedadaDataSource {
     }
 
     private boolean compararFechaActualCon(String fecha_obtenida) {
-        boolean fecha_valida=false;
+        boolean fecha_valida = false;
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/m/yyyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = new Date();
-        String fecha_actual= dateFormat.format(date);
+        String fecha_actual = dateFormat.format(date);
 
         try {
             Date date2 = dateFormat.parse(fecha_obtenida);
             Date date1 = dateFormat.parse(fecha_actual);
 
-            Log.i("COMPARANDO FECHAS", "F_ACTUAL: "+ date1+", F_OBTENIDA: "+date2);
+            Log.i("COMPARANDO FECHAS", "F_ACTUAL: " + date1 + ", F_OBTENIDA: " + date2);
 
-            if(date2.after(date1) || date2.equals(date1)){
-                fecha_valida=true;
+            if (date2.after(date1) ) {
+                fecha_valida = true;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
-            }else{
-                fecha_valida=false;
+            } else {
+                fecha_valida = false;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: FALSE");
 
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-
         return fecha_valida;
     }
 

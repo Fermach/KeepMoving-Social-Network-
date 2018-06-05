@@ -1,5 +1,6 @@
 package com.example.fermach.keepmoving.MainActivity;
 
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //se inicia el fragmento con la lista de loggin
         fragment= new LogginPantallaVista();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commitAllowingStateLoss();
         presenter.iniciarListenerFire();
 
 
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 if(itemSeleccionado==true){
                     if(isOnlineNet()) {
-                      getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
+                      getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commitAllowingStateLoss();
                     }else {
                         Snackbar.make(view, "No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
                     }
@@ -171,12 +172,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             Log.i("TOKEEN MAIN", TOKEN);
 
             fragment = new RegistroPantallaVista();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         }else{
             Log.i("TOKEEN MAIN", TOKEN);
 
             fragment = new LogginPantallaVista();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         }
     }
 
@@ -190,23 +191,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 Log.i("TOKEEN MAIN", TOKEN);
 
                 fragment = new ListadoQuedadasGeneralVista();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
             } else {
                 Log.i("TOKEEN MAIN", TOKEN);
 
                 fragment = new RegistroAmpliadoPantallaVista();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
 
             }
         }else{
 
 
             fragment = new LogginPantallaVista();
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
             Snackbar.make(view,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
 
         }
     }
+
+
 
     @Override
     public void onTOKENseleccionado() {
