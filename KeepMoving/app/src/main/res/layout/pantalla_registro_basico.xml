@@ -29,7 +29,7 @@
                 android:inputType="text"
                 android:maxLength="30"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -48,7 +48,7 @@
                 android:inputType="textPassword"
                 android:maxLength="30"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -67,7 +67,7 @@
                 android:inputType="textPassword"
                 android:maxLength="30"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -83,7 +83,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="140sp"
+        android:layout_marginTop="130sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35sp"
@@ -94,6 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_marginRight="19sp"
             android:elevation="10sp"
             android:text="@string/cancelar" />
@@ -101,6 +103,8 @@
         <Button
             android:id="@+id/btn_siguiente1_registro"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19sp"
             android:layout_weight="1"

@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/rel_layout"
+            android:background="@color/azul_claro"
             xmlns:android="http://schemas.android.com/apk/res/android"
             >
 
@@ -242,6 +243,7 @@
         <LinearLayout
                 android:id="@+id/layout_autor_detalle_quedada_general"
                 android:layout_marginTop="4sp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -315,6 +317,8 @@
             android:layout_marginRight="22sp"
             android:layout_weight="1"
             android:elevation="10sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:text="@string/cancelar" />
 
@@ -324,6 +328,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="22sp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:elevation="10sp"
             android:text="@string/apuntarse" />

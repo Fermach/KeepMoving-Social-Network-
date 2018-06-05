@@ -7,129 +7,139 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/tools"
         android:id="@+id/cardview_peticion_quedada"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="8sp"
         app:cardCornerRadius="6sp"
         android:layout_marginHorizontal="10sp"
-        android:backgroundTint="@color/gris"
-        app:cardElevation="6sp"
+        android:backgroundTint="@color/azul"
+        app:cardElevation="12sp"
         android:layout_width="match_parent"
-        android:layout_height="180sp"
+        android:layout_height="wrap_content"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8sp"
             android:orientation="vertical">
+
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8sp"
-                android:orientation="vertical">
+                android:layout_width="377dp"
+                android:layout_height="124dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6sp"
-                        android:text="@string/actividad"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
+                    android:layout_width="411dp"
+                    android:layout_height="69dp"
+                    android:layout_marginTop="17sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_marginLeft="14sp"
-                        android:layout_weight="2"
                         android:id="@+id/deporte_texto_peticion_quedada"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="69dp"
                         android:layout_marginTop="6sp"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="40sp"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="7sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="154dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6sp"
-                        android:layout_weight="1"
-                        android:text="@string/plazas_quedada"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_marginLeft="14sp"
-                        android:layout_weight="2"
                         android:id="@+id/plazas_texto_peticion_quedada"
-                        android:layout_width="wrap_content"
+                        android:layout_width="92dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6sp"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/black"
+                        android:textSize="60sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="92dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1sp"
+                        android:gravity="center"
+                        android:text="@string/plazas2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:layout_marginTop="12sp"
+                android:layout_height="2sp"
                 android:background="@android:color/black" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8sp"
+                android:layout_height="125dp"
+                android:background="@color/azul_claro"
                 android:orientation="vertical"
                 android:paddingBottom="4dp">
 
                 <LinearLayout
-                    android:layout_marginTop="8sp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="18sp"
+                    android:layout_marginTop="8sp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="47dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6sp"
                         android:layout_weight="1"
                         android:text="@string/ubicacion"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/lugar_texto_peticion_quedada"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="14sp"
+                        android:layout_marginLeft="4sp"
                         android:layout_marginTop="6sp"
                         android:layout_weight="2"
-                        android:textColor="@color/brown1"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:background="@android:color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="62dp"
+                    android:layout_marginHorizontal="17sp"
+                    android:layout_marginLeft="16sp"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="5dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -138,20 +148,26 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6sp"
                             android:text="@string/fecha"
-                            android:textColor="@color/brown1"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/fecha_texto_peticion_quedada"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/brown1"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="1sp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="9sp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -160,19 +176,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6sp"
                             android:text="@string/hora"
-                            android:textColor="@color/brown1"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/hra_texto_peticion_quedada"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/brown1"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -199,7 +214,7 @@
             android:layout_marginTop="6sp"
             android:layout_weight="1"
             android:text="@string/autor_quedada"
-            android:textColor="@color/brown1"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -209,7 +224,7 @@
             android:layout_marginLeft="14sp"
             android:layout_marginTop="6sp"
             android:layout_weight="2"
-            android:textColor="@color/brown1"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -225,7 +240,7 @@
         android:layout_marginLeft="22sp"
         android:layout_marginTop="19sp"
         android:text="@string/plazas_reserva"
-        android:textColor="@color/brown1"
+        android:textColor="@color/black"
         android:textSize="16sp" />
 
     <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
@@ -249,7 +264,7 @@
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_marginHorizontal="35sp"
-        android:layout_marginTop="140sp"
+        android:layout_marginTop="40sp"
         android:orientation="horizontal">
 
         <Button
@@ -258,6 +273,8 @@
             android:layout_height="match_parent"
             android:layout_marginRight="19sp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:elevation="10sp"
             android:textSize="16sp"
             android:text="@string/cancelar" />
@@ -267,6 +284,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="19sp"
+            android:paddingHorizontal="4sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_weight="1"
             android:elevation="10sp"

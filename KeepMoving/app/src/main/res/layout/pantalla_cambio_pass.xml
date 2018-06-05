@@ -45,7 +45,10 @@
         <Button
             android:id="@+id/btn_cancelar_canbioContraseña"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5sp"
             android:layout_weight="1"
             android:elevation="10sp"
             android:text="@string/cancelar" />
@@ -53,6 +56,9 @@
             android:id="@+id/btn_cambioContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5sp"
             android:layout_weight="1"
             android:elevation="10sp"
             android:text="@string/Enviar_Email" />

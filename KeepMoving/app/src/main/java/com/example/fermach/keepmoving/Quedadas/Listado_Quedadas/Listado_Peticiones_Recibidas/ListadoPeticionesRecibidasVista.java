@@ -143,7 +143,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     @Override
     public void mostrarPeticionesRecibidasNumero(List<PeticionQuedada> peticionesQuedadas) {
-        num_peticiones_recibidas.setText("Numero de Peticiones Pendientes: "+ peticionesQuedadas.size());
+        num_peticiones_recibidas.setText("Numero de Peticiones: "+ peticionesQuedadas.size());
 
     }
 

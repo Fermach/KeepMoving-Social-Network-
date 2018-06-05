@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/azul_claro_2"
         >
 
         <EditText
@@ -63,7 +64,7 @@
     </LinearLayout>
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2sp"
         android:background="@android:color/darker_gray"
         />
 
@@ -225,6 +226,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="19sp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:elevation="10sp"
             android:text="@string/cancelar" />
 
@@ -233,6 +236,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="19sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:elevation="10sp"
             android:text="@string/guardar" />

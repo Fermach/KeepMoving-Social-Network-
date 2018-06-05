@@ -22,7 +22,13 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <ListView
+    <com.baoyz.widget.PullRefreshLayout
+        android:layout_marginTop="26sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pulltoRefresh">
+
+      <ListView
         android:id="@+id/list_quedadas_general"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,6 +36,9 @@
         android:layout_below="@+id/num_quedadas_lista_general"
         android:divider="@android:color/transparent"
         android:dividerHeight="2sp" />
+
+    </com.baoyz.widget.PullRefreshLayout>
+
 
 
 </RelativeLayout>

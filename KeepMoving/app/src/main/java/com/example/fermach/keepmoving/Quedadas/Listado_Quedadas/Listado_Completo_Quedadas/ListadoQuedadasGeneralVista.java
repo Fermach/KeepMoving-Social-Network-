@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Quedadas.Detalle_Quedada.DetalleQuedadaGeneral.DetalleQuedadaVista;
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
@@ -35,6 +36,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
     private Fragment fragment;
     private List<Quedada> lista_quedadas;
     private View myView;
+    private PullRefreshLayout pullLayout;
     private ListView listView;
     private TextView num_quedadas;
     private ListadoQuedadasGeneralAdapter listadoQuedadasGeneralAdapter;
@@ -77,6 +79,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
     public void inicializarVista() {
         listView=myView.findViewById(R.id.list_quedadas_general);
         num_quedadas=myView.findViewById(R.id.num_quedadas_lista_general);
+        pullLayout = myView.findViewById(R.id.pulltoRefresh);
     }
 
     public void activarControladores(){
@@ -101,6 +104,27 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
                 }
             }
+        });
+
+        pullLayout.setRefreshStyle(PullRefreshLayout.STYLE_CIRCLES);
+        pullLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // lanzamos un hilo que esperará durante 3 s
+                pullLayout.postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                // a los 3 s seteará el adaptador con un color verde diferente
+                                presenter.obtenerQuedadas();
+                                //después detendremos la animación de PullToRefresh
+                                pullLayout.setRefreshing(false);
+                            }
+                        }, 3500);
+
+
+            }
+
         });
 
 

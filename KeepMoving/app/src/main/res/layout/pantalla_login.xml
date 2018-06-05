@@ -63,8 +63,11 @@
 
         <Button
             android:id="@+id/btn_registro"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5sp"
             android:layout_weight="1"
             android:elevation="10sp"
             android:text="@string/registrarse" />
@@ -72,8 +75,11 @@
         <Button
             android:id="@+id/btn_iniciar_sesion"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="5sp"
             android:elevation="10sp"
             android:text="@string/iniciar_sesion" />
     </LinearLayout>

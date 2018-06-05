@@ -13,6 +13,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="140sp"
+        android:background="@color/azul_claro"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -24,7 +25,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             app:civ_border_color="@android:color/black"
-            app:civ_border_width="1sp"
+            app:civ_border_width="2sp"
             android:elevation="10sp"
             />
 
@@ -32,7 +33,7 @@
     </RelativeLayout>
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2sp"
         android:background="@android:color/darker_gray"
         />
 
@@ -59,7 +60,7 @@
                 android:inputType="text"
                 android:maxLength="30"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -79,7 +80,7 @@
                 android:inputType="text"
                 android:maxLength="30"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -99,7 +100,7 @@
                 android:inputType="text"
                 android:maxLength="45"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -118,7 +119,7 @@
                 android:inputType="text"
                 android:maxLength="40"
                 android:textColorHint="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -136,6 +137,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="19sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:elevation="10sp"
             android:text="@string/atras" />
@@ -143,6 +146,8 @@
         <Button
             android:id="@+id/btn_guardar_editar_usuario"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19sp"
             android:layout_weight="1"
