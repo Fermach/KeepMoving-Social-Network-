@@ -29,7 +29,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="fecha">Fecha</string>
     <string name="hora">Hora</string>
-    <string name="deporte_quedada">¿Que deporte desea practicar? *</string>
+    <string name="deporte_quedada">¿Que deporte deseas practicar? *</string>
     <string name="intr_descripcion">¿Más información?</string>
     <string name="plazas">Plazas disponibles *</string>
     <string name="publicar">Publicar</string>
@@ -53,7 +53,7 @@
     <string name="apuntarse">Apúntame!</string>
     <string name="autor_quedada">Autor:</string>
     <string name="guardar">guardar</string>
-    <string name="plazas_reserva">¿Cuantas plazas desea reservar?</string>
+    <string name="plazas_reserva">¿Cuantas plazas deseas reservar?</string>
     <string name="enviar">Enviar Solicitud</string>
     <string name="mis_peticiones">Mis peticiones:</string>
     <string name="estado">Estado:</string>
@@ -67,6 +67,7 @@
     <string name="alerta_contraseña">La contraseña debe tener entre 6 y 30 caracteres</string>
     <string name="Enviar_Email">Enviar email</string>
     <string name="msg_cambioContraseña">Este botón enviará un email a su correo electronico para que pueda cambiar su contraseña</string>
-    <string name="olvidoContraseña">¿Ha olvidado su contraseña?</string>
+    <string name="olvidoContraseña">¿Has olvidado tu contraseña?</string>
     <string name="plazas2">plazas</string>
+    <string name="loggin_texto_2">¿Aún no te has registrado?</string>
 </resources>

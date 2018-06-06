@@ -65,7 +65,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Interfaz de editar quedada
+ *
  */
 
 public class EditarQuedadaVista extends Fragment implements EditarQuedadaContract.View {
@@ -156,7 +158,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         String[] permisos = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
-
+        //Se piden permisos de ubicación
         if (ContextCompat.checkSelfPermission(getContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(getContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 permisosConcedidos = true;
@@ -174,6 +176,12 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         return myView;
     }
 
+    /**
+     * Cuando se han pedido los permisos que gestiona el resultado de estos
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permisosConcedidos = false;
@@ -232,7 +240,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     }
 
     public void activarControladores() {
-
+        //al clickear sobre el icono de ubicacion, busca la ubicacion actual
         img_gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,7 +248,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
             }
         });
 
-
+        //se establece el icono de busqueda de lugar al clickar sobre el texto
         tv_lugar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -257,7 +265,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         });
 
 
-
+        //se muestra un fragmento para seleccionar la fecha
         tv_fecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,7 +282,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
             }
         });
 
-
+        //se muestra un fragmento para seleccionar la hora
         tv_hora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,7 +297,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
             }
         });
 
-
+        //se acrualizan los datos de la quedada
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,7 +310,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                     plazas = "" + picker_plazas.getValue();
                     deporte = "" + spinner_deporte.getSelectedItem().toString().trim();
 
-
+                    //se verifican los datos
                     if (!lugar.isEmpty() && !hora.isEmpty() &&
                             !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
                         //subir quedada
@@ -317,7 +325,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                            buscarLugar();
                            btn_guardar.setEnabled(false);
 
-
+                            //si la ubicación introducida es valida
                            if (ubicacionEncontrada == true) {
 
 
@@ -387,7 +395,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     }
 
 
-
+    /**
+     * Se busca el lugar introducido en e ediText y se muestra en el mapa
+     */
     public void buscarLugar(){
         String lugar= tv_lugar.getText().toString().trim();
         ubicacionEncontrada=false;
@@ -415,7 +425,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
     }
 
-
+    /**
+     * Se inicializa el mapa con la ubicación actual
+     */
     public void iniciarMaps(){
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -451,6 +463,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
     }
 
+    /**
+     * Se obtiene la ubicación actual
+     */
     public void obtenerUbicacion(){
           mFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -477,7 +492,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
           }
     }
 
-
+    /**
+     * Si la quedada se ha editado correctamente
+     */
     @Override
     public void onQuedadaEditada() {
         Snackbar.make(myView,"Quedada modificada correctamente", 4000).show();
@@ -492,6 +509,9 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         }, 2000);
     }
 
+    /**
+     * Si la quedada no se ha editado correctamente
+     */
     @Override
     public void onQuedadaEditadaError() {
         btn_guardar.setEnabled(true);
@@ -501,6 +521,11 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
     }
 
+    /**
+     * Se compara una fecha con la fecha actual para ver si esta es válida
+     * @param fecha_obtenida
+     * @return
+     */
     private boolean compararFechaActualCon(String fecha_obtenida) {
         boolean fecha_valida = false;
 
@@ -528,7 +553,10 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         return fecha_valida;
     }
 
-
+    /**
+     * Se comprueba si hay coneción a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

@@ -9,9 +9,10 @@ import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Presentador de la pantalla del listado de peticiones recibidas
+ * el cuál se comunica con el repositorio
+ *
  */
-
 public class ListadoPeticionesRecibidasPresenter implements ListadoPeticionesRecibidasContract.Presenter{
     private QuedadasRepository quedadasRepository;
     private UsuariosRepository usuariosRepository;

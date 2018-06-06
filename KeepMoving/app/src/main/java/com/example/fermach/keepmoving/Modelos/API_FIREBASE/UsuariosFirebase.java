@@ -4,9 +4,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
-import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
-import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
-import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +13,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.util.List;
 
 /**
@@ -49,6 +44,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
     private final long ONE_MEGABYTE = 1024 * 1024;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    /**
+     * SINGLETONE
+     * @return
+     */
     public static UsuariosFirebase getInstance() {
         if (INSTANCIA_FIRE == null) {
             INSTANCIA_FIRE = new UsuariosFirebase();
@@ -70,6 +69,11 @@ public class UsuariosFirebase implements UsuariosDataSource {
         //user=mAuth.getCurrentUser();
     }
 
+    /**
+     * Inicia sesión con un usuario
+     * @param usuario
+     * @param callback
+     */
     @Override
     public void loguearUsuario(Usuario usuario, final LoguearUsuarioCallback callback) {
         //IMPLEMENTAR AUTENTIFICACIÓN AQUI
@@ -97,6 +101,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
                 });
     }
 
+    /**
+     * Cierra sesión con el usuario actual
+     * @param callback
+     */
     @Override
     public void desloguearUsuario(DesloguearUsuarioCallback callback) {
         Log.i("SIGNOUT","------------");
@@ -105,6 +113,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
         callback.onUsuarioDeslogueado();
     }
 
+    /**
+     * Crea un nuevo usuario en la autenticación de firebase
+     * con email y contraseña
+     * @param usuario
+     * @param callback
+     */
     @Override
     public void registrarUsuario(Usuario usuario, final RegistrarUsuarioCallback callback) {
         //____________________
@@ -129,6 +143,13 @@ public class UsuariosFirebase implements UsuariosDataSource {
                 });
     }
 
+    /**
+     * Registra un usuario en la BBDD con una foto
+     * en el Storage de Firebase asociada al usuario
+     * @param usuario
+     * @param foto
+     * @param callback
+     */
     @Override
     public void registrarUsuarioAmpliadoConFoto(final Usuario usuario, final byte[] foto, final RegistrarUsuarioConFotoCallback callback) {
 
@@ -170,6 +191,11 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
 
+    /**
+     * Registra un usuario en la BBDD
+     * @param usuario
+     * @param callback
+     */
     @Override
     public void registrarUsuarioAmpliado(Usuario usuario,  final RegistrarUsuarioAmpliadoCallback callback) {
 
@@ -188,6 +214,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
           });
     }
 
+    /**
+     * Comprueba si un usuario está registrado
+     * @param callback
+     */
     @Override
     public void comprobarUsuarioRegistrado(final ComprobarUsuarioRegistradoCallback callback) {
        FirebaseUser userCurrent = mAuth.getCurrentUser();
@@ -205,6 +235,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     }
 
+    /**
+     * Cancela el registro del usuario eliminando es usuario creado
+     * @param callback
+     */
     @Override
     public void cancelarRegistroUsuario(final CancelarRegistroUsuarioCallback callback) {
             user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -224,6 +258,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
 
+    /**
+     * Inicia el escuchador de control de usuario registrado
+     * @param callback
+     */
     @Override
     public void iniciarListener( final IniciarListenerCallback callback) {
         Log.i("LISTENER","USUARIOS FIRE 1" );
@@ -246,7 +284,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
     }
 
 
-
+    /**
+     * Obtiene la foto de perfil del usuario actual
+     * @param callback
+     */
     @Override
     public void obtenerFotoPerfil(final ObtenerFotoPerfilCallback callback) {
         myfileStoragePath=myStorageRef.child("FotosPerfil/").child(user.getUid());
@@ -266,6 +307,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
         });
     }
 
+    /**
+     * Obtiene la foto de perfil de un usuario
+     * @param uid
+     * @param pQuedada
+     * @param callback
+     */
     @Override
     public void obtenerFotoPerfilUsuario(String uid, final  PeticionQuedada pQuedada, final ObtenerFotoPerfilUsuarioCallback callback) {
         myfileStoragePath=myStorageRef.child("FotosPerfil/").child(uid);
@@ -285,6 +332,10 @@ public class UsuariosFirebase implements UsuariosDataSource {
         });
     }
 
+    /**
+     * Obtiene los datos del usuario actuak de la BBDD
+     * @param callback
+     */
     @Override
     public void obtenerUsuarioActual(final ObtenerUsuarioActualCallback callback) {
         UsuariosRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -310,6 +361,12 @@ public class UsuariosFirebase implements UsuariosDataSource {
 
     }
 
+    /**
+     * Envia un email al correo de usuario actual para
+     * cambiar la contraseña
+     * @param email
+     * @param callback
+     */
     @Override
     public void cambiarContraseña(String email, final CambiarContraseñaCallback callback) {
         user=mAuth.getCurrentUser();
@@ -346,6 +403,11 @@ public class UsuariosFirebase implements UsuariosDataSource {
         }
     }
 
+    /**
+     * Obtiene los datos de un usuario
+     * @param Uid
+     * @param callback
+     */
     @Override
     public void obtenerUsuarioPorUID(String Uid, final ObtenerUsuarioPorUIDCallback callback) {
         UsuariosRef.child(Uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -370,11 +432,19 @@ public class UsuariosFirebase implements UsuariosDataSource {
         });
     }
 
+    /**
+     * Obtiene el UID del usuario actual
+     * @param callback
+     */
     @Override
     public void obtenerUidUsuarioActual(ObtenerUidUsuarioActualCallback callback) {
         callback.onUsuarioObtenido(user.getUid());
     }
 
+    /**
+     * Obtiene el email del usuario actual
+     * @param callback
+     */
     @Override
     public void obtenerCorreoUsuarioActual(ObtenerCorreoUsuarioActualCallback callback) {
         if(user!=null){
@@ -385,13 +455,19 @@ public class UsuariosFirebase implements UsuariosDataSource {
         }
     }
 
+
     @Override
     public void setTOKEN(String TOKEN, SeleccionarTOKENCallback callback) {
         this.TOKEN = TOKEN;
         callback.onTOKENseleccionado();
     }
 
-
+    /**
+     * Edita los datos de un usuario
+     * @param usuario
+     * @param foto
+     * @param callback
+     */
     @Override
     public void editarUsuario(final Usuario usuario, final byte[] foto, final EditarUsuarioCallback callback) {
         Query query =  UsuariosRef.child(user.getUid());

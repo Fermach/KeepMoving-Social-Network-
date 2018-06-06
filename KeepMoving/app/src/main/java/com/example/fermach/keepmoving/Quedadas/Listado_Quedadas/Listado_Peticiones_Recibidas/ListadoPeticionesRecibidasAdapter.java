@@ -21,6 +21,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adaptador para cada uno de los items de la lista basado en un arrayAdapter
+ */
 public class ListadoPeticionesRecibidasAdapter extends ArrayAdapter<PeticionQuedadaRecibida>   {
     private PeticionQuedadaRecibida peticionQuedada;
     private Fragment fragment;

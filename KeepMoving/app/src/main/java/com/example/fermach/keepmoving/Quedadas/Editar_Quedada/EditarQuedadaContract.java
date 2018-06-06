@@ -3,7 +3,9 @@ package com.example.fermach.keepmoving.Quedadas.Editar_Quedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Interfaz que comunica la interfaz de editar quedada con el repositorio
+ *
  */
 
 public interface EditarQuedadaContract {

@@ -6,6 +6,12 @@ import com.example.fermach.keepmoving.Modelos.API_FIREBASE.UsuariosFirebase;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 
 /**
+ *
+ *
+ * Repositoro para almacenar los datos de los
+ * usuarios(obtenidos del repositorio de la API)
+ * y enviarlos a la interfaz
+ *
  * Created by Fermach on 29/03/2018.
  */
 

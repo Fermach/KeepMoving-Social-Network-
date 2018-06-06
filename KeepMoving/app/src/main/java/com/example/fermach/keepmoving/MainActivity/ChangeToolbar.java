@@ -1,6 +1,8 @@
 package com.example.fermach.keepmoving.MainActivity;
 
 /**
+ * Interfaz para modificar la Toobar de la activity principal
+ *
  * Created by Fermach on 27/05/2018.
  */
 

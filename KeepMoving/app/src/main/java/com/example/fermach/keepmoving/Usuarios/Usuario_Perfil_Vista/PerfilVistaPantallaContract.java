@@ -3,7 +3,8 @@ package com.example.fermach.keepmoving.Usuarios.Usuario_Perfil_Vista;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *  Interfaz para comunicar la vista con el presentador en la
+ * pantalla de visualización del perfil del usuario
  */
 
 public interface PerfilVistaPantallaContract {

@@ -34,8 +34,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 /**
+ *
+ * Interfaz detalle quedada usuario
  * Created by Fermach on 27/03/2018.
  */
+
 
 public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQuedadaUsuarioContract.View {
 
@@ -163,7 +166,7 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
             }
         });
     }
-
+    //busca la ubicacion de la quedada y la muestra en el mapa
     public void buscarLugar(){
 
             Log.i("UBICACION A BUSCAR", quedada.getLugar());
@@ -196,6 +199,10 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
 
     }
 
+    /**
+     * Comprueba si hay conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

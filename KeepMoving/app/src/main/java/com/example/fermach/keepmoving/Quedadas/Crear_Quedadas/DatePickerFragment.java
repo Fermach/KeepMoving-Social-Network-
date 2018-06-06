@@ -8,6 +8,7 @@ import android.os.Bundle;
 import java.util.Calendar;
 
 /**
+ * Fragmento para seleccionar una fecha
  * Created by Fermach on 30/04/2018.
  */
 

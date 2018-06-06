@@ -32,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de la pantalla de registro ampliado
  */
 
 public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroAmpliadoPantallaContract.View  {
@@ -70,6 +70,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
         progressDialog= new ProgressDialog(myView.getContext());
         presenter= new RegistroAmpliadoPantallaPresenter(this);
+        //se obtiene el correo del usuario actual
         presenter.obtenerCorreoUsuarioActual();
 
         return  myView;
@@ -99,7 +100,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                 aficiones=""+ et_aficiones.getText().toString().trim();
                 biografia=""+ et_biografia.getText().toString().trim();
 
-
+               // se comprueba los datos introducidos
                 if(!nombre.isEmpty() && !apellidos.isEmpty() )  {
 
 
@@ -107,7 +108,9 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                         progressDialog.setCancelable(false);
                         progressDialog.show();
 
+                        //se controla si se ha introducido foto o no
                         if(foto !=null) {
+
                             usuario = new Usuario(nombre, apellidos,""+correo,biografia,aficiones);
                             presenter.registrarUsuarioConFoto(usuario,foto_bytes);
 
@@ -139,6 +142,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
             }
         });
 
+        //al clickar sobre el icono de foto de perfil nos abre la galeria para seleccionar una foto
         foto_registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +156,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
         });
     }
 
-
+    //se carga una imagen de perfil de la galeria
     public void cargarImagenGaleria(){
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
@@ -160,6 +164,13 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     }
 
+
+    /**
+     *  cuando se ha seleccionado una foto se setea en el icono
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,6 +201,9 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     }
 
+    /**
+     * Se setea e token para decirle a la app desde que pantalla se ha enviado el usuario
+     */
     @Override
     public void onRegistro() {
         presenter.setTOKKEN_2("MENU");
@@ -238,6 +252,10 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
     }
 
+    /**
+     * Cuando se obtiene el correo se inicializan la vista y los controladores
+     * @param correoUsuario
+     */
     @Override
     public void onCorreoUsuarioActualObtenido(String correoUsuario) {
         this.correo=correoUsuario;
@@ -275,6 +293,10 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 //        presenter.desloguearUsuario();
     }
 
+    /**
+     * Se comprueba el estado de la conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

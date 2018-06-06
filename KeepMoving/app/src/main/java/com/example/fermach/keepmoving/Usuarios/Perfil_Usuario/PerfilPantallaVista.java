@@ -23,7 +23,7 @@ import com.example.fermach.keepmoving.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de la pantalla de perfil del usuario
  */
 
 public class PerfilPantallaVista extends Fragment implements PerfilPantallaContract.View  {
@@ -64,6 +64,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        //se obtienen los daos del usuario actual
         presenter.ObtenerUsuarioActual();
         presenter.ObtenerFotoUsuarioActual();
 
@@ -136,6 +137,7 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
 
     }
 
+
     @Override
     public void onUsuarioActualObtenidoError() {
           Snackbar.make(myView,"No se pudieron obtener los datos de perfil", 4000).show();
@@ -188,6 +190,10 @@ public class PerfilPantallaVista extends Fragment implements PerfilPantallaContr
 
     }
 
+    /**
+     * Se comprueba el estado de la conexión a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

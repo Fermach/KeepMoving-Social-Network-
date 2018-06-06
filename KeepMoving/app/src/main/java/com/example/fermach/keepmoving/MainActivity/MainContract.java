@@ -1,8 +1,9 @@
 package com.example.fermach.keepmoving.MainActivity;
 
-import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 
 /**
+ * Interfaz de la actividad principal
+ *
  * Created by Fermach on 27/03/2018.
  */
 

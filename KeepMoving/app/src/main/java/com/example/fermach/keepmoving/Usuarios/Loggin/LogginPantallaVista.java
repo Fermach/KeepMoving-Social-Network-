@@ -21,7 +21,7 @@ import com.example.fermach.keepmoving.Usuarios.CambioContrase√±a.CambioContrase√
 import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.RegistroPantallaVista;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de la pantalla de login
  */
 
 public class LogginPantallaVista extends Fragment implements LogginPantallaContract.View  {
@@ -52,9 +52,9 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
 
         ((DrawerLocker)getActivity()).setDrawerLocked(true);
         ((ChangeToolbar)getActivity()).hideToolbar(true);
+
         presenter= new LogginPantallaPresenter(this);
         progressDialog=new ProgressDialog(myView.getContext());
-
 
         return  myView;
     }
@@ -124,6 +124,8 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
         });
     }
 
+    //no hace nada en estos callback por que el inicio de sesion se gestin desde la main activity que
+    //desde donde se llama al listener
     @Override
     public void onSesionIniciadaError() {
        progressDialog.dismiss();
@@ -157,6 +159,10 @@ public class LogginPantallaVista extends Fragment implements LogginPantallaContr
        // presenter.detenerListenerFire();
     }
 
+    /**
+     * Se comprueba el estado de la conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

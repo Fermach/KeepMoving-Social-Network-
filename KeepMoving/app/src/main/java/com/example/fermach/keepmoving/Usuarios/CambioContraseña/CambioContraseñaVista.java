@@ -20,7 +20,7 @@ import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Usuarios.Loggin.LogginPantallaVista;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de cambio de contraseña
  */
 
 public class CambioContraseñaVista extends Fragment implements CambioContraseñaContract.View  {
@@ -81,6 +81,7 @@ public class CambioContraseñaVista extends Fragment implements CambioContraseñ
             }
         });
 
+
         btn_cambioContraseña.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +129,10 @@ public class CambioContraseñaVista extends Fragment implements CambioContraseñ
         });
     }
 
-
+    /**
+     * Se comprueba el estado de la conexion con internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

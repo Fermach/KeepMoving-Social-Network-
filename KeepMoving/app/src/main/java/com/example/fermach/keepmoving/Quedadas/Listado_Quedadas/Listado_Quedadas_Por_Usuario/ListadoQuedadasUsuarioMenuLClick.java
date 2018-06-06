@@ -16,7 +16,9 @@ import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.R;
 
 
-
+/**
+ * Fragmento con un pequeño menu para editar o borrar quedadas de la lista
+ */
 public class ListadoQuedadasUsuarioMenuLClick extends DialogFragment {
 
     private Quedada mQuedada;

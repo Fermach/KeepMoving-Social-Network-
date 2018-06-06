@@ -5,6 +5,8 @@ import android.net.Uri;
 import java.io.Serializable;
 
 /**
+ * Objeto usuario
+ *
  * Created by Fermach on 28/03/2018.
  */
 

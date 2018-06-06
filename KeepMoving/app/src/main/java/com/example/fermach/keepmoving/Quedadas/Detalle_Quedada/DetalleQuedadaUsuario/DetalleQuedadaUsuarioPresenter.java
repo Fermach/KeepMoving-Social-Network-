@@ -3,6 +3,10 @@ package com.example.fermach.keepmoving.Quedadas.Detalle_Quedada.DetalleQuedadaUs
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 
 /**
+ *
+ * Presentador de la pantalla de detalle quedadas del usuario
+ * el cuál se comunica con el repositorio
+ *
  * Created by Fermach on 27/03/2018.
  */
 

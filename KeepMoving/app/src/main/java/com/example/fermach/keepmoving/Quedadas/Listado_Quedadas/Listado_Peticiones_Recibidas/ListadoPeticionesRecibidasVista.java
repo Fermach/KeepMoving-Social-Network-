@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz del listado de peticiones recibidas
  */
 
 public class ListadoPeticionesRecibidasVista extends Fragment implements ListadoPeticionesRecibidasContract.View, PeticionesRecibidasAdapter.CustomButtonListener,PeticionesRecibidasAdapter.CustomImageButtonListener {
@@ -75,6 +75,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
         ((ChangeToolbar)getActivity()).setToolbarText("Peticiones recibidas");
 
+        //si las rutinas no se han obtenido a los 30 sec se muestra el error
         new Handler().postDelayed(new Runnable(){
             public void run(){
 
@@ -114,6 +115,10 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     }
 
+    /**
+     * Cuando se obtienen las peticiones
+     * @param peticionesQuedadas
+     */
     @Override
     public void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas) {
         this.lista_peticiones= peticionesQuedadas;
@@ -132,6 +137,9 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     }
 
+    /**
+     * Cuando no se han podido obtener las peticiones
+     */
     @Override
     public void onPeticionesRecibidasObtenidasError() {
 
@@ -140,13 +148,19 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
     }
 
 
-
+    /**
+     * Se muestra el numero de peticiones recibidas
+     * @param peticionesQuedadas
+     */
     @Override
     public void mostrarPeticionesRecibidasNumero(List<PeticionQuedada> peticionesQuedadas) {
         num_peticiones_recibidas.setText("Numero de Peticiones: "+ peticionesQuedadas.size());
 
     }
 
+    /**
+     * cuando se actualiza una peticion se recarga la lista
+     */
     @Override
     public void onEstadoCambiado() {
         fragment = new ListadoPeticionesRecibidasVista();
@@ -159,6 +173,11 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     }
 
+    /**
+     * Cuando se obtiene la foto del autor de la peticion se carga en el correspondiente item
+     * @param foto
+     * @param pQuedada
+     */
     @Override
     public void onFotoObtenida(byte[] foto,  PeticionQuedada pQuedada)
     {
@@ -178,7 +197,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
             Log.i("ADAPTADOR", "+++++++++ QUEDADA AÑADIDA A LISTA ++++++++\n" + peticionQuedadaRecibida.toString());
 
             if (lista_peticionesRecibidas.size() == lista_peticiones.size()) {
-
+                 //se activan los controladores del item correspondiente
                 Log.i("ADAPTADOR", "+++++++++ SETEANDO ADAPTADOR ++++++++\n" + lista_peticionesRecibidas.toString());
                 adaptador = new PeticionesRecibidasAdapter(lista_peticionesRecibidas);
                 adaptador.setCustomButtonListner(this);
@@ -195,12 +214,22 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     }
 
+    /**
+     * Si no se ha podido obtener la foto
+     */
     @Override
     public void onFotoObtenidaError() {
         lista_peticionesRecibidas.add(peticionQuedadaRecibida);
     }
 
 
+    /**
+     * Cuando se clickea en un boton de un item se realiza la accion
+     * correspondiente en el item correspondiente de a lista
+     * @param position
+     * @param pQuedada
+     * @param estado
+     */
     @Override
     public void onButtonClickListner(int position, PeticionQuedadaRecibida pQuedada, String estado) {
         if(isOnlineNet()) {
@@ -236,6 +265,12 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
         }
     }
 
+    /**
+     * Cuand se clickea en el autor de la peticion se muestra el perfil del usuario
+     * en el item correspondiente
+     * @param position
+     * @param pQuedada
+     */
     @Override
     public void onImageButtonListner(int position, PeticionQuedadaRecibida pQuedada) {
         if(isOnlineNet()) {
@@ -255,6 +290,10 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
     }
 
+    /**
+     * Comprueba el estado de la conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {
@@ -271,6 +310,11 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
         return false;
     }
 
+    /**
+     * compara una fecha con la fecha actual del sistema
+     * @param fecha_obtenida
+     * @return
+     */
     private boolean compararFechaActualCon(String fecha_obtenida) {
         boolean fecha_valida=false;
 

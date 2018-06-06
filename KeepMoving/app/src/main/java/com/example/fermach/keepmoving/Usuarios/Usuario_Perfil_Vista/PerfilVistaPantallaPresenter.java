@@ -5,10 +5,14 @@ import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 
-/**
- * Created by Fermach on 27/03/2018.
- */
 
+/**
+ *
+ * Presentador  que comunica la pantalla de visualización del perfil del usuario
+ *  con el repositorio
+ *
+ *
+ */
 public class PerfilVistaPantallaPresenter implements PerfilVistaPantallaContract.Presenter {
     private UsuariosRepository repository;
     private PerfilVistaPantallaContract.View view;

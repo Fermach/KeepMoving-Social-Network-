@@ -21,7 +21,7 @@ import com.example.fermach.keepmoving.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de la pantala de visualización del perfil del usuario
  */
 
 public class PerfilVistaPantallaVista extends Fragment implements PerfilVistaPantallaContract.View  {

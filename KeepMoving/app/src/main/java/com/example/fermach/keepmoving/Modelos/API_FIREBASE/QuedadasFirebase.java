@@ -2,7 +2,6 @@ package com.example.fermach.keepmoving.Modelos.API_FIREBASE;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
@@ -18,7 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Api firebase la cual se conecta con
+ * la base de datos para obtener y enviar informacion
+ *
  * Created by Fermach on 03/05/2018.
  */
 
@@ -47,6 +48,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
+    /**
+     * Singletone del repositorio
+     * @return
+     */
     public static QuedadasFirebase getInstance() {
 
         if (INSTANCIA_FIRE == null) {
@@ -71,6 +76,11 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    /**
+     * Crea una nueva quedada en la BBDD
+     * @param quedada
+     * @param callback
+     */
     @Override
     public void crearQuedada(final Quedada quedada, final CrearQuedadaCallback callback) {
         user = mAuth.getCurrentUser();
@@ -128,6 +138,11 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    /**
+     * Verifica si el usuario ya ha hecho una petición a esa quedada
+     * @param quedada
+     * @param callback
+     */
     @Override
     public void verificarPeticionQuedada(Quedada quedada, final VerificarPeticionQuedadaCallback callback) {
         user = mAuth.getCurrentUser();
@@ -157,6 +172,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
     }
 
 
+    /**
+     * obtiene todas las quedadas
+     * @param callback
+     */
     @Override
     public void obtenerQuedadas(final ObtenerQuedadasCallback callback) {
 
@@ -207,6 +226,11 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    /**
+     * Mira si una fecha es valida
+     * @param fecha_obtenida
+     * @return
+     */
     private boolean compararFechaActualCon(String fecha_obtenida) {
         boolean fecha_valida = false;
 
@@ -234,6 +258,12 @@ public class QuedadasFirebase implements QuedadaDataSource {
         return fecha_valida;
     }
 
+    /**
+     * Cambia el estado de una quedada y las
+     * peticiones que hacen referencia a esa quedada
+     * @param peticionQuedada
+     * @param callback
+     */
     @Override
     public void cambiarEstadoQuedada(final PeticionQuedada peticionQuedada, final CambiarEstadoCallback callback) {
         listaPeticionesRecibidasQuedadasUsuario= new ArrayList<>();
@@ -369,6 +399,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    /**
+     * Obtiene todas las peticiones enviadas de un usuario
+     * @param callback
+     */
     @Override
     public void obtenerSolicitudesQuedadas(final ObtenerSolicitudesQuedadasCallback callback) {
         user = mAuth.getCurrentUser();
@@ -407,6 +441,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
         }) ;
     }
 
+    /**
+     * Obtiene todas las peticiones recibidas de un usuario
+     * @param callback
+     */
     @Override
     public void obtenerPeticionesRecibidasQuedadas(final ObtenerPeticionesRecibidasQuedadasCallback callback) {
         user = mAuth.getCurrentUser();
@@ -450,6 +488,10 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+    /**
+     * Obtiene todas las quedadas publicadas de un usuario
+     * @param callback
+     */
     @Override
     public void obtenerQuedadasUsuario(final ObtenerQuedadasCallback callback) {
         user = mAuth.getCurrentUser();
@@ -487,7 +529,11 @@ public class QuedadasFirebase implements QuedadaDataSource {
         });
     }
 
-
+    /**
+     * Modifica una quedada
+     * @param quedada
+     * @param callback
+     */
     @Override
     public void editarQuedada(final Quedada quedada, final EditarQuedadaCallback callback) {
         user = mAuth.getCurrentUser();
@@ -568,7 +614,11 @@ public class QuedadasFirebase implements QuedadaDataSource {
     }
 
 
-
+    /**
+     * Elimina una quedada
+     * @param uid
+     * @param callback
+     */
     @Override
     public void eliminarQuedada(final String uid, final EliminarQuedadaCallback callback) {
         user = mAuth.getCurrentUser();
@@ -657,6 +707,12 @@ public class QuedadasFirebase implements QuedadaDataSource {
 
     }
 
+
+    /**
+     * Envia una solucitud a un usuario para participar en una quedada
+     * @param peticionQuedada
+     * @param callback
+     */
     @Override
     public void enviarSolicitud(final PeticionQuedada peticionQuedada, final EnviarSolicitudCallback callback) {
         user = mAuth.getCurrentUser();

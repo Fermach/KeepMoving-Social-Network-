@@ -7,6 +7,9 @@ import java.util.List;
  * Created by Fermach on 29/03/2018.
  */
 
+/**
+ * Interfaz con los metodos para interactuar con las quedadas
+ */
 public interface QuedadaDataSource {
 
     void crearQuedada(Quedada quedada, CrearQuedadaCallback callback);

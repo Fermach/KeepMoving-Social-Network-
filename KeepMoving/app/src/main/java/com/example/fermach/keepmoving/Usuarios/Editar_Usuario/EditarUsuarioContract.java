@@ -2,8 +2,10 @@ package com.example.fermach.keepmoving.Usuarios.Editar_Usuario;
 
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 
+
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz para comunicar la vista con el presentador en la
+ * pantalla de editar usuario
  */
 
 public interface EditarUsuarioContract {

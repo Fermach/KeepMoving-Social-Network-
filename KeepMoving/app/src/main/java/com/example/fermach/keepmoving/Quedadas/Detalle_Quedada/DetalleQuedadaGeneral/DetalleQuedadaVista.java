@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
@@ -37,12 +36,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
+ *
+ * Interfaz detalle quedada
  * Created by Fermach on 27/03/2018.
  */
 
@@ -143,9 +142,12 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
     }
 
+    //DEPENDIENDO DE SI LA QUEDADA ES DEL USUARIO REGISTRADO O DE OTRO
+    //MUESTRA UNA VISTA DE CONTROLADORES U OTRA
+
     public void activarControladoresGenerales() {
 
-
+        //se muestra el perfil del autor
         layout_usuario_autor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +176,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             public void onClick(View v) {
 
                 if(isOnlineNet()) {
+
+                    //verifica si el usuario no ha hecho ya una peticion a esta quedada
                     presenter.verificarPeticionQuedada(quedada);
                 }else{
 
@@ -214,6 +218,7 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
             }
         });
 
+        //se va a la pantalla para editar la quedada
         btn_apuntarse.setText("Editar");
         btn_apuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +253,7 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         });
     }
 
-
+    //busca la ubicacion de la quedada y la muestra en el mapa
     public void buscarLugar(){
 
             Log.i("UBICACION A BUSCAR", quedada.getLugar());
@@ -283,7 +288,8 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
     }
 
-
+     //al obtener el usuario actual comprueba si es el autor de
+    //la quedada para activar unos controladores u otros
     @Override
     public void onUsuarioActualObtenido(String uid) {
 
@@ -302,6 +308,9 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         }
     }
 
+    /**
+     * Si no hay peticiones del usuario a esa quedada
+     */
     @Override
     public void onPeticionLibre() {
 
@@ -315,6 +324,10 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
                 .addToBackStack(QUEDADA).commit();
     }
 
+
+    /**
+     * Si hay peticiones del usuario a esa quedada
+     */
     @Override
     public void onPeticionOcupada() {
 
@@ -332,6 +345,10 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         myBuild.show();
     }
 
+    /**
+     * Al obtener la foto del autor de la quedada
+     * @param foto
+     */
     @Override
     public void onUsuarioFotoObtenida(byte[]  foto) {
 
@@ -344,6 +361,10 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
         Snackbar.make(myView,"No se pudo obtener la foto del autor de la quedada", 4000).show();
     }
 
+    /**
+     * Comprueba si hay conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

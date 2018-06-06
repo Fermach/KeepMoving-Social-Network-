@@ -6,9 +6,12 @@ import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 import com.example.fermach.keepmoving.Usuarios.Loggin.LogginPantallaContract;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Presentador  que comunica la pantalla de cambio de contraseña del usuario
+ *  con el repositorio
+ *
+ *
  */
-
 public class CambioContraseñaPresenter implements  CambioContraseñaContract.Presenter {
     private UsuariosRepository repository;
     private CambioContraseñaContract.View view;

@@ -3,6 +3,8 @@ package com.example.fermach.keepmoving.Modelos.Quedada;
 import java.io.Serializable;
 
 /**
+ * Objeto Quedada
+ *
  * Created by Fermach on 28/03/2018.
  */
 

@@ -5,7 +5,10 @@ import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Presentador  que comunica la pantalla de registro del usuario
+ *  con el repositorio
+ *
  */
 
 public class RegistroPantallaPresenter implements  RegistroPantallaContract.Presenter{

@@ -5,9 +5,10 @@ import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Interfaz que comunica la interfaz del listado de quedadas con el repositorio
+ *
  */
-
 public interface ListadoQuedadasUsuarioContract {
     interface View {
       void onQuedadasObtenidas(List<Quedada> quedadas);

@@ -16,9 +16,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Fermach on 25/05/2018.
+ * Adaptador para cada uno de los items de la lista basado en un RecycledView
  */
-
 public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesRecibidasAdapter.MyViewHolder>{
 
     private List<PeticionQuedadaRecibida> peticionesList;
@@ -36,6 +35,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
     TextView hora ;
     CircleImageView img_verPerfil;
 
+    //interfazes para saber que item de la iista se esta clickando
     public interface CustomButtonListener {
         public void onButtonClickListner(int position, PeticionQuedadaRecibida pQuedada, String estado);
 
@@ -135,7 +135,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
         });
         //  Log.i("HOLLAAAAAAAAAA","HOLAA");
 
-
+        //dpendiendo del estado setea unos colores  y un texto diferentes en el item de la peticion
         switch (""+p.getEstado()) {
             case "ENVIADA":
                 tv_estado.setBackgroundColor(Color.YELLOW);

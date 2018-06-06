@@ -15,6 +15,9 @@ import com.example.fermach.keepmoving.R;
 
 import java.util.List;
 
+/**
+ * Adaptador para cada uno de los items de la lista
+ */
 public class ListadoQuedadasUsuarioAdapter extends ArrayAdapter<Quedada> {
 
     public ListadoQuedadasUsuarioAdapter(@NonNull Context context, List<Quedada> quedadas) {

@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.R;
-
 import java.util.List;
 
+/**
+ * Adaptador para cada uno de los items de la lista
+ */
 public class ListadoQuedadasGeneralAdapter extends ArrayAdapter<Quedada> {
 
     public ListadoQuedadasGeneralAdapter(@NonNull Context context, List<Quedada> quedadas) {

@@ -8,6 +8,11 @@ import java.util.List;
  * Created by Fermach on 29/03/2018.
  */
 
+/**
+ * Repositoro para almacenar los datos de las
+ * quedadas(obtenidos del repositorio de la API)
+ * y enviarlos a la interfaz
+ */
 public class QuedadasRepository implements QuedadaDataSource {
 
     private static QuedadasRepository INSTANCIA = null;

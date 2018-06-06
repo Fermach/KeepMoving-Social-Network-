@@ -1,6 +1,6 @@
 package com.example.fermach.keepmoving.MainActivity;
 
-import android.os.PersistableBundle;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import com.example.fermach.keepmoving.Quedadas.Crear_Quedadas.CrearQuedadaVista;
@@ -27,6 +26,12 @@ import com.example.fermach.keepmoving.R;
 import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Ampliado.RegistroAmpliadoPantallaVista;
 import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.RegistroPantallaVista;
 
+/**
+ * @author Fermach
+ * @version 1.0. 
+ * Actividad principal donde se van alternando las demás
+ * pantallas (Fragmentos)
+ */
 public class MainActivity extends AppCompatActivity implements MainContract.View, DrawerLocker,ChangeToolbar{
     private final static String MAIN_FRAGMENT="MAIN_FRAGMENT";
     private Fragment fragment;
@@ -48,13 +53,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //se inicia el fragmento con la lista de loggin
+        //se inicia el fragmento con la pantalla de login
         fragment= new LogginPantallaVista();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commitAllowingStateLoss();
         presenter.iniciarListenerFire();
 
-
-        //Se instancia el Navigation Drawer
+        //se instancia el Navigation Drawer
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     /**
-     * Controlamos las el boton tactil de ir hacia atrás
+     * Controlamos el boton de ir hacia atrás
      */
     @Override
     public void onBackPressed() {
@@ -165,6 +169,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
+    /**
+     * Si el usuario no está registrado muestra una pantalla
+     * u otra dependiendo del token el cuál dice la pantalla desde donde viene
+     *
+     * @param TOKEN
+     */
     @Override
     public void onUsuarioNoRegistrado(String TOKEN) {
         this.TOKEN=TOKEN;
@@ -181,7 +191,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
-
+    /**
+     * Si el usuario está registrado muestra una pantalla
+     * u otra dependiendo del token el cuál dice la pantalla desde donde viene
+     *
+     * @param TOKEN
+     */
     @Override
     public void onUsuarioRegistrado(String TOKEN) {
         this.TOKEN=TOKEN;
@@ -216,6 +231,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.cerrarSesion();
     }
 
+    /**
+     * Comprueba si hay conexión a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {
@@ -232,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         return false;
     }
 
+    /**
+     * Bloquea el Nav Drawer
+     * @param enabled
+     */
     @Override
     public void setDrawerLocked(boolean enabled) {
         if(enabled){
@@ -241,11 +264,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
+    /**
+     * Settea el texto del Toolbar
+     * @param title
+     */
     @Override
     public void setToolbarText(String title) {
             toolbar.setTitle(title);
     }
 
+    /**
+     * Esconde el Toolbar o lo muestra
+     * @param hide
+     */
     @Override
     public void hideToolbar(boolean hide) {
         if (hide) {

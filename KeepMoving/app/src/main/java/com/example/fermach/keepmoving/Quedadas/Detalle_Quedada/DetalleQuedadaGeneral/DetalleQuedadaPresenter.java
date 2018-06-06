@@ -10,6 +10,10 @@ import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
 
 /**
+ *
+ * Presentador de la pantalla de detalle quedadas
+ * el cuál se comunica con el repositorio
+ *
  * Created by Fermach on 27/03/2018.
  */
 

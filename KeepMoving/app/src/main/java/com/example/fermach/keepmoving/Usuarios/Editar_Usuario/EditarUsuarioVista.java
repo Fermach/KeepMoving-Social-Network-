@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz para editar usuario
  */
 
 public class EditarUsuarioVista extends Fragment implements EditarUsuarioContract.View  {
@@ -184,7 +184,7 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
         });
     }
 
-
+    //se abre la galeria para seleccionar la foto de perfil
     public void cargarImagenGaleria(){
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
@@ -192,6 +192,12 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
 
     }
 
+    /**
+     *  cuando se ha seleccionado una foto se setea en el icono
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -236,6 +242,11 @@ public class EditarUsuarioVista extends Fragment implements EditarUsuarioContrac
 
 
     }
+
+    /**
+     * Se comprueba el estado de la conexión a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

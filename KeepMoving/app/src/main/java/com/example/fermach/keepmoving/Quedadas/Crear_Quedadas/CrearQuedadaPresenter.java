@@ -5,6 +5,9 @@ import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 
 /**
+ *
+ * Presentador de la pantalla de crear quedadas
+ * el cuál se comunica con el repositorio
  * Created by Fermach on 27/03/2018.
  */
 

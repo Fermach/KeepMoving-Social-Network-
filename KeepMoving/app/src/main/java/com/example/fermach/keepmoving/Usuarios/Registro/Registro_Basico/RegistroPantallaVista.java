@@ -18,7 +18,7 @@ import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.R;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz de la pantalla de registro
  */
 
 public class RegistroPantallaVista extends Fragment implements RegistroPantallaContract.View  {
@@ -66,7 +66,8 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
     }
 
     public void activarControladores() {
-
+        // se crea el usuario de tipo usuario autenticado y se pasa a la siuiente parte
+        // del registro
         btn_siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,11 +75,11 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                 correo= et_correo.getText().toString().trim();
                 contraseña= et_contraseña.getText().toString().trim();
                 contraseña2= et_contraseña2.getText().toString().trim();
-
+                 //se comprueba la validez de los datos introducidos
                  if(!correo.isEmpty() && !contraseña.isEmpty()  && !contraseña2.isEmpty())  {
 
                     if(contraseña2.equals(contraseña)) {
-
+                      //se valida el email
                       Validador validador= new Validador();
                       if(validador.validateEmail(correo)) {
                            if(contraseña.length()<30 && contraseña.length()>=6) {
@@ -88,6 +89,8 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
                                progressDialog.show();
 
                                usuario = new Usuario(correo, contraseña);
+                               //se setea el token diciendo la pantalla desde donde se hace el registro,
+                               //ya que es la Main Activity la que se encargar de gestionar el resto
                                presenter.setTOKEN("REGISTRO");
                            }
                            else{
@@ -173,6 +176,10 @@ public class RegistroPantallaVista extends Fragment implements RegistroPantallaC
       // presenter.cancelarRegistro();
     }
 
+    /**
+     * Se comprueba el estado de la conexión a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

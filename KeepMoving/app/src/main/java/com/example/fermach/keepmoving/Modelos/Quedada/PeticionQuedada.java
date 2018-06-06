@@ -1,6 +1,8 @@
 package com.example.fermach.keepmoving.Modelos.Quedada;
 
 /**
+ * Objeto Petición Quedada
+ *
  * Created by Fermach on 19/05/2018.
  */
 

@@ -3,6 +3,7 @@ package com.example.fermach.keepmoving.Modelos.Usuario;
 import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 
 /**
+ * Interfaz con los metodos para interactuar con los usuarios
  * Created by Fermach on 29/03/2018.
  */
 

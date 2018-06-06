@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz con el listado total de quedadas
  */
 
 public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQuedadasGeneralContract.View {
@@ -66,6 +66,8 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
         presenter = new ListadoQuedadasGeneralPresenter(this);
         presenter.obtenerQuedadas();
+
+        //se obtiene las peticiones para ver si hay alguna nueva sin aceptar/rechazar
         presenter.obtenerPeticionesRecibidas();
 
         inicializarVista();
@@ -106,6 +108,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
             }
         });
 
+        //animacion que se muestra al deslizar la lista hacia abajo para actualizar la lista
         pullLayout.setRefreshStyle(PullRefreshLayout.STYLE_CIRCLES);
         pullLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -155,6 +158,10 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
         Snackbar.make(myView,"No ha sido posible obtener la lista de quedadas", Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Si hay nuevas peticiones sin aceptar/rechazar te muestra un mensaje
+     * @param peticionesQuedadas
+     */
     @Override
     public void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas) {
        boolean nuevasPeticiones=false;
@@ -185,12 +192,20 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
 
     }
 
+    /**
+     * se muestra el número de quedadas obtenidas
+     * @param quedadas
+     */
     @Override
     public void mostrarQuedadasNumero(List<Quedada> quedadas) {
        // progressDialog.dismiss();
         num_quedadas.setText("Numero de quedadas: "+ quedadas.size());
     }
 
+    /**
+     * Comprueba el estado de la conexión a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

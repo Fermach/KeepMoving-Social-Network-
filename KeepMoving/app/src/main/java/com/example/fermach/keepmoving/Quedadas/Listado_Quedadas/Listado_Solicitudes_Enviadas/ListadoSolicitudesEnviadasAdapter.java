@@ -16,6 +16,9 @@ import com.example.fermach.keepmoving.R;
 
 import java.util.List;
 
+/**
+ * Adaptador para cada uno de los items de la lista
+ */
 public class ListadoSolicitudesEnviadasAdapter extends ArrayAdapter<PeticionQuedada> {
 
     public ListadoSolicitudesEnviadasAdapter(@NonNull Context context, List<PeticionQuedada> peticionQuedadas) {
@@ -48,6 +51,7 @@ public class ListadoSolicitudesEnviadasAdapter extends ArrayAdapter<PeticionQued
         hora.setText(peticionQuedada.getHora());
         estado.setText(peticionQuedada.getEstado());
 
+        //se modifica el texto y color del layout estado dependiendo del estado de la petcion'
         switch (""+peticionQuedada.getEstado()){
             case "ENVIADA":
                 layoutEstado.setBackgroundColor(Color.YELLOW);

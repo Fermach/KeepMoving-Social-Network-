@@ -3,6 +3,8 @@ package com.example.fermach.keepmoving.Modelos.Quedada;
 import android.graphics.Bitmap;
 
 /**
+ * Objeto Petición Quedada Recibida
+ *
  * Created by Fermach on 19/05/2018.
  */
 

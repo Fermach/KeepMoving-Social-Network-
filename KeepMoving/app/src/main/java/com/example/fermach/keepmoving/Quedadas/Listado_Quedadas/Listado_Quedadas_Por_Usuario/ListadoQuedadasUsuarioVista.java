@@ -26,9 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz con el listado total de quedadas del usuario
  */
-
 public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQuedadasUsuarioContract.View {
 
     private Quedada quedada;
@@ -145,6 +144,7 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
             }
         });
 
+        //nos dirige a la pantalla para añadir nuevas quedadas
         fab_quedadas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,6 +184,9 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
 
     }
 
+    /**
+     * se recarga la lista con las quedadas
+     */
     @Override
     public void onQuedadaEliminada() {
         presenter.obtenerQuedadas();
@@ -202,6 +205,10 @@ public class ListadoQuedadasUsuarioVista extends Fragment implements ListadoQued
         num_quedadas.setText("Numero de quedadas: " + quedadas.size());
     }
 
+    /**
+     * Se compueba el estado de la conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

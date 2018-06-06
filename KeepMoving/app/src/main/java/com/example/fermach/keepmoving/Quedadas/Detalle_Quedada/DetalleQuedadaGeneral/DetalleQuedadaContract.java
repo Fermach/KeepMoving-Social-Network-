@@ -3,6 +3,8 @@ package com.example.fermach.keepmoving.Quedadas.Detalle_Quedada.DetalleQuedadaGe
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 
 /**
+ *
+ * Interfaz que comunica la interfaz de detalle quedada con el repositorio
  * Created by Fermach on 27/03/2018.
  */
 

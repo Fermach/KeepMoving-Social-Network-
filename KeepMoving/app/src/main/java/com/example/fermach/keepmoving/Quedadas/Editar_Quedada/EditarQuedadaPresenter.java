@@ -5,7 +5,10 @@ import com.example.fermach.keepmoving.Modelos.Quedada.QuedadaDataSource;
 import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Presentador de la pantalla de editar quedadas
+ * el cuál se comunica con el repositorio
+ *
+ *
  */
 
 public class EditarQuedadaPresenter implements  EditarQuedadaContract.Presenter{

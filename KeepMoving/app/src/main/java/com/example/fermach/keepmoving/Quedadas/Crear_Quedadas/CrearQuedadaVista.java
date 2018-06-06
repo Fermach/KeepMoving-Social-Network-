@@ -33,14 +33,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Quedadas_Por_Usuario.ListadoQuedadasUsuarioVista;
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
 import com.example.fermach.keepmoving.Usuarios.Perfil_Usuario.PerfilPantallaVista;
 import com.example.fermach.keepmoving.R;
-
-
 import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.Validador;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -55,7 +52,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -64,9 +60,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.validation.Validator;
-
 /**
+ * Interfaz para crear quedadas
  * Created by Fermach on 27/03/2018.
  */
 
@@ -136,10 +131,11 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         inicializarVista();
         activarControladores();
 
+        /**
+         * Se piden los permisos para acceder a la ubicación
+         */
         String[] permisos = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
-
-
         if (ContextCompat.checkSelfPermission(getContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(getContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 permisosConcedidos = true;
@@ -152,11 +148,15 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             ActivityCompat.requestPermissions(getActivity(), permisos, LOCATION_PERMISIONS_REQUEST_CODE);
         }
 
-
-
         return myView;
     }
 
+    /**
+     * Después de pedir los permisos
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permisosConcedidos = false;
@@ -181,6 +181,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             }
         }
     }
+
 
     public void inicializarVista() {
         btn_cancelar = myView.findViewById(R.id.btn_cancelar_crear_quedada);
@@ -215,8 +216,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     }
 
     public void activarControladores() {
-
-
+        //se establece el icono de busqueda de lugar al clickar sobre el texto
         tv_lugar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -234,8 +234,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             }
         });
 
-
-
+        //se abre un fragmento para seleccionar la fecha
         tv_fecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +251,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             }
         });
 
-
+         //se abre un fragmento para seleccionar la hora
         tv_hora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,7 +279,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                     mas_info = "" + tv_mas_info.getText().toString().trim();
                     plazas = "" + picker_plazas.getValue();
                     deporte = "" + spinner_deporte.getSelectedItem().toString().trim();
-
+                     //se verifican los datos introducidos
                     if (!lugar.isEmpty() && !hora.isEmpty() &&
                             !fecha.isEmpty() && !deporte.isEmpty() && !plazas.isEmpty()) {
                         //subir quedada
@@ -290,11 +289,12 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                        if(validador.validateFecha(fecha)){
                         if (compararFechaActualCon(fecha_obtenida)) {
 
+                            //se busca el lugar introducido en el texto para seleccionar ubicacion
                             buscarLugar();
 
                             btn_publicar.setEnabled(false);
 
-
+                            //si la ubicacion es valida
                             if (ubicacionEncontrada == true) {
 
                                 progressDialog.setMessage("Se está creando la quedada");
@@ -305,6 +305,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                                 latitud = "" + localizacion.getLatitude();
                                 id = "" + (localizacion.getLongitude() + localizacion.getLatitude()) + "" + fecha + hora;
 
+                                //se publica la quedada
                                 quedada = new Quedada(id.trim(), "", lugar, fecha, hora, deporte, mas_info, plazas,
                                         longitud, latitud);
 
@@ -362,7 +363,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         });
     }
 
-
+    /**
+     * cuando la quedada se ha creada se muestra la pantalla de perfil
+     */
     @Override
     public void onQuedadaCreada() {
         Snackbar.make(myView,"Quedada creada correctamente", 4000).show();
@@ -378,6 +381,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         }, 2000);
     }
 
+    /**
+     * Cuando no se ha podido publicar la quedad se muestra un error
+     */
     @Override
     public void onQuedadaCreadaError() {
         btn_publicar.setEnabled(true);
@@ -385,6 +391,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     }
 
+    /**
+     * Se busca el lugar introducido en e ediText y se muestra en el mapa
+     */
     public void buscarLugar(){
         String lugar= tv_lugar.getText().toString().trim();
         ubicacionEncontrada=false;
@@ -414,7 +423,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     }
 
-
+    /**
+     * Se inicializa el mapa con la ubicación actual
+     */
     public void iniciarMaps(){
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -450,6 +461,11 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
     }
 
+    /**
+     * Se compara una fecha con la fecha actual para ver si esta es válida
+     * @param fecha_obtenida
+     * @return
+     */
     private boolean compararFechaActualCon(String fecha_obtenida) {
         boolean fecha_valida = false;
 
@@ -477,6 +493,9 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         return fecha_valida;
     }
 
+    /**
+     * Se obtiene la ubicación actual
+     */
     public void obtenerUbicacion(){
           mFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -503,6 +522,10 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
           }
     }
 
+    /**
+     * Se comprueba si hay coneción a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {

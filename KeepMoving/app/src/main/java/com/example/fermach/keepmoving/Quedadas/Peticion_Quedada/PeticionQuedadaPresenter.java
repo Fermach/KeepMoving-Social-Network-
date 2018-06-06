@@ -6,9 +6,10 @@ import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 import com.example.fermach.keepmoving.Modelos.Usuario.Usuario;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosDataSource;
 import com.example.fermach.keepmoving.Modelos.Usuario.UsuariosRepository;
-
 /**
- * Created by Fermach on 27/03/2018.
+ * Presentador de la pantalla del solicitud a una quedada
+ * el cuál se comunica con el repositorio
+ *
  */
 
 public class PeticionQuedadaPresenter implements PeticionQuedadaContract.Presenter{

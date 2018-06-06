@@ -7,7 +7,9 @@ import com.example.fermach.keepmoving.Modelos.Quedada.QuedadasRepository;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Presentador de la pantalla del listado de solicitudes enviadas
+ * el cuál se comunica con el repositorio
+ *
  */
 
 public class ListadoSolicitudesEnviadasPresenter implements ListadoSolicitudesEnviadasContract.Presenter{

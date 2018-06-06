@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz del listado de solicitudes enviadas
  */
 
 public class ListadoSolicitudesEnviadasVista extends Fragment implements ListadoSolicitudesEnviadasContract.View {

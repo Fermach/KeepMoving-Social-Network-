@@ -5,9 +5,10 @@ import com.example.fermach.keepmoving.Modelos.Quedada.PeticionQuedada;
 import java.util.List;
 
 /**
- * Created by Fermach on 27/03/2018.
+ *
+ * Interfaz que comunica la interfaz del listado de peticiones recibidas con el repositorio
+ *
  */
-
 public interface ListadoPeticionesRecibidasContract {
     interface View {
       void onPeticionesRecibidasObtenidas(List<PeticionQuedada> peticionesQuedadas);

@@ -24,7 +24,7 @@ import com.example.fermach.keepmoving.R;
 import com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker;
 
 /**
- * Created by Fermach on 27/03/2018.
+ * Interfaz para hacer peticion de plazasa una quedada
  */
 
 public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaContract.View {
@@ -199,6 +199,11 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
     public void onUsuarioActualObtenidoError() {
 
     }
+
+    /**
+     * Se comprueba el estado de la conexion a internet
+     * @return
+     */
     public Boolean isOnlineNet() {
 
         try {
