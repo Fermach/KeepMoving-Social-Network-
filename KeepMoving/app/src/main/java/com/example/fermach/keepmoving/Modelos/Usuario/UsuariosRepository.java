@@ -218,8 +218,8 @@ public class UsuariosRepository implements UsuariosDataSource{
             }
 
             @Override
-            public void onFotoUsuarioPerfilObtenidaError() {
-                 callback.onFotoUsuarioPerfilObtenidaError();
+            public void onFotoUsuarioPerfilObtenidaError(PeticionQuedada pQuedada) {
+                 callback.onFotoUsuarioPerfilObtenidaError( pQuedada);
             }
         });
     }

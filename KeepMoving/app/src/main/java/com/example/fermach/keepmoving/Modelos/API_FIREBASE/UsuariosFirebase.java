@@ -327,7 +327,7 @@ public class UsuariosFirebase implements UsuariosDataSource {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("OBTENER FOTO US FIRE","ERROR" );
-                callback.onFotoUsuarioPerfilObtenidaError();
+                callback.onFotoUsuarioPerfilObtenidaError(pQuedada);
             }
         });
     }

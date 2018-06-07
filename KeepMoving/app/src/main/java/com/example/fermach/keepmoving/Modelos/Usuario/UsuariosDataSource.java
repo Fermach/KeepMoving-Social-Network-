@@ -47,7 +47,7 @@ public interface UsuariosDataSource {
     }
     interface ObtenerFotoPerfilUsuarioCallback{
         void onFotoUsuarioPerfilObtenida(byte[] foto, PeticionQuedada pQuedada);
-        void onFotoUsuarioPerfilObtenidaError();
+        void onFotoUsuarioPerfilObtenidaError(PeticionQuedada pQuedada);
     }
     interface ObtenerUsuarioActualCallback{
         void onUsuarioObtenido(Usuario usuario);

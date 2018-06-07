@@ -2,6 +2,7 @@ package com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Peticio
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final PeticionQuedadaRecibida p = peticionesList.get(position);
+        Log.i("HOLA",p.toString());
         nombre_us.setText(p.getAutor_peticion_nombre());
         plazas_usuario.setText(p.getNum_plazas_solicitadas());
         deporte.setText(p.getDeporte());
@@ -105,7 +107,10 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
         fecha.setText(p.getFecha());
         hora.setText(p.getHora());
         tv_estado.setText(p.getEstado());
-        img_verPerfil.setImageBitmap( p.getFoto());
+
+        if(p.getFoto()!=null) {
+            img_verPerfil.setImageBitmap(p.getFoto());
+        }
 
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override

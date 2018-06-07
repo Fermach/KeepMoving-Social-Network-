@@ -75,8 +75,6 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int LOCATION_PERMISIONS_REQUEST_CODE = 1234;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final LatLngBounds LAT_LNG_BOUNDS= new LatLngBounds(new LatLng(-40,-168),
-            new LatLng(71,136));
     private boolean permisosConcedidos;
     private Quedada quedada;
     private Button btn_guardar;
@@ -198,10 +196,14 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
                         }
                     }
+                    Toast.makeText(getActivity(), "Permisos concedidos!",Toast.LENGTH_SHORT).show();
+
                     Log.i("MAPS---", "PERMISOS TRUE");
                     permisosConcedidos = true;
-
+                     //si se han concedido permisos inicia maps con la ubicacion
                     iniciarMaps();
+                }else{
+                    permisosConcedidos = false;
                 }
             }
         }
@@ -216,7 +218,6 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
         tv_mas_info = myView.findViewById(R.id.descripcion_editar_quedada);
         spinner_deporte = myView.findViewById(R.id.spinner_deporte_editar_quedada);
         picker_plazas = myView.findViewById(R.id.plazas_editar_quedada);
-        img_gps=myView.findViewById(R.id.img_ubicacion_editar_quedada);
 
         String[] valores_deportes = {"Futbol", "Tenis", "Pádel","Baloncesto",
                 "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo","Skate","Ciclismo",
@@ -240,13 +241,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
     }
 
     public void activarControladores() {
-        //al clickear sobre el icono de ubicacion, busca la ubicacion actual
-        img_gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obtenerUbicacion();
-            }
-        });
+
 
         //se establece el icono de busqueda de lugar al clickar sobre el texto
         tv_lugar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -440,7 +435,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
 
                         if (permisosConcedidos) {
                             Log.i("MAPS", "PERMISOS UBICACION CONCEDIDOS");
-                            obtenerUbicacion();
+
                             if (ActivityCompat.checkSelfPermission(getActivity(),
                                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                                     && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -448,7 +443,8 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                                 return;
                             }
                             mMap.setMyLocationEnabled(true);
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            obtenerUbicacion();
 
                         }else {
                             Toast.makeText(getActivity(), "No se pudo acceder a la ubicación",Toast.LENGTH_SHORT).show();
@@ -470,7 +466,7 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
           mFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(getActivity());
 
           try{
-              if (permisosConcedidos){
+
                   Log.i("MAPS---", "1 ");
                   Task ubicacion = mFusedLocationProviderClient.getLastLocation();
                   ubicacion.addOnCompleteListener(new OnCompleteListener() {
@@ -479,14 +475,14 @@ public class EditarQuedadaVista extends Fragment implements EditarQuedadaContrac
                           if (task.isSuccessful()){
                               Log.i("MAPS---", "1");
                               Location ubicacionActual=(Location)task.getResult();
-                              mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(ubicacionActual.getLatitude(),ubicacionActual.getLongitude()),15f));
+                              mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(ubicacionActual.getLatitude(),ubicacionActual.getLongitude()),12f));
                           }else{
                               Toast.makeText(getActivity(), "No se pudo acceder a la ubicación actual",Toast.LENGTH_SHORT).show();
                               Log.i("MAPS---", "2");
                           }
                       }
                   });
-              }
+
           }catch (  SecurityException e){
               Log.e("MAPS_ERROR","getDeviceLocation: "+e.getMessage());
           }

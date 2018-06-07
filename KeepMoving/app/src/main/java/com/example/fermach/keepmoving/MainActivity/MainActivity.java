@@ -28,7 +28,7 @@ import com.example.fermach.keepmoving.Usuarios.Registro.Registro_Basico.Registro
 
 /**
  * @author Fermach
- * @version 1.0. 
+ * @version 1.0.
  * Actividad principal donde se van alternando las demás
  * pantallas (Fragmentos)
  */

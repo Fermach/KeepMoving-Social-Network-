@@ -55,7 +55,7 @@ public class DetalleQuedadaPresenter implements DetalleQuedadaContract.Presenter
             }
 
             @Override
-            public void onFotoUsuarioPerfilObtenidaError() {
+            public void onFotoUsuarioPerfilObtenidaError(PeticionQuedada pQuedada) {
 
                 view.onUsuarioFotoObtenidaError();
             }

@@ -33,7 +33,7 @@
     <string name="intr_descripcion">¿Más información?</string>
     <string name="plazas">Plazas disponibles *</string>
     <string name="publicar">Publicar</string>
-    <string name="google_maps_key">AIzaSyBfJcGvIKgfgAYEq7DK1jmTaCiEgHTdavk</string>
+    <string name="google_maps_key">AIzaSyCJIH6Xyvnoli1RLhKDcAv66Pi6CjnMi-w</string>
     <string name="fecha_quedada">¿Fecha de la quedada? *</string>
     <string name="hora_quedada">¿Hora de la quedada? *</string>
     <string name="intr_localizacion">¿Donde tendra lugar la quedada? *</string>
@@ -70,4 +70,5 @@
     <string name="olvidoContraseña">¿Has olvidado tu contraseña?</string>
     <string name="plazas2">plazas</string>
     <string name="loggin_texto_2">¿Aún no te has registrado?</string>
+    <string name="lema_app">\"Matando el aburrimiento..\"</string>
 </resources>

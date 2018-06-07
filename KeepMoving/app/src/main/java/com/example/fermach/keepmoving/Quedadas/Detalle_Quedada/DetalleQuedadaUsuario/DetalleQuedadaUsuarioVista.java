@@ -51,7 +51,6 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
     private Quedada quedada;
     private Button btn_modificar;
     private Button btn_atras;
-    private ImageView img_gps;
     private TextView tv_fecha;
     private TextView tv_hora;
     private TextView tv_autor;
@@ -171,7 +170,7 @@ public class DetalleQuedadaUsuarioVista extends Fragment implements DetalleQueda
 
             Log.i("UBICACION A BUSCAR", quedada.getLugar());
             this.latLng= new LatLng(Double.parseDouble(quedada.getLatitud()),Double.parseDouble(quedada.getLongitud()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12f));
             this.markerOptions= new MarkerOptions().position(latLng).title(quedada.getLugar());
 
             mMap.addMarker(markerOptions);

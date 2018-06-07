@@ -73,7 +73,7 @@ public class ListadoPeticionesRecibidasPresenter implements ListadoPeticionesRec
     }
 
     @Override
-    public void obtenerFotoUsuario(String uid, PeticionQuedada pQuedada) {
+    public void obtenerFotoUsuario(String uid, final PeticionQuedada pQuedada) {
         usuariosRepository.obtenerFotoPerfilUsuario(uid, pQuedada,new UsuariosDataSource.ObtenerFotoPerfilUsuarioCallback() {
             @Override
             public void onFotoUsuarioPerfilObtenida(byte[] foto,  PeticionQuedada pQuedada) {
@@ -81,27 +81,13 @@ public class ListadoPeticionesRecibidasPresenter implements ListadoPeticionesRec
             }
 
             @Override
-            public void onFotoUsuarioPerfilObtenidaError() {
-                view.onFotoObtenidaError();
+            public void onFotoUsuarioPerfilObtenidaError(PeticionQuedada pQuedada) {
+                view.onFotoObtenidaError(  pQuedada);
             }
         });
     }
 
-    public Boolean isOnlineNet() {
 
-        try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
-
-            int val           = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
 
 
 }

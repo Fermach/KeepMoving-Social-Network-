@@ -70,13 +70,10 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int LOCATION_PERMISIONS_REQUEST_CODE = 1234;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final LatLngBounds LAT_LNG_BOUNDS= new LatLngBounds(new LatLng(-40,-168),
-            new LatLng(71,136));
     private boolean permisosConcedidos;
     private Quedada quedada;
     private Button btn_publicar;
     private Button btn_cancelar;
-    private ImageView img_gps;
     private TextView tv_fecha;
     private TextView tv_hora;
     private EditText tv_lugar;
@@ -173,12 +170,19 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
                         }
                     }
+
+                    Toast.makeText(getActivity(), "Permisos concedidos!",Toast.LENGTH_SHORT).show();
+
                     Log.i("MAPS---", "PERMISOS TRUE");
                     permisosConcedidos = true;
-
+                    //si se han concedido permisos inicia maps con la ubicacion
                     iniciarMaps();
+                }else{
+                    permisosConcedidos = false;
                 }
+
             }
+
         }
     }
 
@@ -192,14 +196,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         tv_mas_info = myView.findViewById(R.id.descripcion_crear_quedada);
         spinner_deporte = myView.findViewById(R.id.spinner_deporte_crear_quedada);
         picker_plazas = myView.findViewById(R.id.plazas_crear_quedada);
-        img_gps=myView.findViewById(R.id.img_ubicacion);
 
-        img_gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obtenerUbicacion();
-            }
-        });
 
         String[] valores_deportes = {"Futbol", "Tenis", "Pádel","Baloncesto",
                 "Running", "Rugby", "Boxeo", "Artes Marciales", "Senderismo","Skate","Ciclismo",
@@ -413,7 +410,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
             ubicacionEncontrada=true;
             Log.i("UBICACION A BUSCAR", localizacion.toString());
                 this.latLng = new LatLng(localizacion.getLatitude(), localizacion.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f));
                 this.markerOptions = new MarkerOptions().position(latLng).title(localizacion.getAddressLine(0));
 
                 mMap.addMarker(markerOptions);
@@ -438,7 +435,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
 
                         if (permisosConcedidos) {
                             Log.i("MAPS", "PERMISOS UBICACION CONCEDIDOS");
-                            obtenerUbicacion();
+
                             if (ActivityCompat.checkSelfPermission(getActivity(),
                                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                                     && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -446,7 +443,8 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                                 return;
                             }
                             mMap.setMyLocationEnabled(true);
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            obtenerUbicacion();
 
                         }else {
                             Toast.makeText(getActivity(), "No se pudo acceder a la ubicación",Toast.LENGTH_SHORT).show();
@@ -500,7 +498,6 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
           mFusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(getActivity());
 
           try{
-              if (permisosConcedidos){
                   Log.i("MAPS---", "1 ");
                   Task ubicacion = mFusedLocationProviderClient.getLastLocation();
                   ubicacion.addOnCompleteListener(new OnCompleteListener() {
@@ -516,7 +513,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
                           }
                       }
                   });
-              }
+
           }catch (  SecurityException e){
               Log.e("MAPS_ERROR","getDeviceLocation: "+e.getMessage());
           }

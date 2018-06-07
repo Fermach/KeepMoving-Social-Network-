@@ -17,7 +17,7 @@ public interface ListadoPeticionesRecibidasContract {
       void onEstadoCambiado();
       void onEstadoCambiadoError();
       void onFotoObtenida(byte[] foto, PeticionQuedada pQuedada);
-      void onFotoObtenidaError();
+      void onFotoObtenidaError( PeticionQuedada pQuedada);
     }
     interface Presenter {
       void obtenerPeticionesRecibidas();

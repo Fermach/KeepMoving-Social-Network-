@@ -47,18 +47,6 @@
             android:layout_margin="5sp"
             tools:context="com.example.fermach.keepmoving.MapsActivity" />
 
-            <ImageView
-                android:layout_width="30sp"
-                android:layout_height="30sp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="8sp"
-                android:layout_marginRight="8sp"
-                android:elevation="10sp"
-                android:scaleType="centerCrop"
-                android:id="@+id/img_ubicacion"
-                android:src="@drawable/ic_gps"
-                />
-
         </RelativeLayout>
 
     </LinearLayout>

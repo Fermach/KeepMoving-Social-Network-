@@ -49,7 +49,7 @@ public class PerfilVistaPantallaPresenter implements PerfilVistaPantallaContract
             }
 
             @Override
-            public void onFotoUsuarioPerfilObtenidaError() {
+            public void onFotoUsuarioPerfilObtenidaError(PeticionQuedada peticionQuedada1) {
 
                 view.onFotoPerfilObtenidaError();
             }

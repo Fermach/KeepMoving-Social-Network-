@@ -8,7 +8,7 @@
 
 
     <LinearLayout
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="90sp"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30sp"
         android:layout_height="wrap_content"
@@ -85,15 +85,19 @@
             android:text="@string/iniciar_sesion" />
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/tv_contraseña_olvidada"
-        android:gravity="center"
-        android:layout_marginTop="145sp"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="italic"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="45sp"
+        android:gravity="center"
         android:text="@string/olvidoContraseña"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textStyle="italic" />
+
+
+
 
 </LinearLayout>

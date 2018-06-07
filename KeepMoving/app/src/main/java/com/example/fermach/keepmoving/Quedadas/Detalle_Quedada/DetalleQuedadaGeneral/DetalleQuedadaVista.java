@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.fermach.keepmoving.Quedadas.Editar_Quedada.EditarQuedadaVista;
 import com.example.fermach.keepmoving.Quedadas.Listado_Quedadas.Listado_Completo_Quedadas.ListadoQuedadasGeneralVista;
 import com.example.fermach.keepmoving.MainActivity.ChangeToolbar;
 import com.example.fermach.keepmoving.Modelos.Quedada.Quedada;
@@ -226,13 +228,13 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
                 if(isOnlineNet()) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(QUEDADA, quedada);
-                Fragment toFragment = new PeticionQuedadaVista();
+                bundle.putSerializable(QUEDADA_ID, quedada);
+                Fragment toFragment = new EditarQuedadaVista();
                 toFragment.setArguments(bundle);
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_main, toFragment, QUEDADA)
-                        .addToBackStack(QUEDADA).commit();
+                        .replace(R.id.content_main, toFragment, QUEDADA_ID)
+                        .addToBackStack(QUEDADA_ID).commit();
                 }else{
                     Snackbar.make(myView,"No hay conexión a internet", Snackbar.LENGTH_SHORT).show();
                 }
@@ -258,7 +260,7 @@ public class DetalleQuedadaVista extends Fragment implements DetalleQuedadaContr
 
             Log.i("UBICACION A BUSCAR", quedada.getLugar());
             this.latLng= new LatLng(Double.parseDouble(quedada.getLatitud()),Double.parseDouble(quedada.getLongitud()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12f));
             this.markerOptions= new MarkerOptions()
                     .position(latLng)
                     .title(quedada.getLugar());

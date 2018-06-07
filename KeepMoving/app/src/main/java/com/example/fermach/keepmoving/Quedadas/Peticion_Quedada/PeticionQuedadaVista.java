@@ -101,7 +101,7 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
                if (isOnlineNet()) {
 
                    plazas_seleccionadas=Integer.parseInt(""+plazas_reserva.getValue());
-               plazas_max=Integer.parseInt(tv_plazas.getText().toString());
+                   plazas_max=Integer.parseInt(tv_plazas.getText().toString());
 
                if(plazas_seleccionadas!=0 && plazas_seleccionadas<=plazas_max){
 

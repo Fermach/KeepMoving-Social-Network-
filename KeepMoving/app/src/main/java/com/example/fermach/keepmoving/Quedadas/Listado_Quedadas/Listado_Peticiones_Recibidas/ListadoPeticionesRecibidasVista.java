@@ -187,7 +187,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeByteArray(foto, 0, foto.length, options);
-
+            //se crea una peticion de quedada recibida con la peticion obteneda + la foto y se añade a la lista
             peticionQuedadaRecibida = new PeticionQuedadaRecibida(pQuedada.getId(), pQuedada.getAutor_peticion_nombre(), pQuedada.getAutor(), pQuedada.getAutor_uid(), pQuedada.getLugar(), pQuedada.getFecha(), pQuedada.getHora(), pQuedada.getDeporte(), pQuedada.getInfo(), pQuedada.getPlazas(), pQuedada.getLongitud(),
                     pQuedada.getLatitud(), pQuedada.getNum_plazas_solicitadas(), pQuedada.getEstado(), pQuedada.getAutor_peticion());
             peticionQuedadaRecibida.setFoto(bitmap);
@@ -195,7 +195,7 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
 
             lista_peticionesRecibidas.add(peticionQuedadaRecibida);
             Log.i("ADAPTADOR", "+++++++++ QUEDADA AÑADIDA A LISTA ++++++++\n" + peticionQuedadaRecibida.toString());
-
+             //cuando se añaden todas las peticionesse setea el adaptador
             if (lista_peticionesRecibidas.size() == lista_peticiones.size()) {
                  //se activan los controladores del item correspondiente
                 Log.i("ADAPTADOR", "+++++++++ SETEANDO ADAPTADOR ++++++++\n" + lista_peticionesRecibidas.toString());
@@ -218,8 +218,29 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
      * Si no se ha podido obtener la foto
      */
     @Override
-    public void onFotoObtenidaError() {
+    public void onFotoObtenidaError( PeticionQuedada pQuedada) {
+
+        //se crea una peticion de quedada recibida con la peticion obteneda sin la foto y se añade a la lista
+       // lista_peticionesRecibidas.add(peticionQuedadaRecibida);
+        peticionQuedadaRecibida = new PeticionQuedadaRecibida(pQuedada.getId(), pQuedada.getAutor_peticion_nombre(), pQuedada.getAutor(), pQuedada.getAutor_uid(), pQuedada.getLugar(), pQuedada.getFecha(), pQuedada.getHora(), pQuedada.getDeporte(), pQuedada.getInfo(), pQuedada.getPlazas(), pQuedada.getLongitud(),
+                pQuedada.getLatitud(), pQuedada.getNum_plazas_solicitadas(), pQuedada.getEstado(), pQuedada.getAutor_peticion());
+        peticionQuedadaRecibida.setId_peticion(pQuedada.getId_peticion());
         lista_peticionesRecibidas.add(peticionQuedadaRecibida);
+        //cuando se añaden todas las peticionesse setea el adaptador
+        if (lista_peticionesRecibidas.size() == lista_peticiones.size()) {
+            //se activan los controladores del item correspondiente
+            Log.i("ADAPTADOR", "+++++++++ SETEANDO ADAPTADOR ++++++++\n" + lista_peticionesRecibidas.toString());
+            adaptador = new PeticionesRecibidasAdapter(lista_peticionesRecibidas);
+            adaptador.setCustomButtonListner(this);
+            adaptador.setCustomImageButtonListener(this);
+            listView.setAdapter(adaptador);
+
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+            listView.setLayoutManager(llm);
+
+            progressDialog.dismiss();
+        }
     }
 
 
@@ -311,37 +332,34 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
     }
 
     /**
-     * compara una fecha con la fecha actual del sistema
+     * Compara una fecha con la fecha actual del sistema
      * @param fecha_obtenida
      * @return
      */
     private boolean compararFechaActualCon(String fecha_obtenida) {
-        boolean fecha_valida=false;
+        boolean fecha_valida = false;
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/m/yyyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = new Date();
-        String fecha_actual= dateFormat.format(date);
+        String fecha_actual = dateFormat.format(date);
 
         try {
             Date date2 = dateFormat.parse(fecha_obtenida);
             Date date1 = dateFormat.parse(fecha_actual);
 
-            Log.i("COMPARANDO FECHAS", "F_ACTUAL: "+ date1+", F_OBTENIDA: "+date2);
+            Log.i("COMPARANDO FECHAS", "F_ACTUAL: " + date1 + ", F_OBTENIDA: " + date2);
 
-            if(date2.after(date1)|| date2.equals(date1)){
-                fecha_valida=true;
+            if (date2.after(date1) ) {
+                fecha_valida = true;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: TRUE");
-            }else{
-                fecha_valida=false;
+            } else {
+                fecha_valida = false;
                 Log.i("COMPARANDO FECHAS", "F_VALIDA: FALSE");
 
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-
         return fecha_valida;
     }
 
