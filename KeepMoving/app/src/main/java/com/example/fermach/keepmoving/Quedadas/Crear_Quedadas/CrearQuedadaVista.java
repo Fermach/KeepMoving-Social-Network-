@@ -129,6 +129,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
         activarControladores();
 
         /**
+         *
          * Se piden los permisos para acceder a la ubicación
          */
         String[] permisos = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -149,6 +150,7 @@ public class CrearQuedadaVista extends Fragment implements CrearQuedadaContract.
     }
 
     /**
+     *
      * Después de pedir los permisos
      * @param requestCode
      * @param permissions

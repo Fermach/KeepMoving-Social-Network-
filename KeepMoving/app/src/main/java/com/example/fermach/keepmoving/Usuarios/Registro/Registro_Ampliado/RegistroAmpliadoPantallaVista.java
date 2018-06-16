@@ -103,7 +103,6 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
                // se comprueba los datos introducidos
                 if(!nombre.isEmpty() && !apellidos.isEmpty() )  {
 
-
                         progressDialog.setMessage("Se están validando los datos");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
@@ -166,7 +165,7 @@ public class RegistroAmpliadoPantallaVista extends Fragment implements RegistroA
 
 
     /**
-     *  cuando se ha seleccionado una foto se setea en el icono
+     * Cuando se ha seleccionado una foto se setea en el icono
      * @param requestCode
      * @param resultCode
      * @param data

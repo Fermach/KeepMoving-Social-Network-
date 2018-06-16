@@ -10,16 +10,10 @@ import android.graphics.Bitmap;
 
 public class PeticionQuedadaRecibida {
 
+
+
+
     private Bitmap foto;
-
-    public Bitmap getFoto() {
-        return foto;
-    }
-
-    public void setFoto(Bitmap foto) {
-        this.foto = foto;
-    }
-
     private String id_peticion;
     private String id;
     private String autor;
@@ -69,6 +63,14 @@ public class PeticionQuedadaRecibida {
 
     public String getId_peticion() {
         return id_peticion;
+    }
+
+    public Bitmap getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Bitmap foto) {
+        this.foto = foto;
     }
 
     public void setId_peticion(String id_peticion) {

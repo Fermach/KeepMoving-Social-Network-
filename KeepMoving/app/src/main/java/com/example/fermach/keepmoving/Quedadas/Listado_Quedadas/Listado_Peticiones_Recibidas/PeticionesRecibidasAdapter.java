@@ -31,6 +31,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
     TextView plazas_usuario;
     TextView deporte ;
     TextView plazas ;
+    View v;
     TextView lugar ;
     TextView fecha ;
     TextView hora ;
@@ -60,6 +61,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
     public class MyViewHolder extends RecyclerView.ViewHolder {
       View view;
 
+
       public MyViewHolder(View view) {
         super(view);
         this.view=view;
@@ -81,7 +83,7 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.listado_peticiones_quedadas_recibidas_item , parent, false);
         return new MyViewHolder(v);
     }
@@ -143,23 +145,23 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
         //dpendiendo del estado setea unos colores  y un texto diferentes en el item de la peticion
         switch (""+p.getEstado()) {
             case "ENVIADA":
-                tv_estado.setBackgroundColor(Color.YELLOW);
+                tv_estado.setBackgroundColor(v.getContext().getResources().getColor(R.color.yellow3));
                 btn_confirmar.setEnabled(true);
                 btn_rechazar.setEnabled(true);
                 btn_confirmar.setBackgroundColor(holder.view.getResources().getColor(android.R.color.darker_gray));
                 btn_rechazar.setBackgroundColor(holder.view.getResources().getColor(android.R.color.darker_gray));
                 break;
             case "ACEPTADA":
-                tv_estado.setBackgroundColor(Color.GREEN);
+                tv_estado.setBackgroundColor(v.getContext().getResources().getColor(R.color.verde2));
                 btn_confirmar.setEnabled(false);
-                btn_confirmar.setBackgroundColor(Color.GREEN);
+                btn_confirmar.setBackgroundColor(v.getContext().getResources().getColor(R.color.verde2));
                 btn_rechazar.setBackgroundColor(android.R.drawable.btn_default);
                 btn_rechazar.setEnabled(false);
                 break;
             case "RECHAZADA":
-                tv_estado.setBackgroundColor(Color.RED);
+                tv_estado.setBackgroundColor(v.getContext().getResources().getColor(R.color.rojo));
                 btn_confirmar.setEnabled(false);
-                btn_rechazar.setBackgroundColor(Color.RED);
+                btn_rechazar.setBackgroundColor(v.getContext().getResources().getColor(R.color.rojo));
                 btn_rechazar.setEnabled(false);
                 btn_confirmar.setBackgroundColor(android.R.drawable.btn_default);
 
@@ -167,11 +169,6 @@ public class PeticionesRecibidasAdapter extends RecyclerView.Adapter<PeticionesR
         }
 
     }
-
-
-
-
-
 
 
 }

@@ -49,7 +49,7 @@ public class PeticionQuedadaVista extends Fragment implements PeticionQuedadaCon
     private final String QUEDADA ="QUEDADA";
     private ProgressDialog progressDialog;
 
-    public PeticionQuedadaVista() {
+    public PeticionQuedadaVista(){
     }
 
     @Nullable

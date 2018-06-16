@@ -191,10 +191,13 @@ public class QuedadasFirebase implements QuedadaDataSource {
                 String fecha_obtenida= ""+quedada.getFecha()+ " "+quedada.getHora();
                 if(compararFechaActualCon(fecha_obtenida)) {
 
+                    if(quedada.getPlazas().equals("0")) {
+                        Log.i("Quedada_OBTENIDA", "PLAZAS NULAS");
 
-                         Log.i("Quedada_OBTENIDA", "FECHA VALIDA");
-                         listaQuedadasGeneral.add(quedada);
-
+                    }else{
+                        Log.i("Quedada_OBTENIDA", "FECHA VALIDA");
+                        listaQuedadasGeneral.add(quedada);
+                    }
                 }
 
 

@@ -184,6 +184,7 @@ public class ListadoQuedadasGeneralVista extends Fragment implements ListadoQued
                 }
             });
             myBuild.show();
+            nuevasPeticiones=false;
         }
     }
 

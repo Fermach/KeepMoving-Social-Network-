@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "137934054779-td7g4peghm8keg4ruquchb68ip93sjnv.apps.googleusercontent.com",
+          "client_id": "137934054779-k9111bnaekuae02nh35g4n82vgons543.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.proyect.fermach.keepmoving",
-            "certificate_hash": "09847efc26526fbfe5822e626c696f25c4561d0c"
+            "certificate_hash": "362c0ee46f9b09e3c880b9f9a2fd796da334fa32"
           }
         },
         {
@@ -33,7 +33,13 @@
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyBsGc-DLBtrHvMdtoZzYBdB9HRoqmHghuM"
+        },
+        {
           "current_key": "AIzaSyD_f_LpLS8uPc3GYUrN2NspOaC-r6KCUdA"
+        },
+        {
+          "current_key": "AIzaSyBJdVmBQIICaEWVc1VO8-e0XlNTtvRGXDQ"
         }
       ],
       "services": {

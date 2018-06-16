@@ -225,7 +225,20 @@ public class ListadoPeticionesRecibidasVista extends Fragment implements Listado
         peticionQuedadaRecibida = new PeticionQuedadaRecibida(pQuedada.getId(), pQuedada.getAutor_peticion_nombre(), pQuedada.getAutor(), pQuedada.getAutor_uid(), pQuedada.getLugar(), pQuedada.getFecha(), pQuedada.getHora(), pQuedada.getDeporte(), pQuedada.getInfo(), pQuedada.getPlazas(), pQuedada.getLongitud(),
                 pQuedada.getLatitud(), pQuedada.getNum_plazas_solicitadas(), pQuedada.getEstado(), pQuedada.getAutor_peticion());
         peticionQuedadaRecibida.setId_peticion(pQuedada.getId_peticion());
-        lista_peticionesRecibidas.add(peticionQuedadaRecibida);
+
+        boolean añadir=true;
+        for (PeticionQuedadaRecibida  mmpeticionQuedadaRecibida:lista_peticionesRecibidas
+             ) {
+            if(mmpeticionQuedadaRecibida.getId_peticion().toString().equals(peticionQuedadaRecibida.getId_peticion().toString())){
+                añadir=false;
+            }
+
+        }
+
+        if(añadir) {
+            lista_peticionesRecibidas.add(peticionQuedadaRecibida);
+        }
+
         //cuando se añaden todas las peticionesse setea el adaptador
         if (lista_peticionesRecibidas.size() == lista_peticiones.size()) {
             //se activan los controladores del item correspondiente

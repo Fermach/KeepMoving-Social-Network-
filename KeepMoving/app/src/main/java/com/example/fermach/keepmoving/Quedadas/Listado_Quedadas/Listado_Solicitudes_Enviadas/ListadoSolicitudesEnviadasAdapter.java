@@ -54,13 +54,13 @@ public class ListadoSolicitudesEnviadasAdapter extends ArrayAdapter<PeticionQued
         //se modifica el texto y color del layout estado dependiendo del estado de la petcion'
         switch (""+peticionQuedada.getEstado()){
             case "ENVIADA":
-                layoutEstado.setBackgroundColor(Color.YELLOW);
+                layoutEstado.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.yellow3));
                 break;
             case "ACEPTADA":
-                layoutEstado.setBackgroundColor(Color.GREEN);
+                layoutEstado.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.verde2));
                 break;
             case "RECHAZADA":
-                layoutEstado.setBackgroundColor(Color.RED);
+                layoutEstado.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.rojo));
                 break;
         }
 
